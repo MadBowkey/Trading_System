@@ -1,0 +1,27 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Data / Cache
+data/
+cache/
+*.parquet
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment / Secrets
+.env
+*.key
+*.pem
