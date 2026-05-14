@@ -173,3 +173,39 @@
     repair_allowed: false
     allowed_behavior: "Pass unchanged to Portfolio Engine as inventory management action."
     audit_required: true
+
+  - rule_id: VAL_MRV_005
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_confidence
+    trigger: "Asset confidence_score is below 0.60 and requested action is INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Downgrade action from INCREASE to HOLD."
+    audit_required: true
+
+  - rule_id: VAL_MRV_006
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_trend
+    trigger: "Asset trend_status is BULLISH, regime_shift_probability is >= 40.0 and requested action is INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Downgrade action from INCREASE to HOLD."
+    audit_required: true
+
+  - rule_id: VAL_MRV_007
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_correlation
+    trigger: "peak_asset_correlation_20d is >= 0.80 and both assets in peak_correlation_pair requested INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Apply deterministic tie-breaker. Winner keeps INCREASE. Losing asset is downgraded to HOLD. If no clear winner exists, both assets are downgraded to HOLD."
+    audit_required: true

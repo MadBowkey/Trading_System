@@ -104,6 +104,75 @@ Die Absicht wird als Bestandsverwaltung an Station 6 weitergegeben.
 Begründung:
 Altpositionen dürfen nicht still gelöscht oder ignoriert werden. Sie müssen gehalten, reduziert oder zur Glattstellung vorgeschlagen werden können.
 
+
+### VAL_MRV_005 — Asset Confidence Threshold
+
+Prüfung:
+Ein Asset hat confidence_score < 0.60 und action = INCREASE.
+
+Reaktion:
+DOWNGRADED.
+
+Systemstatus:
+NORMAL_CONTINUE.
+
+Pipeline:
+CONTINUE.
+
+Aktion:
+INCREASE wird zu HOLD.
+
+Begründung:
+Ein Asset mit zu niedriger LLM-Konfidenz darf kein neues Risiko erzeugen. Diese Regel gilt nur auf Asset-Ebene, da globale LLM-Confidence aktuell nicht Teil des Output-Schemas ist.
+
+### VAL_MRV_006 — Regime Shift Risk Blocks Increase
+
+Prüfung:
+Ein Asset hat trend_status = BULLISH, regime_shift_probability >= 40.0 und action = INCREASE.
+
+Reaktion:
+DOWNGRADED.
+
+Systemstatus:
+NORMAL_CONTINUE.
+
+Pipeline:
+CONTINUE.
+
+Aktion:
+INCREASE wird zu HOLD.
+
+Begründung:
+Diese Regel widerspricht nicht dem bullischen Signal, sondern begrenzt es. Halten bleibt erlaubt, aber weiterer Risikoaufbau ist untersagt.
+
+### VAL_MRV_007 — Correlated Pair No Double Increase
+
+Prüfung:
+peak_asset_correlation_20d >= 0.80 und beide Assets aus peak_correlation_pair haben action = INCREASE.
+
+Reaktion:
+DOWNGRADED.
+
+Systemstatus:
+NORMAL_CONTINUE.
+
+Pipeline:
+CONTINUE.
+
+Aktion:
+Nur das nach deterministischem Tie-Breaker stärkere Asset darf INCREASE behalten. Das unterlegene Asset wird auf HOLD gesetzt. Wenn kein eindeutiger Gewinner bestimmbar ist, werden beide Assets auf HOLD gesetzt.
+
+Tie-Breaker:
+
+1. höherer confidence_score
+2. höhere liquidity_score
+3. niedrigerer volatility_risk_score
+4. geringeres aktuelles Portfolio-Gewicht
+5. vollständiger Gleichstand oder fehlende Tie-Breaker-Daten: beide HOLD
+
+Begründung:
+Die Reihenfolge im LLM-Output darf niemals entscheiden. Die Auflösung erfolgt deterministisch und risikominimierend.
+
 ## Audit-Log-Beispiele
 
 ### Universe-Verletzung ohne Bestand
@@ -117,6 +186,19 @@ Altpositionen dürfen nicht still gelöscht oder ignoriert werden. Sie müssen g
 ### Universe-Verletzung mit Altbestand und LIQUIDATE
 
 2026-05-14 23:42:30 | run_120_mrv | MarketRiskValidator | VAL_MRV_004C | PASS_WITH_CONSTRAINTS | NORMAL_CONTINUE | Asset 'QQQ' is outside the active universe but position exists. Requested action: LIQUIDATE | Passed to Portfolio Engine as inventory management action.
+
+
+### Zu geringe Asset Confidence
+
+2026-05-15 01:21:00 | run_123_mrv | MarketRiskValidator | VAL_MRV_005 | DOWNGRADED | NORMAL_CONTINUE | CONTINUE | Asset 'QQQ' requested INCREASE with confidence_score 0.45 (< 0.60) | original_action=INCREASE | enforced_action=HOLD | Reason: Asset confidence below minimum threshold. New risk blocked.
+
+### Hohe Trendbruchwahrscheinlichkeit
+
+2026-05-15 01:24:00 | run_124_mrv | MarketRiskValidator | VAL_MRV_006 | DOWNGRADED | NORMAL_CONTINUE | CONTINUE | Asset 'SMH' is BULLISH but regime_shift_probability is 42% (>= 40%) | original_action=INCREASE | enforced_action=HOLD | Reason: High regime-shift risk blocks additional risk.
+
+### Korrelations-Konflikt
+
+2026-05-15 01:18:00 | run_125_mrv | MarketRiskValidator | VAL_MRV_007 | DOWNGRADED | NORMAL_CONTINUE | CONTINUE | High correlation 0.85 between QQQ and SMH. Both requested INCREASE. Tie-breaker: QQQ confidence_score 0.80 > SMH confidence_score 0.70 | winner=QQQ | downgraded_asset=SMH | original_action=INCREASE | enforced_action=HOLD | Reason: Correlated pair cannot both increase.
 
 ## Testfälle
 
@@ -168,10 +250,7 @@ Noch zu spezifizieren:
 
 - Blacklist
 - Makro-/Stress-Regeln
-- Trend-Konformität
-- Korrelation
 - HHI / Konzentration
-- Confidence-Schwellen
 - Risk Metrics nahe Guardrail
 
 ## Aktueller Status
@@ -193,3 +272,5 @@ Wie:
 Codex implementiert später den MarketRiskValidator, Universe-/Altbestandslogik, Downgrade-Logik, Audit-Events und Unit Tests.
 
 Codex darf keine zusätzlichen Marktrisiko-Regeln erfinden und keine aktive Liquidation eigenmächtig erzwingen.
+
+
