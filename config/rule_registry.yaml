@@ -54,3 +54,86 @@
     repair_allowed: true
     allowed_repair: Truncate reasoning_short exactly to 150 characters.
     audit_required: true
+
+  - rule_id: VAL_BLV_001
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "Duplicate asset_id in target_allocation_adjustments."
+    validator_status: CONDITIONAL
+    system_status: CONDITIONAL
+    pipeline_action: CONDITIONAL
+    repair_allowed: conditional
+    allowed_repair: "Identical duplicates: keep one. INCREASE vs HOLD: downgrade to HOLD. Fundamental conflicts such as INCREASE vs LIQUIDATE: BLOCKED."
+    audit_required: true
+
+  - rule_id: VAL_BLV_002
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "strategy_regime is CASH_ONLY but risk_multiplier_override is not 0.0."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Set risk_multiplier_override to 0.0."
+    audit_required: true
+
+  - rule_id: VAL_BLV_003
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "strategy_regime is CASH_ONLY but one or more risk permission flags are true."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Set allow_new_positions, allow_add_ons and allow_risk_increase to false."
+    audit_required: true
+
+  - rule_id: VAL_BLV_004
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "strategy_regime is CASH_ONLY but at least one asset action is INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Downgrade all INCREASE actions to HOLD."
+    audit_required: true
+
+  - rule_id: VAL_BLV_005
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "strategy_regime is DEFENSIVE but allow_add_ons is true."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Set allow_add_ons to false."
+    audit_required: true
+
+  - rule_id: VAL_BLV_006
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "strategy_regime is BUILDUP or DEFENSIVE and risk_multiplier_override is below 0.1."
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_BLV_007
+    station: 4
+    validator: BusinessLogicValidator
+    category: business_logic
+    trigger: "allow_risk_increase is false but at least one asset action is INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Downgrade all INCREASE actions to HOLD."
+    audit_required: true
