@@ -137,3 +137,39 @@
     repair_allowed: true
     allowed_repair: "Downgrade all INCREASE actions to HOLD."
     audit_required: true
+
+  - rule_id: VAL_MRV_004A
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_universe
+    trigger: "Asset is not in User Managed Universe and no current portfolio position exists."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Remove asset from target_allocation_adjustments."
+    audit_required: true
+
+  - rule_id: VAL_MRV_004B
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_universe
+    trigger: "Asset is not in User Managed Universe but a current portfolio position exists and requested action is INCREASE."
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: "Downgrade action from INCREASE to HOLD."
+    audit_required: true
+
+  - rule_id: VAL_MRV_004C
+    station: 5
+    validator: MarketRiskValidator
+    category: market_risk_universe
+    trigger: "Asset is not in User Managed Universe but a current portfolio position exists and requested action is HOLD, DECREASE or LIQUIDATE."
+    validator_status: PASS_WITH_CONSTRAINTS
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: false
+    allowed_behavior: "Pass unchanged to Portfolio Engine as inventory management action."
+    audit_required: true
