@@ -1,5 +1,123 @@
 ﻿{
   "station": "market_risk_validator",
   "version": "v1.0",
-  "cases": []
+  "cases": [
+    {
+      "test_case_id": "TC_MRV_005",
+      "description": "Asset outside User Managed Universe with no current holding must be removed.",
+      "input_payload": {
+        "llm_output": {
+          "schema_version": "llm_meta_manager_output.v1",
+          "run_id": "run_mrv_005",
+          "strategy_regime": "BUILDUP",
+          "risk_multiplier_override": 1.0,
+          "allow_new_positions": true,
+          "allow_add_ons": true,
+          "allow_risk_increase": true,
+          "target_allocation_adjustments": [
+            {
+              "asset_id": "XYZ",
+              "action": "INCREASE",
+              "strategy_class": "TREND_PULLBACK",
+              "confidence_score": 0.78,
+              "asset_risk_multiplier_override": null,
+              "reason_codes": ["BULLISH_TREND_CONFIRMED"],
+              "reasoning_short": "Increase unknown asset."
+            }
+          ],
+          "reasoning_short": "Unknown asset outside universe."
+        },
+        "user_managed_universe": ["SPY", "QQQ", "SMH"],
+        "current_positions": []
+      },
+      "expected_rule_id": "VAL_MRV_004A",
+      "expected_validator_status": "DOWNGRADED",
+      "expected_system_status": "NORMAL_CONTINUE",
+      "expected_pipeline_action": "CONTINUE",
+      "expected_repair": "Remove XYZ from target_allocation_adjustments.",
+      "expected_audit_contains": "outside the active universe and has no current holdings"
+    },
+    {
+      "test_case_id": "TC_MRV_006",
+      "description": "Existing position outside User Managed Universe may be passed through for liquidation as inventory management.",
+      "input_payload": {
+        "llm_output": {
+          "schema_version": "llm_meta_manager_output.v1",
+          "run_id": "run_mrv_006",
+          "strategy_regime": "DEFENSIVE",
+          "risk_multiplier_override": 0.5,
+          "allow_new_positions": false,
+          "allow_add_ons": false,
+          "allow_risk_increase": false,
+          "target_allocation_adjustments": [
+            {
+              "asset_id": "QQQ",
+              "action": "LIQUIDATE",
+              "strategy_class": "RISK_CONTROL",
+              "confidence_score": 0.74,
+              "asset_risk_multiplier_override": null,
+              "reason_codes": ["PROACTIVE_DERISKING"],
+              "reasoning_short": "Liquidate QQQ altbestand."
+            }
+          ],
+          "reasoning_short": "Existing off-universe position may be reduced."
+        },
+        "user_managed_universe": ["SPY", "SMH"],
+        "current_positions": [
+          {
+            "asset_id": "QQQ",
+            "quantity": 100,
+            "market_value": 45000.0
+          }
+        ]
+      },
+      "expected_rule_id": "VAL_MRV_004C",
+      "expected_validator_status": "PASS_WITH_CONSTRAINTS",
+      "expected_system_status": "NORMAL_CONTINUE",
+      "expected_pipeline_action": "CONTINUE",
+      "expected_repair": "No repair. Pass unchanged to Portfolio Engine as inventory management action.",
+      "expected_audit_contains": "outside the active universe but position exists"
+    },
+    {
+      "test_case_id": "TC_MRV_007",
+      "description": "Existing position outside User Managed Universe must not be increased.",
+      "input_payload": {
+        "llm_output": {
+          "schema_version": "llm_meta_manager_output.v1",
+          "run_id": "run_mrv_007",
+          "strategy_regime": "BUILDUP",
+          "risk_multiplier_override": 1.0,
+          "allow_new_positions": true,
+          "allow_add_ons": true,
+          "allow_risk_increase": true,
+          "target_allocation_adjustments": [
+            {
+              "asset_id": "QQQ",
+              "action": "INCREASE",
+              "strategy_class": "TREND_PULLBACK",
+              "confidence_score": 0.80,
+              "asset_risk_multiplier_override": null,
+              "reason_codes": ["BULLISH_TREND_CONFIRMED"],
+              "reasoning_short": "Increase QQQ altbestand."
+            }
+          ],
+          "reasoning_short": "Off-universe existing position cannot be increased."
+        },
+        "user_managed_universe": ["SPY", "SMH"],
+        "current_positions": [
+          {
+            "asset_id": "QQQ",
+            "quantity": 100,
+            "market_value": 45000.0
+          }
+        ]
+      },
+      "expected_rule_id": "VAL_MRV_004B",
+      "expected_validator_status": "DOWNGRADED",
+      "expected_system_status": "NORMAL_CONTINUE",
+      "expected_pipeline_action": "CONTINUE",
+      "expected_repair": "Downgrade QQQ from INCREASE to HOLD.",
+      "expected_audit_contains": "Action forced to HOLD to prevent unauthorized buying"
+    }
+  ]
 }
