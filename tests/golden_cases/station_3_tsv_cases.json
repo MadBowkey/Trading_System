@@ -1,5 +1,52 @@
 ﻿{
   "station": "technical_schema_validator",
   "version": "v1.0",
-  "cases": []
+  "cases": [
+    {
+      "test_case_id": "TC_TSV_003",
+      "description": "Missing required field strategy_regime must stop the pipeline.",
+      "input_payload": {
+        "schema_version": "llm_meta_manager_output.v1",
+        "run_id": "run_tsv_003",
+        "risk_multiplier_override": 1.0,
+        "allow_new_positions": true,
+        "allow_add_ons": true,
+        "allow_risk_increase": true,
+        "target_allocation_adjustments": [],
+        "reasoning_short": "Missing strategy_regime."
+      },
+      "expected_rule_id": "VAL_TSV_002",
+      "expected_validator_status": "BLOCKED",
+      "expected_system_status": "SAFE_HOLD",
+      "expected_pipeline_action": "STOP",
+      "expected_audit_contains": "strategy_regime"
+    },
+    {
+      "test_case_id": "TC_TSV_004",
+      "description": "More than 5 asset adjustments must stop the pipeline.",
+      "input_payload": {
+        "schema_version": "llm_meta_manager_output.v1",
+        "run_id": "run_tsv_004",
+        "strategy_regime": "BUILDUP",
+        "risk_multiplier_override": 1.0,
+        "allow_new_positions": true,
+        "allow_add_ons": true,
+        "allow_risk_increase": true,
+        "target_allocation_adjustments": [
+          { "asset_id": "SPY", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold SPY." },
+          { "asset_id": "QQQ", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold QQQ." },
+          { "asset_id": "SMH", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold SMH." },
+          { "asset_id": "XLK", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold XLK." },
+          { "asset_id": "DIA", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold DIA." },
+          { "asset_id": "IWM", "action": "HOLD", "strategy_class": "TREND_MONITORING", "confidence_score": 0.70, "asset_risk_multiplier_override": null, "reason_codes": ["NO_ACTION_REQUIRED"], "reasoning_short": "Hold IWM." }
+        ],
+        "reasoning_short": "Too many assets."
+      },
+      "expected_rule_id": "VAL_TSV_004",
+      "expected_validator_status": "BLOCKED",
+      "expected_system_status": "SAFE_HOLD",
+      "expected_pipeline_action": "STOP",
+      "expected_audit_contains": "more than 5"
+    }
+  ]
 }
