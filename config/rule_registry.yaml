@@ -1,1 +1,56 @@
-﻿rules: []
+﻿rules:
+  - rule_id: VAL_TSV_001
+    station: 3
+    validator: TechnicalSchemaValidator
+    category: technical_schema
+    trigger: JSON is not parseable.
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_TSV_002
+    station: 3
+    validator: TechnicalSchemaValidator
+    category: technical_schema
+    trigger: Required Pydantic field is missing.
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_TSV_003
+    station: 3
+    validator: TechnicalSchemaValidator
+    category: technical_schema
+    trigger: Invalid datatype, enum value or numeric range.
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_TSV_004
+    station: 3
+    validator: TechnicalSchemaValidator
+    category: technical_schema
+    trigger: target_allocation_adjustments contains more than 5 entries.
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_TSV_005
+    station: 3
+    validator: TechnicalSchemaValidator
+    category: technical_schema
+    trigger: reasoning_short exceeds 150 characters.
+    validator_status: DOWNGRADED
+    system_status: NORMAL_CONTINUE
+    pipeline_action: CONTINUE
+    repair_allowed: true
+    allowed_repair: Truncate reasoning_short exactly to 150 characters.
+    audit_required: true
