@@ -1,0 +1,4 @@
+﻿universe:
+  version: universe.example.v1
+  max_active_symbols: 5
+  active_symbols: []
