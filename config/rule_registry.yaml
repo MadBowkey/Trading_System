@@ -209,3 +209,36 @@
     repair_allowed: true
     allowed_repair: "Apply deterministic tie-breaker. Winner keeps INCREASE. Losing asset is downgraded to HOLD. If no clear winner exists, both assets are downgraded to HOLD."
     audit_required: true
+
+  - rule_id: VAL_ENG_001
+    station: 6
+    validator: PortfolioEngine
+    category: portfolio_construction
+    trigger: "No feasible target allocation can be constructed under the given constraints."
+    engine_status: PORTFOLIO_CONSTRUCTION_FAILED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_STATION_7
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_ENG_002
+    station: 6
+    validator: PortfolioEngine
+    category: portfolio_output_integrity
+    trigger: "Target asset weights plus cash quota do not sum to 1.0 within tolerance ±0.0001."
+    engine_status: TECHNICAL_ERROR
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_ENG_003
+    station: 6
+    validator: PortfolioEngine
+    category: portfolio_input_integrity
+    trigger: "Required portfolio, price or numeric input data is missing, stale, invalid or mathematically inconsistent."
+    engine_status: TECHNICAL_ERROR
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    audit_required: true
