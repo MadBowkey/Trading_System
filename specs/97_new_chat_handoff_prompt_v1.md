@@ -26,8 +26,8 @@ Regime-adaptiver Portfolio-Allocator mit dynamischer Risikosteuerung, deduktiver
 
 Gültiger Stand:
 Architecture v1.6.1.
-Station 1 bis Station 5 der Validierungs-Pipeline sind lokal dokumentiert.
-Nächster fachlicher Schritt ist Station 6 — Portfolio Engine.
+Station 1 bis Station 6 der Validierungs-Pipeline sind lokal dokumentiert.
+Nächster fachlicher Schritt ist Station 7 — Post-Trade Risk Validator.
 
 Lokaler Projektpfad beim Benutzer:
 C:\Users\Daily\Documents\TradingSystem\trading_allocator_project
@@ -48,10 +48,12 @@ Nach dem ZIP-Upload bitte zuerst diese Dateien lesen und als verbindliche Projek
 12. specs\09_station_3_technical_schema_validator.md
 13. specs\10_station_4_business_logic_validator.md
 14. specs\11_station_5_market_risk_validator.md
+15. specs\12_station_6_portfolio_engine.md
 15. config\rule_registry.yaml
 16. tests\golden_cases\station_3_tsv_cases.json
 17. tests\golden_cases\station_4_blv_cases.json
 18. tests\golden_cases\station_5_mrv_cases.json
+19. tests\golden_cases\station_6_portfolio_engine_cases.json
 
 Besonders wichtig:
 Station 5 enthält aktuell folgende finalisierte Regeln:
@@ -62,6 +64,11 @@ Station 5 enthält aktuell folgende finalisierte Regeln:
 - VAL_MRV_006 — Regime Shift Risk Blocks Increase
 - VAL_MRV_007 — Correlated Pair No Double Increase
 
+
+Station 6 enthält aktuell folgende finalisierte Regeln:
+- VAL_ENG_001 — Feasibility Check
+- VAL_ENG_002 — Summen-Integrität
+- VAL_ENG_003 — Input- und Datenintegrität
 Arbeitsregeln:
 - Lokale Specs sind die Single Source of Truth.
 - Nicht aus Erinnerung rekonstruieren.
@@ -83,7 +90,7 @@ Arbeitsregeln:
 Arbeitsstil:
 Erst bestehenden Stand aus den Dateien zusammenfassen.
 Dann sagen, ob der Stand konsistent ist.
-Dann erst mit Station 6 — Portfolio Engine — beginnen.
+Dann erst mit Station 7 — Post-Trade Risk Validator — beginnen.
 Bei neuen Vorschlägen immer:
 1. mit bestehender Spezifikation vergleichen,
 2. bewerten,
@@ -98,3 +105,4 @@ Beginne nach dem ZIP-Upload mit:
 ### handoff_prompt.v1 — 2026-05-15
 
 Initiale versionierte Fassung des Übergabe-Prompts.
+
