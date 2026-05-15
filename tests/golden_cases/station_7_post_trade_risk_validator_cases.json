@@ -1,0 +1,97 @@
+﻿{
+  "station": "post_trade_risk_validator",
+  "version": "v1.0",
+  "cases": [
+    {
+      "test_case_id": "TC_PTR_001",
+      "description": "Single asset exposure exceeds configured mandate limit.",
+      "input_payload": {
+        "station_6_output": {
+          "run_id": "run_ptr_001",
+          "target_weights": {
+            "SPY": 0.30,
+            "QQQ": 0.20,
+            "SMH": 0.245,
+            "cash": 0.255
+          },
+          "cash_quota_after_rebalance": 0.255,
+          "total_weight_sum": 1.0
+        },
+        "risk_config": {
+          "single_asset_exposure_limit_pct": 20.0
+        },
+        "post_trade_metrics": {
+          "max_single_asset_exposure_pct": 24.5,
+          "max_single_asset": "SMH"
+        }
+      },
+      "expected_rule_id": "VAL_PTR_001",
+      "expected_validator_status": "POST_TRADE_RISK_REJECTED",
+      "expected_system_status": "NO_NEW_ACTIONS",
+      "expected_pipeline_action": "STOP_BEFORE_STATION_8",
+      "expected_market_action": "none",
+      "expected_orders": "none",
+      "expected_mutation": "none",
+      "expected_audit_contains": "configured single-asset exposure limit"
+    },
+    {
+      "test_case_id": "TC_PTR_002",
+      "description": "HHI concentration exceeds hard concentration limit.",
+      "input_payload": {
+        "station_6_output": {
+          "run_id": "run_ptr_002",
+          "target_weights": {
+            "SPY": 0.55,
+            "QQQ": 0.30,
+            "SMH": 0.10,
+            "cash": 0.05
+          },
+          "cash_quota_after_rebalance": 0.05,
+          "total_weight_sum": 1.0
+        },
+        "risk_config": {
+          "hhi_hard_threshold": 0.40
+        },
+        "post_trade_metrics": {
+          "herfindahl_hirschman_index": 0.41
+        }
+      },
+      "expected_rule_id": "VAL_PTR_002",
+      "expected_validator_status": "POST_TRADE_RISK_REJECTED",
+      "expected_system_status": "NO_NEW_ACTIONS",
+      "expected_pipeline_action": "STOP_BEFORE_STATION_8",
+      "expected_market_action": "none",
+      "expected_orders": "none",
+      "expected_mutation": "none",
+      "expected_audit_contains": "Herfindahl-Hirschman-Index"
+    },
+    {
+      "test_case_id": "TC_PTR_003",
+      "description": "Technical error when mandatory risk configuration cannot be loaded.",
+      "input_payload": {
+        "station_6_output": {
+          "run_id": "run_ptr_003",
+          "target_weights": {
+            "SPY": 0.30,
+            "QQQ": 0.30,
+            "SMH": 0.20,
+            "cash": 0.20
+          },
+          "cash_quota_after_rebalance": 0.20,
+          "total_weight_sum": 1.0
+        },
+        "risk_config": null,
+        "risk_config_load_status": "FAILED",
+        "post_trade_metrics": null
+      },
+      "expected_rule_id": "VAL_PTR_003",
+      "expected_validator_status": "TECHNICAL_ERROR",
+      "expected_system_status": "SAFE_HOLD",
+      "expected_pipeline_action": "STOP",
+      "expected_market_action": "none",
+      "expected_orders": "none",
+      "expected_mutation": "none",
+      "expected_audit_contains": "Failed to load mandate configuration"
+    }
+  ]
+}
