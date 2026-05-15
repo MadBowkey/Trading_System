@@ -43,7 +43,7 @@ Rollen:
 
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 5 sind für den aktuellen Core-v1-Scope lokal dokumentiert.
+Station 1 bis Station 6 sind für den aktuellen Core-v1-Scope lokal dokumentiert.
 
 Station 5 enthält aktuell folgende finalisierte Regeln:
 - VAL_MRV_004A — Asset außerhalb Universe ohne Bestand
@@ -52,6 +52,12 @@ Station 5 enthält aktuell folgende finalisierte Regeln:
 - VAL_MRV_005 — Asset Confidence Threshold
 - VAL_MRV_006 — Regime Shift Risk Blocks Increase
 - VAL_MRV_007 — Correlated Pair No Double Increase
+
+
+Station 6 enthält aktuell folgende finalisierte Regeln:
+- VAL_ENG_001 — Feasibility Check
+- VAL_ENG_002 — Summen-Integrität
+- VAL_ENG_003 — Input- und Datenintegrität
 
 Nächster fachlicher Schritt:
 Station 6 — Portfolio Engine spezifizieren.
@@ -91,7 +97,7 @@ Nicht aus dem Chat rekonstruieren, sondern anhand der Specs weiterarbeiten.
 
 Gültiger Stand:
 Architecture v1.6.1.
-Station 1 bis Station 5 sind lokal dokumentiert.
+Station 1 bis Station 6 sind lokal dokumentiert.
 Station 5 enthält VAL_MRV_004A/B/C sowie VAL_MRV_005/006/007.
 Nächster Schritt ist Station 6 Portfolio Engine.
 
@@ -103,3 +109,4 @@ LLM bleibt Meta-Manager.
 Python bleibt finale Validierungs- und Guardrail-Instanz.
 Keine stille Änderung ohne Audit Log.
 Codex erst einsetzen, wenn die Spezifikation freigegeben ist.
+
