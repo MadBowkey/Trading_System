@@ -70,6 +70,9 @@ tests/golden_cases/
 - specs/11_station_5_market_risk_validator.md  
   Enthält die Spezifikation für Station 5 inklusive VAL_MRV_004A/B/C und VAL_MRV_005/006/007.
 
+- specs/12_station_6_portfolio_engine.md  
+  Enthält die Spezifikation für Station 6 inklusive VAL_ENG_001 bis VAL_ENG_003.
+
 ### Übergabe
 
 - specs/97_new_chat_handoff_prompt_v1.md  
@@ -106,9 +109,12 @@ tests/golden_cases/
 - tests/golden_cases/station_5_mrv_cases.json  
   Testfälle für Station 5.
 
+- tests/golden_cases/station_6_portfolio_engine_cases.json  
+  Testfälle für Station 6.
+
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 5 sind lokal dokumentiert.
+Station 1 bis Station 6 sind lokal dokumentiert.
 
 Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
@@ -121,11 +127,12 @@ Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
 Nächster fachlicher Schritt:
 
-Station 6 — Portfolio Engine spezifizieren.
+Station 7 — Post-Trade Risk Validator spezifizieren.
 
 ## Arbeitsregel
 
 Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
 Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+
 
