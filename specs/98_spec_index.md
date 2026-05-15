@@ -72,6 +72,9 @@ tests/golden_cases/
 
 ### Übergabe
 
+- specs/97_new_chat_handoff_prompt_v1.md  
+  Enthält den versionierten Übergabe-Prompt für einen neuen Chat.
+
 - specs/99_handoff_snapshot_current.md  
   Enthält den aktuellen Übergabe-Snapshot für einen neuen Chat.
 
@@ -125,3 +128,4 @@ Station 6 — Portfolio Engine spezifizieren.
 Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
 Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+
