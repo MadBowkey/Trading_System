@@ -242,3 +242,39 @@
     pipeline_action: STOP
     repair_allowed: false
     audit_required: true
+
+  - rule_id: VAL_PTR_001
+    station: 7
+    validator: PostTradeRiskValidator
+    category: post_trade_single_asset_exposure
+    trigger: "Calculated target weight for an asset exceeds configured single-asset exposure limit."
+    validator_status: POST_TRADE_RISK_REJECTED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_STATION_8
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_PTR_002
+    station: 7
+    validator: PostTradeRiskValidator
+    category: post_trade_concentration_hhi
+    trigger: "Calculated Herfindahl-Hirschman-Index exceeds configured hard concentration limit."
+    validator_status: POST_TRADE_RISK_REJECTED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_STATION_8
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_PTR_003
+    station: 7
+    validator: PostTradeRiskValidator
+    category: post_trade_risk_configuration_integrity
+    trigger: "Required mandate limits, guardrails, post-trade metrics or risk configuration data are missing, stale, invalid or not loadable."
+    validator_status: TECHNICAL_ERROR
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
