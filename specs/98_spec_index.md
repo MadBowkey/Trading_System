@@ -73,6 +73,9 @@ tests/golden_cases/
 - specs/12_station_6_portfolio_engine.md  
   Enthält die Spezifikation für Station 6 inklusive VAL_ENG_001 bis VAL_ENG_003.
 
+- specs/13_station_7_post_trade_risk_validator.md  
+  Enthält die Spezifikation für Station 7 inklusive VAL_PTR_001 bis VAL_PTR_003.
+
 ### Übergabe
 
 - specs/97_new_chat_handoff_prompt_v1.md  
@@ -112,9 +115,12 @@ tests/golden_cases/
 - tests/golden_cases/station_6_portfolio_engine_cases.json  
   Testfälle für Station 6.
 
+- tests/golden_cases/station_7_post_trade_risk_validator_cases.json  
+  Testfälle für Station 7.
+
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 6 sind lokal dokumentiert.
+Station 1 bis Station 7 sind lokal dokumentiert.
 
 Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
@@ -127,12 +133,13 @@ Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
 Nächster fachlicher Schritt:
 
-Station 7 — Post-Trade Risk Validator spezifizieren.
+Station 8 — Order Validator spezifizieren.
 
 ## Arbeitsregel
 
 Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
 Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+
 
 
