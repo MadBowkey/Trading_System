@@ -46,22 +46,26 @@ Core v1.0 umfasst nur Station 1 bis Station 8.
 ML_Optimizer-Audits kommen separat in v1.2.
 
 Keine ML-Felder in Core v1.0.
+
 ## Pflicht-Standardfelder
 
 Diese Felder sind in jedem Core-v1-Audit-Event vorhanden.
 
 | Feld | Typ | Nullable | Beschreibung | Beispiel |
 |---|---|---:|---|---|
+| audit_schema_version | string | Nein | Version des Audit-Log-Schemas | audit_log_core_v1.0 |
 | run_id | string | Nein | Eindeutige Run-ID der Tagesanalyse | run_20260516_013045_078 |
-| timestamp | datetime UTC | Nein | Zeitpunkt des Events | 2026-05-16T01:30:45.123Z |
+| timestamp | datetime UTC als string | Nein | Zeitpunkt des Events | 2026-05-16T01:30:45.123Z |
 | station | string | Nein | Name der auslösenden Station | Station_3_TechnicalSchemaValidator |
 | rule_id | string / null | Ja | Ausgelöste Regel-ID; null bei reinem Erfolgs-Event | VAL_TSV_002 |
 | validator_status | string | Nein | Status der Regel- oder Stationsprüfung | BLOCKED |
 | system_status | string | Nein | Gesamtsystemstatus nach dem Event | SAFE_HOLD |
 | pipeline_action | string | Nein | Nächste Pipeline-Aktion | STOP |
-| asset_id | string / null | Ja | Betroffenes Asset; null bei Portfolio-/Systemevent | QQQ |
+| asset_id | string / null | Ja | Betroffenes Asset; null bei Portfolio-, System- oder Orderlisten-Event | QQQ |
 | reason | string | Nein | Kurze lesbare Begründung, maximal 300 Zeichen | Missing required field strategy_regime |
-| audit_hash | string | Nein | SHA-256 Hash des Events | sha256:8f3a9c... |
+| event_type | string | Nein | Typ des Audit-Events | RULE_REJECTED |
+| event_scope | string | Nein | Scope des Audit-Events | ORDER_LIST |
+| audit_hash | string | Nein | SHA-256 Integritäts-Hash des Events | sha256:8f3a9c... |
 
 ## Optionale Zusatzfelder
 
@@ -69,20 +73,39 @@ Diese Felder werden nur verwendet, wenn sie fachlich relevant sind.
 
 | Feld | Typ | Verwendung |
 |---|---|---|
-| original_value | string / any | Bei DOWNGRADED, Normalisierung oder technischer Korrektur |
-| enforced_value | string / any | Bei DOWNGRADED, Normalisierung oder technischer Korrektur |
-| num_orders_proposed | int | Station 8 |
-| num_orders_rejected | int | Station 8 |
-| order_proposal_status | string | Station 8: APPROVED / REJECTED |
-| rejected_order_details | array | Station 8: betroffene Orders als JSON-Array |
+| original_value | string / null | Bei DOWNGRADED, Normalisierung oder technischer Korrektur |
+| enforced_value | string / null | Bei DOWNGRADED, Normalisierung oder technischer Korrektur |
+| num_orders_proposed | int / null | Station 8 |
+| num_orders_rejected | int / null | Station 8 |
+| order_proposal_status | string / null | Station 8: APPROVED / REJECTED |
+| rejected_order_details | string / null | Station 8: JSON-Array als String |
 
 ## Grundregeln
 
 - Alle Werte müssen JSON-serialisierbar sein.
 - Decimal-Werte werden als Strings gespeichert.
+- datetime-Werte werden als UTC-ISO-Strings gespeichert.
 - audit_hash wird nach Befüllung aller anderen Felder berechnet.
 - audit_hash wird über das vollständige Event ohne audit_hash berechnet.
+- audit_schema_version wird mitgehasht.
 - Keine ML-Felder in Core v1.0.
+
+## Schema-Versionierung
+
+Core v1.0 verwendet das Pflichtfeld audit_schema_version.
+
+Wert für Core v1.0:
+
+audit_log_core_v1.0
+
+## Versionsregeln
+
+- Major-Version bei inkompatiblen Änderungen.
+- Minor-Version bei neuen optionalen Feldern oder abwärtskompatiblen Erweiterungen.
+- Alte Schemata bleiben lesbar.
+- Bei Schema-Wechsel wird ein neuer Parquet-Pfad verwendet.
+- Core v1.0 verwendet den Pfad audit_logs/core_v1_0.
+
 ## Erlaubte Statuswerte
 
 ### validator_status
@@ -126,6 +149,7 @@ Core v1.0 erlaubt folgende Pipeline-Aktionen:
 - Fachliche Risiko- oder Ausführbarkeitsablehnungen führen zu NO_NEW_ACTIONS und stoppen vor der jeweils nächsten riskanten Stufe.
 - DOWNGRADED ist nur erlaubt, wenn die Änderung regelbasiert, risikosenkend oder technisch harmlos ist.
 - FORCE_CASH_ONLY darf nur durch echte Markt- oder Risiko-Guardrails ausgelöst werden, nicht durch Station 8.
+
 ## Event-Typen
 
 Core v1.0 unterscheidet folgende Audit-Event-Typen:
@@ -154,25 +178,39 @@ Jedes Audit-Event muss eindeutig einem Scope zugeordnet sein.
 | ORDER_LIST | gesamte proposed_order_list |
 | ORDER | einzelne betroffene Order innerhalb rejected_order_details |
 
-## Grundregel
+## Event-Grundregel
 
 Core v1.0 erzeugt keine stillen Entscheidungen.
 
 Wenn eine Regel den Lauf verändert, blockiert, downgraded, rejected oder freigibt, muss mindestens ein Audit-Event existieren.
 
-Station 8 erzeugt ein Summary-Event pro Run und keine separaten Einzel-Order-Events. Einzelne betroffene Orders stehen nur in rejected_order_details.
+Station 8 erzeugt ein Summary-Event pro Run und keine separaten Einzel-Order-Events.
+
+Einzelne betroffene Orders stehen nur in rejected_order_details.
+
 ## Hash- und Unveränderlichkeitsregeln
 
-Jedes Audit-Event erhält einen SHA-256 Hash.
+Jedes Audit-Event erhält einen SHA-256 Einzel-Event-Integritäts-Hash.
 
 Der Hash dient der Erkennung nachträglicher Änderungen und der eindeutigen Referenzierbarkeit eines Events.
+
+Der Hash ist keine kryptografische Signatur.
+
+Core v1.0 verwendet:
+
+- keine Hash-Chain
+- kein previous_audit_hash
+- keinen Merkle-Baum
+- kein HMAC
+
+Merkle-Baum, Hash-Chain oder HMAC werden auf v1.2 verschoben.
 
 ## Hash-Berechnung
 
 Der audit_hash wird wie folgt berechnet:
 
 1. Audit-Event vollständig befüllen.
-2. Feld audit_hash temporär entfernen oder leer lassen.
+2. audit_hash entfernen oder leer lassen.
 3. Event deterministisch serialisieren.
 4. SHA-256 über diese serialisierte Struktur berechnen.
 5. audit_hash als Feld einfügen.
@@ -183,9 +221,12 @@ Für die Hash-Berechnung gilt:
 
 - JSON-Keys werden stabil sortiert.
 - Decimal-Werte werden als Strings gespeichert.
-- Timestamps werden in UTC gespeichert.
-- Keine nicht-deterministischen Felder außer timestamp und run_id.
+- datetime-Werte werden als UTC-ISO-Strings gespeichert.
+- Keine NaN- oder Infinity-Werte.
+- Keine Python-spezifischen Objekte.
 - Null-Werte bleiben explizit enthalten, wenn das Feld zum Standardfeldsatz gehört.
+- audit_hash wird nie in seine eigene Berechnung einbezogen.
+- audit_schema_version wird mitgehasht.
 
 ## Unveränderlichkeit
 
@@ -208,6 +249,7 @@ Optionales Exportformat:
 JSON-Export darf niemals als neue Wahrheit gegen Parquet verwendet werden.
 
 Parquet bleibt die primäre Audit-Quelle.
+
 ## Parquet-Kompatibilität
 
 Die Audit-Log-Struktur Core v1.0 ist vollständig Parquet-kompatibel.
@@ -217,7 +259,7 @@ Die Audit-Log-Struktur Core v1.0 ist vollständig Parquet-kompatibel.
 | Feldtyp | Speicherung in Core v1.0 |
 |---|---|
 | string | Parquet string |
-| int | Parquet int |
+| int | Parquet int64 |
 | bool | Parquet bool |
 | nullable string | Parquet string mit null |
 | timestamp | UTC-ISO-String |
@@ -242,42 +284,7 @@ Die Speicherung komplexer Felder als JSON-String hält das Parquet-Schema stabil
 Nested Parquet-Strukturen wie list<struct> werden für Core v1.0 bewusst nicht verwendet, um Schema-Drift, Tooling-Komplexität und Golden-Case-Abweichungen zu vermeiden.
 
 Eine spätere Umstellung auf native Nested-Parquet-Strukturen bleibt möglich, ist aber nicht Teil von Core v1.0.
-## Audit-Log-Rotation
 
-Core v1.0 verwendet eine einfache, deterministische Tagesrotation.
-
-## Rotationsregel
-
-Audit-Events werden nach UTC-Datum partitioniert.
-
-Zielstruktur:
-
-audit_logs/core_v1/year=YYYY/month=MM/day=DD/audit_events.parquet
-
-Beispiel:
-
-audit_logs/core_v1/year=2026/month=05/day=16/audit_events.parquet
-
-## Grundregeln
-
-- Ein Audit-Event wird anhand seines UTC-timestamp dem Tagesordner zugeordnet.
-- Innerhalb eines Tages wird in dieselbe Parquet-Datei geschrieben.
-- Es gibt keine Hash-Chain über Dateien hinweg.
-- audit_hash bleibt ein Einzel-Event-Hash.
-- Bestehende Parquet-Dateien werden nicht editiert, sondern append-only erweitert.
-- Korrekturen erfolgen durch neue Audit-Events, nicht durch Änderung alter Events.
-
-## JSON-Export
-
-JSON-Exports sind optional und werden aus Parquet erzeugt.
-
-JSON-Exports sind nicht die primäre Wahrheit.
-
-## Begründung
-
-Tagesrotation ist für Core v1.0 ausreichend einfach, testbar und robust.
-
-Sie vermeidet unnötige Komplexität durch Run-basierte, Größen-basierte oder Event-Chain-basierte Rotation.
 ## Parquet-Schema Core v1.0
 
 Core v1.0 verwendet ein bewusst einfaches, hash-stabiles Parquet-Schema.
@@ -285,7 +292,9 @@ Core v1.0 verwendet ein bewusst einfaches, hash-stabiles Parquet-Schema.
 ```python
 import pyarrow as pa
 
-AUDIT_LOG_SCHEMA_CORE_V1 = pa.schema([
+AUDIT_LOG_SCHEMA_CORE_V1_0 = pa.schema([
+    pa.field("audit_schema_version", pa.string(), nullable=False),
+
     pa.field("run_id", pa.string(), nullable=False),
     pa.field("timestamp", pa.string(), nullable=False),
     pa.field("station", pa.string(), nullable=False),
@@ -344,16 +353,45 @@ def get_audit_partition_path(timestamp_utc_iso: str) -> Dict[str, str]:
 Zielstruktur:
 
 ```text
-audit_logs/core_v1/year=YYYY/month=MM/day=DD/part-xxxxx.snappy.parquet
+audit_logs/core_v1_0/year=YYYY/month=MM/day=DD/part-xxxxx.snappy.parquet
 ```
 
 Core v1.0 verwendet keine Partitionierung nach run_id oder station.
+
+## Audit-Log-Rotation
+
+Core v1.0 verwendet eine einfache, deterministische Tagesrotation.
+
+## Rotationsregel
+
+Audit-Events werden nach UTC-Datum partitioniert.
+
+Zielstruktur:
+
+audit_logs/core_v1_0/year=YYYY/month=MM/day=DD/part-xxxxx.snappy.parquet
+
+Beispiel:
+
+audit_logs/core_v1_0/year=2026/month=05/day=16/part-00000.snappy.parquet
+
+## Rotations-Grundregeln
+
+- Ein Audit-Event wird anhand seines UTC-timestamp dem Tagesordner zugeordnet.
+- Innerhalb eines Tages wird in dieselbe Tagespartition geschrieben.
+- Es gibt keine Hash-Chain über Dateien hinweg.
+- audit_hash bleibt ein Einzel-Event-Hash.
+- Bestehende Parquet-Dateien werden nicht editiert, sondern append-only erweitert.
+- Korrekturen erfolgen durch neue Audit-Events, nicht durch Änderung alter Events.
+- JSON-Exports sind optional und werden aus Parquet erzeugt.
+- JSON-Exports sind nicht die primäre Wahrheit.
+
 ## Kompatibilitätstabelle Core v1.0
 
 Diese Tabelle legt fest, wie Audit-Felder zwischen Python, JSON, Parquet und Golden Cases behandelt werden.
 
 | Feld | Python / Runtime | JSON-Export | Parquet Core v1.0 | Golden-Case-Prüfung |
 |---|---|---|---|---|
+| audit_schema_version | str | string | string | exakter Stringvergleich |
 | run_id | str | string | string | exakter Stringvergleich |
 | timestamp | str UTC-ISO | string | string | exakter Stringvergleich |
 | station | str | string | string | exakter Stringvergleich |
@@ -379,6 +417,7 @@ Diese Tabelle legt fest, wie Audit-Felder zwischen Python, JSON, Parquet und Gol
 - Vor Parquet-Speicherung müssen komplexe Felder serialisiert werden.
 - rejected_order_details wird in Parquet als JSON-String gespeichert.
 - Decimal-Werte werden vor Hashing und Speicherung in Strings normalisiert.
+- datetime-Werte werden vor Hashing und Speicherung in UTC-ISO-Strings normalisiert.
 - Golden Cases prüfen keine Python-Objekte, sondern kanonische JSON-kompatible Werte.
 - Die Hash-Berechnung basiert auf der kanonischen JSON-Repräsentation, nicht auf der Parquet-Binärrepräsentation.
 
@@ -389,122 +428,6 @@ Diese Tabelle legt fest, wie Audit-Felder zwischen Python, JSON, Parquet und Gol
 - keine Decimal-Objekte im finalen Audit-Event
 - keine datetime-Objekte im finalen Audit-Event
 - keine ML-Felder
-## Hash-Utility Referenzimplementierung
-
-Core v1.0 verwendet Einzel-Event-Hashes.
-
-Keine Hash-Chain.
-
-Keine previous_audit_hash.
-
-```python
-import hashlib
-import json
-from copy import deepcopy
-from typing import Any, Dict
-
-
-REQUIRED_AUDIT_FIELDS = [
-    "run_id",
-    "timestamp",
-    "station",
-    "rule_id",
-    "validator_status",
-    "system_status",
-    "pipeline_action",
-    "asset_id",
-    "reason",
-    "event_type",
-    "event_scope",
-]
-
-
-def validate_audit_event(event: Dict[str, Any]) -> None:
-    """
-    Validate a Core-v1 audit event before hash calculation.
-
-    This function checks structure and JSON safety.
-    It does not perform business validation.
-    """
-
-    if not isinstance(event, dict):
-        raise TypeError("Audit event must be a dictionary")
-
-    for field in REQUIRED_AUDIT_FIELDS:
-        if field not in event:
-            raise ValueError(f"Missing required audit field: {field}")
-
-    if "audit_hash" in event and event["audit_hash"] not in (None, ""):
-        raise ValueError("audit_hash must be empty or absent before hash calculation")
-
-    reason = event.get("reason")
-
-    if not isinstance(reason, str) or len(reason) == 0:
-        raise ValueError("reason must be a non-empty string")
-
-    if len(reason) > 300:
-        raise ValueError("reason must not exceed 300 characters")
-
-    try:
-        json.dumps(
-            event,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=False,
-            allow_nan=False
-        )
-    except (TypeError, ValueError) as exc:
-        raise ValueError(f"Audit event is not canonical-json safe: {exc}") from exc
-
-
-def compute_audit_hash(event: Dict[str, Any]) -> str:
-    """
-    Compute SHA-256 over the canonical JSON representation
-    of an audit event without the audit_hash field.
-    """
-
-    validate_audit_event(event)
-
-    event_copy = deepcopy(event)
-    event_copy.pop("audit_hash", None)
-
-    canonical_json = json.dumps(
-        event_copy,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=False,
-        allow_nan=False
-    )
-
-    hash_obj = hashlib.sha256(canonical_json.encode("utf-8"))
-
-    return f"sha256:{hash_obj.hexdigest()}"
-
-
-def add_audit_hash(event: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Return a copy of the audit event with audit_hash added.
-    The original event remains unchanged.
-    """
-
-    event_with_hash = deepcopy(event)
-    event_with_hash.pop("audit_hash", None)
-    event_with_hash["audit_hash"] = compute_audit_hash(event)
-
-    return event_with_hash
-```
-
-## Hash-Regeln
-
-- audit_hash wird nie in seine eigene Berechnung einbezogen.
-- Hash-Basis ist kanonisches JSON, nicht Parquet-Binärformat.
-- JSON-Keys werden sortiert.
-- NaN und Infinity sind verboten.
-- Decimal-, datetime- und sonstige Python-Objekte müssen vorher normalisiert werden.
-- Die Originalstruktur wird nicht verändert.
-- Core v1.0 verwendet keine Hash-Chain.
-- Core v1.0 verwendet kein previous_audit_hash.
-- Merkle-Baum / Batch-Integrität wird auf v1.2 verschoben.
 
 ## Hash- und Verifikationslogik Core v1.0
 
@@ -701,12 +624,30 @@ def verify_audit_event(stored_event: Dict[str, Any]) -> bool:
 
 ## Verifikationsregeln
 
-- `add_audit_hash()` erzeugt ein gespeichertes Event mit `audit_hash`.
-- `verify_audit_event()` prüft gespeicherte Events nach dem Laden aus Parquet.
-- `audit_hash` wird nie in seine eigene Berechnung einbezogen.
-- `audit_schema_version` ist Pflichtfeld und wird mitgehasht.
-- `rule_id` und `asset_id` sind Pflichtfelder, dürfen aber `null` sein.
-- Alle anderen Pflichtfelder müssen vorhanden und nicht `null` sein.
+- add_audit_hash() erzeugt ein gespeichertes Event mit audit_hash.
+- verify_audit_event() prüft gespeicherte Events nach dem Laden aus Parquet.
+- audit_hash wird nie in seine eigene Berechnung einbezogen.
+- audit_schema_version ist Pflichtfeld und wird mitgehasht.
+- rule_id und asset_id sind Pflichtfelder, dürfen aber null sein.
+- Alle anderen Pflichtfelder müssen vorhanden und nicht null sein.
 - NaN und Infinity sind verboten.
 - Decimal- und datetime-Werte müssen vor Hashing als Strings normalisiert sein.
 - Core v1.0 verwendet keine Hash-Chain, keinen Merkle-Baum und kein HMAC.
+
+## Aktueller Status
+
+Diese Audit-Log-Struktur ist fachlich für Core v1.0 spezifiziert.
+
+## Codex-Hinweis
+
+Codex darf diese Struktur später implementieren.
+
+Warum:
+
+Die Audit-Log-Struktur ist eine deterministische Infrastrukturkomponente für Speicherung, Hashing, Verifikation und spätere Auswertung.
+
+Wie:
+
+Codex implementiert später AuditEvent, AuditLogger, Hash Utility, Parquet Writer, JSON Export, Verifikation und Unit Tests exakt nach dieser Spezifikation.
+
+Codex darf keine ML-Felder, keine Hash-Chain, keinen Merkle-Baum, kein HMAC und keine feldweise Verschlüsselung in Core v1.0 ergänzen.
