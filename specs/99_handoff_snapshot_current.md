@@ -124,5 +124,27 @@ Python bleibt finale Validierungs- und Guardrail-Instanz.
 Keine stille Änderung ohne Audit Log.
 Codex erst einsetzen, wenn die Spezifikation freigegeben ist.
 
+## Audit-Log Core v1.0
 
+Die Audit-Log-Struktur Core v1.0 ist lokal dokumentiert.
 
+Relevante Dateien:
+
+- specs/15_audit_log_core_v1.md
+- tests/golden_cases/audit_log_core_v1_cases.json
+
+Status:
+
+- Core v1.0 umfasst nur Station 1 bis Station 8.
+- Keine ML-Felder in Core v1.0.
+- audit_schema_version ist Pflichtfeld.
+- audit_hash ist ein Einzel-Event-Integritäts-Hash.
+- Keine Hash-Chain.
+- Kein Merkle-Baum.
+- Kein HMAC.
+- Parquet ist das primäre Speicherformat.
+- JSON ist nur Export-, Debugging- und Prüfungsformat.
+
+Nächster fachlicher Schritt:
+
+Audit-Log Core v1.0 final prüfen und anschließend entscheiden, ob die Core-v1-Spezifikation abgeschlossen ist oder ob zuerst die Execution-Simulation spezifiziert wird.

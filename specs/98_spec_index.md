@@ -147,6 +147,10 @@ Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
 Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
 
+## Audit-Log Core v1.0
 
+- specs/15_audit_log_core_v1.md  
+  Enthält die zentrale Audit-Log-Struktur Core v1.0 für Station 1 bis Station 8 inklusive Standardfeldern, Statuswerten, Event-Typen, Parquet-Schema, Partitionierung, Hash- und Verifikationslogik.
 
-
+- tests/golden_cases/audit_log_core_v1_cases.json  
+  Enthält Golden Cases für Audit-Log Core v1.0 inklusive audit_schema_version, Pflichtfeldprüfung, nullable rule_id / asset_id, Non-Null-Prüfung, Reason-Limit und Hash-Verifikation.
