@@ -551,13 +551,16 @@ def compute_audit_hash(event: Dict[str, Any]) -> str:
     """
     Computes deterministic SHA-256 hash over canonical JSON.
 
-    audit_hash is excluded from the hash basis.
+    Important:
+    - Validation runs on the original event first.
+    - A pre-existing non-empty audit_hash is rejected.
+    - audit_hash is removed only after validation for the hash basis.
     """
+
+    validate_audit_event_payload(event)
 
     event_copy = deepcopy(event)
     event_copy.pop("audit_hash", None)
-
-    validate_audit_event_payload(event_copy)
 
     canonical_json = json.dumps(
         event_copy,
@@ -570,7 +573,6 @@ def compute_audit_hash(event: Dict[str, Any]) -> str:
     hash_obj = hashlib.sha256(canonical_json.encode("utf-8"))
 
     return f"sha256:{hash_obj.hexdigest()}"
-
 
 def add_audit_hash(event: Dict[str, Any]) -> Dict[str, Any]:
     """
