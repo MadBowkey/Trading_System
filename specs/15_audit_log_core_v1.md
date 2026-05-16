@@ -505,3 +505,208 @@ def add_audit_hash(event: Dict[str, Any]) -> Dict[str, Any]:
 - Core v1.0 verwendet keine Hash-Chain.
 - Core v1.0 verwendet kein previous_audit_hash.
 - Merkle-Baum / Batch-Integrität wird auf v1.2 verschoben.
+
+## Hash- und Verifikationslogik Core v1.0
+
+Core v1.0 verwendet einen Einzel-Event-Integritäts-Hash.
+
+Keine Hash-Chain.
+
+Kein previous_audit_hash.
+
+Kein Merkle-Baum.
+
+Kein HMAC.
+
+Der Hash dient der Integritätsprüfung einzelner Audit-Events. Er ist keine kryptografische Signatur.
+
+```python
+import hashlib
+import json
+from copy import deepcopy
+from typing import Any, Dict
+
+
+SUPPORTED_AUDIT_SCHEMA_VERSION = "audit_log_core_v1.0"
+
+REQUIRED_AUDIT_FIELDS = [
+    "audit_schema_version",
+    "run_id",
+    "timestamp",
+    "station",
+    "rule_id",
+    "validator_status",
+    "system_status",
+    "pipeline_action",
+    "asset_id",
+    "reason",
+    "event_type",
+    "event_scope",
+]
+
+NULLABLE_FIELDS = {"rule_id", "asset_id"}
+
+
+def _validate_required_fields(event: Dict[str, Any]) -> None:
+    for field in REQUIRED_AUDIT_FIELDS:
+        if field not in event:
+            if field in NULLABLE_FIELDS:
+                raise ValueError(
+                    f"Missing required field: {field}. "
+                    "Field must be present even if null."
+                )
+            if field == "audit_schema_version":
+                raise ValueError(
+                    "Missing required field: audit_schema_version. "
+                    "All Core v1.0 audit events must declare "
+                    "'audit_schema_version': 'audit_log_core_v1.0'."
+                )
+            raise ValueError(f"Missing required audit field: {field}")
+
+
+def _validate_non_nullable_fields(event: Dict[str, Any]) -> None:
+    for field in REQUIRED_AUDIT_FIELDS:
+        if field in NULLABLE_FIELDS:
+            continue
+        if event.get(field) is None:
+            raise ValueError(f"Required field must not be null: {field}")
+
+
+def _validate_schema_version(event: Dict[str, Any]) -> None:
+    version = event.get("audit_schema_version")
+    if version != SUPPORTED_AUDIT_SCHEMA_VERSION:
+        raise ValueError(
+            f"Unsupported audit_schema_version: '{version}'. "
+            f"Expected exactly '{SUPPORTED_AUDIT_SCHEMA_VERSION}'."
+        )
+
+
+def _validate_reason(event: Dict[str, Any]) -> None:
+    reason = event.get("reason")
+
+    if not isinstance(reason, str) or len(reason.strip()) == 0:
+        raise ValueError("reason must be a non-empty string")
+
+    if len(reason) > 300:
+        raise ValueError("reason must not exceed 300 characters")
+
+
+def _validate_json_safety(event: Dict[str, Any]) -> None:
+    try:
+        json.dumps(
+            event,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        )
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Audit event is not canonical JSON safe: {exc}") from exc
+
+
+def validate_audit_event_payload(event: Dict[str, Any]) -> None:
+    """
+    Validates a Core-v1 audit event payload before hash calculation.
+
+    The event must not contain a non-empty audit_hash.
+    """
+
+    if not isinstance(event, dict):
+        raise TypeError("Audit event must be a dictionary")
+
+    if "audit_hash" in event and event.get("audit_hash") not in (None, ""):
+        raise ValueError("audit_hash must be absent or empty before hash calculation")
+
+    _validate_required_fields(event)
+    _validate_non_nullable_fields(event)
+    _validate_schema_version(event)
+    _validate_reason(event)
+    _validate_json_safety(event)
+
+
+def compute_audit_hash(event: Dict[str, Any]) -> str:
+    """
+    Computes deterministic SHA-256 hash over canonical JSON.
+
+    audit_hash is excluded from the hash basis.
+    """
+
+    event_copy = deepcopy(event)
+    event_copy.pop("audit_hash", None)
+
+    validate_audit_event_payload(event_copy)
+
+    canonical_json = json.dumps(
+        event_copy,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    )
+
+    hash_obj = hashlib.sha256(canonical_json.encode("utf-8"))
+
+    return f"sha256:{hash_obj.hexdigest()}"
+
+
+def add_audit_hash(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Returns a copy of the event with audit_hash added.
+
+    The original event remains unchanged.
+    """
+
+    if not isinstance(event, dict):
+        raise TypeError("Event must be a dictionary")
+
+    event_without_hash = deepcopy(event)
+    event_without_hash.pop("audit_hash", None)
+
+    event_with_hash = deepcopy(event_without_hash)
+    event_with_hash["audit_hash"] = compute_audit_hash(event_without_hash)
+
+    return event_with_hash
+
+
+def verify_audit_event(stored_event: Dict[str, Any]) -> bool:
+    """
+    Verifies a stored Core-v1 audit event.
+
+    Returns True if the stored audit_hash matches the recomputed hash.
+    Raises ValueError on invalid structure or hash mismatch.
+    """
+
+    if not isinstance(stored_event, dict):
+        raise TypeError("Stored audit event must be a dictionary")
+
+    stored_hash = stored_event.get("audit_hash")
+
+    if not isinstance(stored_hash, str) or not stored_hash.startswith("sha256:"):
+        raise ValueError("Missing or invalid audit_hash in stored event")
+
+    event_without_hash = deepcopy(stored_event)
+    event_without_hash.pop("audit_hash", None)
+
+    computed_hash = compute_audit_hash(event_without_hash)
+
+    if computed_hash != stored_hash:
+        raise ValueError(
+            "Audit hash mismatch. "
+            f"Stored: {stored_hash[:20]}... "
+            f"Computed: {computed_hash[:20]}..."
+        )
+
+    return True
+```
+
+## Verifikationsregeln
+
+- `add_audit_hash()` erzeugt ein gespeichertes Event mit `audit_hash`.
+- `verify_audit_event()` prüft gespeicherte Events nach dem Laden aus Parquet.
+- `audit_hash` wird nie in seine eigene Berechnung einbezogen.
+- `audit_schema_version` ist Pflichtfeld und wird mitgehasht.
+- `rule_id` und `asset_id` sind Pflichtfelder, dürfen aber `null` sein.
+- Alle anderen Pflichtfelder müssen vorhanden und nicht `null` sein.
+- NaN und Infinity sind verboten.
+- Decimal- und datetime-Werte müssen vor Hashing als Strings normalisiert sein.
+- Core v1.0 verwendet keine Hash-Chain, keinen Merkle-Baum und kein HMAC.
