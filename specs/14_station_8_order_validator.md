@@ -374,7 +374,6 @@ REJECTED
 6. BLOCKED / TECHNICAL_ERROR -> SAFE_HOLD + STOP.
 7. Kein FORCE_CASH_ONLY in Station 8.
 8. Keine Teilfreigabe: gesamte Orderliste ist binär APPROVED oder REJECTED.
-9. ml_optimized: false.
 
 ## Decimal Context Handling
 
@@ -600,7 +599,6 @@ def normalize_quantity(
   "num_orders_proposed": 2,
   "num_orders_rejected": 0,
   "rejected_order_details": [],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -627,7 +625,6 @@ def normalize_quantity(
       "reason": "Missing side or quantity."
     }
   ],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -653,7 +650,6 @@ def normalize_quantity(
       "reason": "Order size exceeds liquidity limit."
     }
   ],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -682,7 +678,6 @@ def normalize_quantity(
   "num_orders_proposed": 1,
   "num_orders_rejected": 0,
   "rejected_order_details": [],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -716,7 +711,6 @@ def normalize_quantity(
       "reason": "Would require upward adjustment from 47 to 100. Increasing order size is forbidden."
     }
   ],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -747,7 +741,6 @@ def normalize_quantity(
       "reason": "Projected cost threshold exceeded."
     }
   ],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -773,7 +766,6 @@ def normalize_quantity(
       "reason": "Normalized order would exceed approved target exposure."
     }
   ],
-  "ml_optimized": false,
   "audit_hash": "<hash>"
 }
 ```
@@ -986,3 +978,4 @@ Wie:
 Codex implementiert später OrderValidator, Decimal Utility, OrderValidationResult, Broker-Normalisierung, Audit-Events und Unit Tests exakt nach dieser Spezifikation.
 
 Codex darf keine Orders erzeugen, keine Strategie verändern, keine Teilfreigabe einführen und keine Ausführungslogik ergänzen.
+
