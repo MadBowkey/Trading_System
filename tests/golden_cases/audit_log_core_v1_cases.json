@@ -1,0 +1,6 @@
+﻿{
+  "spec": "audit_log_core_v1",
+  "audit_schema_version": "audit_log_core_v1.0",
+  "architecture": "v1.6.1",
+  "cases": []
+}
