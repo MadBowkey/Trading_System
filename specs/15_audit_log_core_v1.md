@@ -653,3 +653,145 @@ Wie:
 Codex implementiert später AuditEvent, AuditLogger, Hash Utility, Parquet Writer, JSON Export, Verifikation und Unit Tests exakt nach dieser Spezifikation.
 
 Codex darf keine ML-Felder, keine Hash-Chain, keinen Merkle-Baum, kein HMAC und keine feldweise Verschlüsselung in Core v1.0 ergänzen.
+
+## Audit-Log-Archivierung Core v1.0
+
+Core v1.0 definiert ein einfaches, robustes und wartbares Archivierungskonzept für Audit-Logs.
+
+Ziel ist langfristige Aufbewahrung bei erhaltener Integrität, einfacher Wiederherstellung und minimaler operativer Komplexität.
+
+## Archivierungsprinzip
+
+Core v1.0 verwendet den Copy-Verify-Retention-Ansatz.
+
+Nicht erlaubt ist ein Move-first-Verfahren.
+
+Archivierung bedeutet:
+
+1. Hot-Daten lesen.
+2. Zielarchiv schreiben.
+3. Zielbestand vollständig oder stichprobenbasiert verifizieren.
+4. Anzahl und Hash-Integrität prüfen.
+5. Quelle nur nach erfolgreicher Prüfung manuell zur Bereinigung freigeben.
+
+## Archiv-Ebenen
+
+| Ebene | Pfad | Zeitraum | Zweck | Komprimierung |
+|---|---|---:|---|---|
+| Hot | audit_logs/core_v1_0/ | ca. 90 Tage | aktuelle Analysen, Debugging, Golden-Case-Prüfung | Snappy |
+| Warm | archive/core_v1_0/year=YYYY/ | ca. 1 Jahr | Reports, Nachanalyse, Backtesting | Snappy oder optional Zstd |
+| Cold | archive/core_v1_0/cold/ | unbegrenzt | langfristige Aufbewahrung | optional Zstd + Parquet |
+
+## Archivierungsregeln
+
+- Core v1.0 löscht keine Audit-Events automatisch.
+- Archivierung ist ein manueller oder später externer Offline-Prozess.
+- Archivierung darf keine Audit-Events inhaltlich verändern.
+- audit_schema_version bleibt unverändert erhalten.
+- audit_hash bleibt unverändert erhalten.
+- Das Parquet-Schema bleibt identisch.
+- Komplexe Felder bleiben in ihrer Core-v1.0-Speicherform erhalten.
+- Vor Archivierung muss das Quellmaterial lesbar sein.
+- Nach Archivierung muss das Zielmaterial verifizierbar sein.
+- Quelle wird nicht automatisch gelöscht.
+- Manuelle Löschung ist erst nach erfolgreicher Zielprüfung zulässig.
+
+## Vertiefter Archivierungsablauf
+
+### 1. Export / Kopie
+
+Events werden aus Hot gelesen.
+
+Filterung kann erfolgen nach:
+
+- year
+- month
+- day
+- run_id
+- station
+- event_type
+
+### 2. Ziel schreiben
+
+Events werden in Warm oder Cold geschrieben.
+
+Dabei bleiben unverändert:
+
+- audit_schema_version
+- audit_hash
+- run_id
+- timestamp
+- station
+- rule_id
+- validator_status
+- system_status
+- pipeline_action
+- asset_id
+- reason
+- event_type
+- event_scope
+- optionale Detailfelder
+
+### 3. Integritätsprüfung
+
+Nach dem Schreiben wird der Zielbestand geprüft.
+
+```python
+for event in archived_events:
+    verify_audit_event(event)
+```
+
+### 4. Zusätzliche Konsistenzprüfung
+
+Zusätzlich zur Hash-Prüfung gilt:
+
+- Anzahl der kopierten Events muss mit der Quellmenge übereinstimmen.
+- Stichproben-Hash-Vergleich ist empfohlen.
+- Für Core v1.0 genügt eine Stichprobe von mindestens 5 Prozent, sofern keine Vollprüfung durchgeführt wird.
+- Bei Abweichung gilt die Archivierung als fehlgeschlagen.
+
+### 5. Freigabe zur Bereinigung
+
+Nur nach erfolgreicher Prüfung darf die Quelle manuell zur Bereinigung freigegeben werden.
+
+Core v1.0 führt keine automatische Löschung aus.
+
+## Empfohlene Offline-Skript-Struktur
+
+```python
+def archive_events(source_path: str, target_path: str, older_than_days: int):
+    """
+    Offline archive process for Core-v1.0 audit logs.
+
+    Steps:
+    1. Filter old events.
+    2. Read source events.
+    3. Write events to archive target.
+    4. Run verify_audit_event() on archived events.
+    5. Compare source and archive event counts.
+    6. Write success protocol and metadata.
+    7. Allow manual cleanup only after successful verification.
+    """
+    pass
+```
+
+## Nicht Teil von Core v1.0
+
+- kein automatischer Scheduler
+- keine automatische Löschung
+- keine Kompressionsumwandlung in der normalen Pipeline
+- keine Hash-Chain
+- kein Merkle-Baum
+- kein HMAC
+- keine feldweise Verschlüsselung
+- kein Move-first-Verfahren
+
+## Review-Fazit
+
+Copy-Verify-Retention ist das verbindliche Archivierungsprinzip für Core v1.0.
+
+Archivierung ist sicher, nachvollziehbar und bewusst offline gehalten.
+
+Hash-Integrität bleibt über verify_audit_event() prüfbar.
+
+Core v1.0 priorisiert Integrität, Wartbarkeit und Wiederherstellbarkeit vor Automatisierung.
