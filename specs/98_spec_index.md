@@ -76,6 +76,9 @@ tests/golden_cases/
 - specs/13_station_7_post_trade_risk_validator.md  
   Enthält die Spezifikation für Station 7 inklusive VAL_PTR_001 bis VAL_PTR_003.
 
+- specs/14_station_8_order_validator.md  
+  Enthält die Spezifikation für Station 8 inklusive VAL_ORD_001 bis VAL_ORD_005.
+
 ### Übergabe
 
 - specs/97_new_chat_handoff_prompt_v1.md  
@@ -118,9 +121,12 @@ tests/golden_cases/
 - tests/golden_cases/station_7_post_trade_risk_validator_cases.json  
   Testfälle für Station 7.
 
+- tests/golden_cases/station_8_order_validator_cases.json  
+  Testfälle für Station 8.
+
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 7 sind lokal dokumentiert.
+Station 1 bis Station 8 sind lokal dokumentiert.
 
 Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
@@ -133,13 +139,14 @@ Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
 Nächster fachlicher Schritt:
 
-Station 8 — Order Validator spezifizieren.
+Audit-Log-Struktur Core v1.0 spezifizieren.
 
 ## Arbeitsregel
 
 Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
 Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+
 
 
 

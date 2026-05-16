@@ -1,0 +1,214 @@
+﻿{
+    "station":  "order_validator",
+    "version":  "v1.0",
+    "architecture":  "v1.6.1",
+    "cases":  [
+                  {
+                      "description":  "Missing required order fields must block the order list.",
+                      "input_payload":  {
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "asset_id":  "QQQ",
+                                                                            "limit_price":  "420.00",
+                                                                            "order_type":  "LIMIT",
+                                                                            "symbol":  "QQQ"
+                                                                        }
+                                                                    ]
+                                        },
+                      "expected_system_status":  "SAFE_HOLD",
+                      "expected_audit_contains":  "Missing side or quantity",
+                      "expected_pipeline_action":  "STOP",
+                      "expected_order_proposal_status":  "REJECTED",
+                      "test_case_id":  "TC_ORD_001",
+                      "expected_validator_status":  "BLOCKED",
+                      "expected_rule_id":  "VAL_ORD_001"
+                  },
+                  {
+                      "description":  "Order exceeding liquidity limit must reject the entire order list.",
+                      "input_payload":  {
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "1000",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "250.00",
+                                                                            "symbol":  "SMH",
+                                                                            "asset_id":  "SMH"
+                                                                        }
+                                                                    ],
+                                            "liquidity_context":  {
+                                                                      "order_size_pct_of_20d_adv":  45,
+                                                                      "max_order_size_pct_of_20d_adv":  5
+                                                                  }
+                                        },
+                      "expected_system_status":  "NO_NEW_ACTIONS",
+                      "expected_audit_contains":  "liquidity limit",
+                      "expected_pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                      "expected_order_proposal_status":  "REJECTED",
+                      "test_case_id":  "TC_ORD_002",
+                      "expected_validator_status":  "REJECTED",
+                      "expected_rule_id":  "VAL_ORD_002"
+                  },
+                  {
+                      "description":  "Harmless BUY limit tick-size normalization must be downgraded but approved.",
+                      "input_payload":  {
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "10",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "123.459",
+                                                                            "symbol":  "SPY",
+                                                                            "asset_id":  "SPY"
+                                                                        }
+                                                                    ],
+                                            "broker_constraints":  {
+                                                                       "tick_size":  "0.01",
+                                                                       "lot_size_increment":  "1"
+                                                                   }
+                                        },
+                      "expected_system_status":  "NORMAL_CONTINUE",
+                      "expected_audit_contains":  "Tick-size rounding",
+                      "expected_original_value":  "123.459",
+                      "expected_enforced_value":  "123.45",
+                      "expected_pipeline_action":  "CONTINUE",
+                      "expected_order_proposal_status":  "APPROVED",
+                      "test_case_id":  "TC_ORD_003",
+                      "expected_validator_status":  "DOWNGRADED",
+                      "expected_rule_id":  "VAL_ORD_003"
+                  },
+                  {
+                      "description":  "Quantity below lot-size increment must reject the entire order list.",
+                      "input_payload":  {
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "47",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "250.00",
+                                                                            "symbol":  "SMH",
+                                                                            "asset_id":  "SMH"
+                                                                        }
+                                                                    ],
+                                            "broker_constraints":  {
+                                                                       "tick_size":  "0.01",
+                                                                       "lot_size_increment":  "100"
+                                                                   }
+                                        },
+                      "expected_system_status":  "NO_NEW_ACTIONS",
+                      "expected_audit_contains":  "Upward quantity adjustment is forbidden",
+                      "expected_pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                      "expected_order_proposal_status":  "REJECTED",
+                      "test_case_id":  "TC_ORD_004",
+                      "expected_validator_status":  "REJECTED",
+                      "expected_rule_id":  "VAL_ORD_003"
+                  },
+                  {
+                      "description":  "Projected slippage and commission above threshold must reject the order list.",
+                      "input_payload":  {
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "10",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "500.00",
+                                                                            "symbol":  "SPY",
+                                                                            "asset_id":  "SPY"
+                                                                        },
+                                                                        {
+                                                                            "quantity":  "5",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "420.00",
+                                                                            "symbol":  "QQQ",
+                                                                            "asset_id":  "QQQ"
+                                                                        }
+                                                                    ],
+                                            "cost_context":  {
+                                                                 "projected_slippage_plus_commission_pct":  0.28,
+                                                                 "max_allowed_cost_pct":  0.2
+                                                             }
+                                        },
+                      "expected_system_status":  "NO_NEW_ACTIONS",
+                      "expected_audit_contains":  "exceeds configured threshold",
+                      "expected_pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                      "expected_order_proposal_status":  "REJECTED",
+                      "test_case_id":  "TC_ORD_005",
+                      "expected_validator_status":  "REJECTED",
+                      "expected_rule_id":  "VAL_ORD_004"
+                  },
+                  {
+                      "description":  "Normalized order list violating Station-7-approved target plan must be rejected.",
+                      "input_payload":  {
+                                            "station_7_approved_target":  {
+                                                                              "max_allowed_target_weight_after_orders":  0.2
+                                                                          },
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "100",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "250.00",
+                                                                            "symbol":  "SMH",
+                                                                            "asset_id":  "SMH"
+                                                                        }
+                                                                    ],
+                                            "normalized_order_projection":  {
+                                                                                "projected_target_weight_after_orders":  0.245
+                                                                            }
+                                        },
+                      "expected_system_status":  "NO_NEW_ACTIONS",
+                      "expected_audit_contains":  "approved target plan",
+                      "expected_pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                      "expected_order_proposal_status":  "REJECTED",
+                      "test_case_id":  "TC_ORD_006",
+                      "expected_validator_status":  "REJECTED",
+                      "expected_rule_id":  "VAL_ORD_005"
+                  },
+                  {
+                      "description":  "Fully valid order list must be approved and allowed to continue to execution simulation.",
+                      "input_payload":  {
+                                            "station_7_approved_target":  {
+                                                                              "plan_compliance":  true
+                                                                          },
+                                            "broker_constraints":  {
+                                                                       "tick_size":  "0.01",
+                                                                       "lot_size_increment":  "1"
+                                                                   },
+                                            "proposed_order_list":  [
+                                                                        {
+                                                                            "quantity":  "10",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "500.00",
+                                                                            "symbol":  "SPY",
+                                                                            "asset_id":  "SPY"
+                                                                        },
+                                                                        {
+                                                                            "quantity":  "5",
+                                                                            "side":  "BUY",
+                                                                            "order_type":  "LIMIT",
+                                                                            "limit_price":  "420.00",
+                                                                            "symbol":  "QQQ",
+                                                                            "asset_id":  "QQQ"
+                                                                        }
+                                                                    ],
+                                            "cost_context":  {
+                                                                 "projected_slippage_plus_commission_pct":  0.05,
+                                                                 "max_allowed_cost_pct":  0.2
+                                                             },
+                                            "liquidity_context":  {
+                                                                      "order_size_pct_of_20d_adv":  1,
+                                                                      "max_order_size_pct_of_20d_adv":  5
+                                                                  }
+                                        },
+                      "expected_system_status":  "NORMAL_CONTINUE",
+                      "expected_audit_contains":  "passed all Station 8 checks",
+                      "expected_pipeline_action":  "CONTINUE",
+                      "expected_order_proposal_status":  "APPROVED",
+                      "test_case_id":  "TC_ORD_007",
+                      "expected_validator_status":  "APPROVED",
+                      "expected_rule_id":  null
+                  }
+              ]
+}

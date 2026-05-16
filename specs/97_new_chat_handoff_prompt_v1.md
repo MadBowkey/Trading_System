@@ -26,8 +26,8 @@ Regime-adaptiver Portfolio-Allocator mit dynamischer Risikosteuerung, deduktiver
 
 Gültiger Stand:
 Architecture v1.6.1.
-Station 1 bis Station 7 der Validierungs-Pipeline sind lokal dokumentiert.
-Nächster fachlicher Schritt ist Station 8 — Order Validator.
+Station 1 bis Station 8 der Validierungs-Pipeline sind lokal dokumentiert.
+Nächster fachlicher Schritt ist Audit-Log-Struktur Core v1.0.
 
 Lokaler Projektpfad beim Benutzer:
 C:\Users\Daily\Documents\TradingSystem\trading_allocator_project
@@ -50,12 +50,14 @@ Nach dem ZIP-Upload bitte zuerst diese Dateien lesen und als verbindliche Projek
 14. specs\11_station_5_market_risk_validator.md
 15. specs\12_station_6_portfolio_engine.md
 16. specs\13_station_7_post_trade_risk_validator.md
+17. specs\14_station_8_order_validator.md
 15. config\rule_registry.yaml
 16. tests\golden_cases\station_3_tsv_cases.json
 17. tests\golden_cases\station_4_blv_cases.json
 18. tests\golden_cases\station_5_mrv_cases.json
 19. tests\golden_cases\station_6_portfolio_engine_cases.json
 20. tests\golden_cases\station_7_post_trade_risk_validator_cases.json
+21. tests\golden_cases\station_8_order_validator_cases.json
 
 Besonders wichtig:
 Station 5 enthält aktuell folgende finalisierte Regeln:
@@ -76,6 +78,13 @@ Station 7 enthält aktuell folgende finalisierte Regeln:
 - VAL_PTR_001 — Single Asset Exposure Limit Breach
 - VAL_PTR_002 — HHI Concentration Limit Breach
 - VAL_PTR_003 — Missing or Invalid Risk Configuration
+
+Station 8 enthält aktuell folgende finalisierte Regeln:
+- VAL_ORD_001 — Technische Order-Integrität
+- VAL_ORD_002 — Liquiditäts-Check
+- VAL_ORD_003 — Broker-/Tick-Size-/Lot-Normalisierung
+- VAL_ORD_004 — Kosten / Slippage
+- VAL_ORD_005 — Normalisierte Orderliste verletzt Zielplan / Post-Trade-Konformität
 Arbeitsregeln:
 - Lokale Specs sind die Single Source of Truth.
 - Nicht aus Erinnerung rekonstruieren.
@@ -97,7 +106,7 @@ Arbeitsregeln:
 Arbeitsstil:
 Erst bestehenden Stand aus den Dateien zusammenfassen.
 Dann sagen, ob der Stand konsistent ist.
-Dann erst mit Station 8 — Order Validator — beginnen.
+Dann erst mit Audit-Log-Struktur Core v1.0 beginnen.
 Bei neuen Vorschlägen immer:
 1. mit bestehender Spezifikation vergleichen,
 2. bewerten,
@@ -112,5 +121,6 @@ Beginne nach dem ZIP-Upload mit:
 ### handoff_prompt.v1 — 2026-05-15
 
 Initiale versionierte Fassung des Übergabe-Prompts.
+
 
 

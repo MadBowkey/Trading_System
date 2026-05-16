@@ -278,3 +278,70 @@
     repair_allowed: false
     mutation_allowed: false
     audit_required: true
+
+  - rule_id: VAL_ORD_001
+    station: 8
+    validator: OrderValidator
+    category: order_input_integrity
+    trigger: "Proposed order list is malformed, incomplete, invalid or missing required fields."
+    validator_status: BLOCKED
+    system_status: SAFE_HOLD
+    pipeline_action: STOP
+    order_proposal_status: REJECTED
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_ORD_002
+    station: 8
+    validator: OrderValidator
+    category: order_liquidity_check
+    trigger: "Proposed order violates configured liquidity, ADV or market-status limits."
+    validator_status: REJECTED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_EXECUTION_SIMULATION
+    order_proposal_status: REJECTED
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_ORD_003
+    station: 8
+    validator: OrderValidator
+    category: broker_tick_lot_normalization
+    trigger: "Proposed order requires broker tick-size, lot-size or minimum-quantity normalization."
+    validator_status: DOWNGRADED_OR_REJECTED
+    system_status: NORMAL_CONTINUE_OR_NO_NEW_ACTIONS
+    pipeline_action: CONTINUE_OR_STOP_BEFORE_EXECUTION_SIMULATION
+    order_proposal_status: APPROVED_OR_REJECTED
+    repair_allowed: true
+    allowed_repair: "Only harmless technical normalization: conservative tick-size rounding, downward lot-size rounding, or plan-neutral zero-order removal. Any non-harmless adjustment rejects the entire order list."
+    mutation_allowed: true
+    mutation_scope: "Technical normalization only. No strategy, side, asset, order type or risk-increasing change."
+    audit_required: true
+
+  - rule_id: VAL_ORD_004
+    station: 8
+    validator: OrderValidator
+    category: order_cost_slippage_check
+    trigger: "Projected slippage, spread costs or commissions exceed configured threshold."
+    validator_status: REJECTED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_EXECUTION_SIMULATION
+    order_proposal_status: REJECTED
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true
+
+  - rule_id: VAL_ORD_005
+    station: 8
+    validator: OrderValidator
+    category: order_plan_compliance
+    trigger: "Normalized order list would violate the Station-7-approved target plan, approved deltas or post-trade constraint."
+    validator_status: REJECTED
+    system_status: NO_NEW_ACTIONS
+    pipeline_action: STOP_BEFORE_EXECUTION_SIMULATION
+    order_proposal_status: REJECTED
+    repair_allowed: false
+    mutation_allowed: false
+    audit_required: true

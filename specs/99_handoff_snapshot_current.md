@@ -43,7 +43,7 @@ Rollen:
 
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 7 sind für den aktuellen Core-v1-Scope lokal dokumentiert.
+Station 1 bis Station 8 sind für den aktuellen Core-v1-Scope lokal dokumentiert.
 
 Station 5 enthält aktuell folgende finalisierte Regeln:
 - VAL_MRV_004A — Asset außerhalb Universe ohne Bestand
@@ -64,6 +64,14 @@ Station 7 enthält aktuell folgende finalisierte Regeln:
 - VAL_PTR_001 — Single Asset Exposure Limit Breach
 - VAL_PTR_002 — HHI Concentration Limit Breach
 - VAL_PTR_003 — Missing or Invalid Risk Configuration
+
+
+Station 8 enthält aktuell folgende finalisierte Regeln:
+- VAL_ORD_001 — Technische Order-Integrität
+- VAL_ORD_002 — Liquiditäts-Check
+- VAL_ORD_003 — Broker-/Tick-Size-/Lot-Normalisierung
+- VAL_ORD_004 — Kosten / Slippage
+- VAL_ORD_005 — Normalisierte Orderliste verletzt Zielplan / Post-Trade-Konformität
 
 Nächster fachlicher Schritt:
 Station 6 — Portfolio Engine spezifizieren.
@@ -103,7 +111,7 @@ Nicht aus dem Chat rekonstruieren, sondern anhand der Specs weiterarbeiten.
 
 Gültiger Stand:
 Architecture v1.6.1.
-Station 1 bis Station 7 sind lokal dokumentiert.
+Station 1 bis Station 8 sind lokal dokumentiert.
 Station 5 enthält VAL_MRV_004A/B/C sowie VAL_MRV_005/006/007.
 Nächster Schritt ist Station 6 Portfolio Engine.
 
@@ -115,5 +123,6 @@ LLM bleibt Meta-Manager.
 Python bleibt finale Validierungs- und Guardrail-Instanz.
 Keine stille Änderung ohne Audit Log.
 Codex erst einsetzen, wenn die Spezifikation freigegeben ist.
+
 
 
