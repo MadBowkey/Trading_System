@@ -795,3 +795,20 @@ Archivierung ist sicher, nachvollziehbar und bewusst offline gehalten.
 Hash-Integrität bleibt über verify_audit_event() prüfbar.
 
 Core v1.0 priorisiert Integrität, Wartbarkeit und Wiederherstellbarkeit vor Automatisierung.
+
+## Golden Cases
+
+Die Golden Cases für Audit-Log Core v1.0 liegen unter:
+
+tests/golden_cases/audit_log_core_v1_cases.json
+
+Sie prüfen insbesondere:
+
+- audit_schema_version
+- Pflichtfelder und nullable Felder
+- Non-Null-Regeln
+- Reason-Limit
+- Hash-Berechnung
+- Hash-Verifikation
+- Hash-Mismatch-Erkennung
+- Audit-Event-Integrität
