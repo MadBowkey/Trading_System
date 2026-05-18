@@ -48,33 +48,37 @@ Für short-fähige SELL-Orders zusätzlich:
 - short_authorization_ref
 - max_authorized_short_quantity optional
 
-## C) Output
+## C) Output / Report Contract
 
-Der Output ist ein strukturiertes, auditierbares Simulationsergebnis.
+Der Output ist ein strukturiertes, auditierbares Simulationsergebnis. Der Execution Simulator gibt genau ein Simulationsergebnis pro run_id und station_8_validation_ref zurück.
 
-Pflichtfelder:
+A) Top-Level-Output: Pflichtfelder sind run_id, simulation_timestamp, station_8_validation_ref, input_order_count, simulated_fills, post_execution_portfolio, execution_report, simulation_status, reason nullable.
 
-- run_id
-- simulation_timestamp
-- station_8_validation_ref
-- input_order_count
-- simulated_fills
-- total_commission
-- total_slippage_cost
-- total_execution_cost
-- post_execution_portfolio
-- execution_report
-- simulation_status
-- reason nullable
+Bei simulation_status = FAILED ist reason nicht nullable und enthält mindestens kurzen technischen Kontext zur Fehlerursache, betroffenen Phase oder fehlenden Datenbasis.
 
-A) simulated_fills je Order: asset_id, source_order_ref, side, fill_status, filled_quantity, fill_price, fill_timestamp, slippage_per_unit.
+B) simulated_fills: Jeder simulierte Fill enthält station_8_validation_ref, asset_id, symbol, source_order_ref, side, order_type, requested_quantity, filled_quantity, fill_status, fill_price nullable, fill_timestamp, slippage_per_unit, commission, execution_cost, reason nullable.
 
-B) post_execution_portfolio: cash_after, positions, total_portfolio_value, asset_weight, cash_weight, effective_exposure, effective_leverage, HHI, max_single_asset_exposure_pct.
+fill_status: FULL – vollständig simuliert, PARTIAL – teilweise simuliert, NO_FILL – korrekt simuliert ohne Ausführung, FAILED – nicht belastbar simulierbar.
 
-C) execution_report: turnover_pct, estimated_pnl_impact, fill_rate_avg, slippage_summary, Kostenübersicht.
+Traceability-Regel: station_8_validation_ref + source_order_ref verweist eindeutig auf validated_order_list[].order_ref innerhalb der zugehörigen Station-8-Validierung.
 
-Persistenz: Decimal-Werte runtime erlaubt, gespeichert als String. Timestamps als UTC-ISO-String.
+C) post_execution_portfolio: Pflichtfelder sind cash_after, positions, total_portfolio_value, asset_weight, cash_weight, effective_exposure, effective_leverage, HHI, max_single_asset_exposure_pct.
 
+Konsistenzregel: post_execution_portfolio.total_portfolio_value = cash_after + Summe(position_market_values). Wenn diese Gleichung nicht belastbar herstellbar ist: simulation_status = FAILED.
+
+D) execution_report: Pflichtfelder sind turnover_pct, fill_rate_avg, filled_order_count, partial_fill_count, no_fill_count, failed_fill_count, total_commission, total_slippage_cost, total_execution_cost, estimated_pnl_impact, slippage_summary, cost_summary, reason_summary nullable.
+
+simulation_status: SUCCESS – alle Orders FULL, PARTIAL – mindestens PARTIAL oder NO_FILL und kein FAILED, FAILED – mindestens ein FAILED oder globale Simulationsbasis unbrauchbar.
+
+E) FAILED-Output: Auch bei simulation_status = FAILED muss ein minimal auditierbarer Output erzeugt werden: run_id, simulation_timestamp, station_8_validation_ref nullable, input_order_count nullable, simulation_status = FAILED, reason, execution_report.
+
+FAILED darf Station 8 nicht invalidieren, keinen Pipeline-Stopp erzeugen und keinen Systemstatus setzen.
+
+F) Audit-Referenzen: Große Detailobjekte werden nicht vollständig ins Audit-Summary-Event geschrieben. Audit-Summary enthält station_8_validation_ref, simulation_timestamp, simulation_status, input_order_count, full_fill_count, partial_fill_count, no_fill_count, failed_fill_count, total_execution_cost, execution_report_ref.
+
+execution_report_ref und andere Detailreferenzen müssen stabil und später auflösbar sein, z. B. über run_id + Suffix oder UUID.
+
+Persistenz: Decimal-Werte dürfen zur Laufzeit numerisch berechnet werden, werden aber persistiert als String. Timestamps werden als UTC-ISO-String persistiert. Große Listen bleiben im Detailreport, nicht im Audit-Summary.
 ## D) Simulationsannahmen
 
 Der Simulator lädt keine Live-Daten nach. Alle Berechnungen erfolgen sofortig zum simulation_timestamp auf Basis des market_data_snapshot.
@@ -292,6 +296,22 @@ G) TC_EXEC_007 — Technischer Simulationsfehler / fehlende Pflichtreferenz: feh
 
 H) TC_EXEC_008 — Audit-Hash & Portfolio-Konsistenz: gültiges Simulationsergebnis. Erwartung: audit_hash korrekt, verify_audit_event() erfolgreich, validator_status = PASS, simulation_status separat vorhanden, Portfolio-Konsistenzregel erfüllt.
 
+## K) Order-/Fill-Rückverfolgbarkeit
+
+A) station_8_validation_ref: Referenziert die von Station 8 freigegebene Orderliste.
+
+B) validated_order_list[].order_ref: Pflichtfeld je validierter Order. order_ref ist innerhalb station_8_validation_ref eindeutig.
+
+C) simulated_fills[].station_8_validation_ref: Pflichtfeld je simuliertem Fill und identisch mit der zugehörigen Station-8-Validierung.
+
+D) simulated_fills[].source_order_ref: Pflichtfeld je simuliertem Fill. source_order_ref verweist auf validated_order_list[].order_ref innerhalb derselben station_8_validation_ref.
+
+E) Referenzkette: station_8_validation_ref → validated_order_list[].order_ref → simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref.
+
+F) Eindeutigkeitsregel: station_8_validation_ref + source_order_ref verweist eindeutig auf die validierte Ursprungsorder aus Station 8.
+
+G) Zweck: Jeder simulierte Fill muss eindeutig auf die von Station 8 validierte Ursprungsorder zurückführbar sein.
+
 ## L) Codex-Hinweis
 
 Codex implementiert später Execution Simulator, Fill-Simulation, Cash-/Positionsfortschreibung, Kostenberechnung, Portfolio-Projektion, Audit-Event-Erzeugung und Golden Cases exakt nach dieser Spezifikation.
@@ -305,15 +325,3 @@ Codex darf nicht ergänzen:
 - Pipeline-Systemstatus-Wechsel
 - implizite Margin-/Borrowing-Annahmen
 - nicht validierte Short-Erzeugung
-
-## K) Order-/Fill-Rückverfolgbarkeit
-
-A) station_8_validation_ref: Referenziert die von Station 8 freigegebene Orderliste.
-
-B) validated_order_list[].order_ref: Pflichtfeld je validierter Order. order_ref ist innerhalb station_8_validation_ref eindeutig.
-
-C) simulated_fills[].source_order_ref: Pflichtfeld je simuliertem Fill. source_order_ref verweist exakt auf validated_order_list[].order_ref.
-
-D) Referenzkette: station_8_validation_ref → validated_order_list[].order_ref → simulated_fills[].source_order_ref.
-
-E) Zweck: Jeder simulierte Fill muss eindeutig auf die von Station 8 validierte Ursprungsorder zurückführbar sein.
