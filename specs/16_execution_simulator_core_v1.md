@@ -34,6 +34,7 @@ validated_order_list enthält ausschließlich Orders, die durch Station 8 freige
 Mindestfelder pro Order:
 
 - asset_id
+- order_ref
 - symbol
 - side
 - order_type
@@ -66,7 +67,7 @@ Pflichtfelder:
 - simulation_status
 - reason nullable
 
-A) simulated_fills je Order: asset_id, side, fill_status, filled_quantity, fill_price, fill_timestamp, slippage_per_unit.
+A) simulated_fills je Order: asset_id, source_order_ref, side, fill_status, filled_quantity, fill_price, fill_timestamp, slippage_per_unit.
 
 B) post_execution_portfolio: cash_after, positions, total_portfolio_value, asset_weight, cash_weight, effective_exposure, effective_leverage, HHI, max_single_asset_exposure_pct.
 
@@ -291,7 +292,7 @@ G) TC_EXEC_007 — Technischer Simulationsfehler / fehlende Pflichtreferenz: feh
 
 H) TC_EXEC_008 — Audit-Hash & Portfolio-Konsistenz: gültiges Simulationsergebnis. Erwartung: audit_hash korrekt, verify_audit_event() erfolgreich, validator_status = PASS, simulation_status separat vorhanden, Portfolio-Konsistenzregel erfüllt.
 
-## K) Codex-Hinweis
+## L) Codex-Hinweis
 
 Codex implementiert später Execution Simulator, Fill-Simulation, Cash-/Positionsfortschreibung, Kostenberechnung, Portfolio-Projektion, Audit-Event-Erzeugung und Golden Cases exakt nach dieser Spezifikation.
 
@@ -304,3 +305,15 @@ Codex darf nicht ergänzen:
 - Pipeline-Systemstatus-Wechsel
 - implizite Margin-/Borrowing-Annahmen
 - nicht validierte Short-Erzeugung
+
+## K) Order-/Fill-Rückverfolgbarkeit
+
+A) station_8_validation_ref: Referenziert die von Station 8 freigegebene Orderliste.
+
+B) validated_order_list[].order_ref: Pflichtfeld je validierter Order. order_ref ist innerhalb station_8_validation_ref eindeutig.
+
+C) simulated_fills[].source_order_ref: Pflichtfeld je simuliertem Fill. source_order_ref verweist exakt auf validated_order_list[].order_ref.
+
+D) Referenzkette: station_8_validation_ref → validated_order_list[].order_ref → simulated_fills[].source_order_ref.
+
+E) Zweck: Jeder simulierte Fill muss eindeutig auf die von Station 8 validierte Ursprungsorder zurückführbar sein.

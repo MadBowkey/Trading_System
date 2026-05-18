@@ -979,3 +979,12 @@ Codex implementiert später OrderValidator, Decimal Utility, OrderValidationResu
 
 Codex darf keine Orders erzeugen, keine Strategie verändern, keine Teilfreigabe einführen und keine Ausführungslogik ergänzen.
 
+## Station-8-Freigabereferenz und Order-Referenzen
+
+A) station_8_validation_ref: Pflichtfeld im APPROVED-Output. Es referenziert die konkrete Station-8-Freigabe der validierten Orderliste.
+
+B) validated_order_list[].order_ref: Pflichtfeld je freigegebener Order. Jede freigegebene Order erhält eine eindeutige Referenz.
+
+C) Eindeutigkeitsregel: order_ref ist innerhalb einer station_8_validation_ref eindeutig.
+
+D) Zweck: Execution Simulator und Audit-Log können eindeutig nachvollziehen, welcher simulierte Fill auf welche von Station 8 validierte Order zurückgeht.

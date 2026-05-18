@@ -208,7 +208,19 @@
                       "expected_order_proposal_status":  "APPROVED",
                       "test_case_id":  "TC_ORD_007",
                       "expected_validator_status":  "APPROVED",
-                      "expected_rule_id":  null
+                      "expected_rule_id":  null,
+                      "expected_station_8_validation_ref":  "station8_val_TC_ORD_007",
+                      "expected_validated_order_list":  [
+                                                            {
+                                                                "order_ref":  "TC_ORD_007_ORDER_001",
+                                                                "asset_id":  "SPY"
+                                                            },
+                                                            {
+                                                                "order_ref":  "TC_ORD_007_ORDER_002",
+                                                                "asset_id":  "QQQ"
+                                                            }
+                                                        ],
+                      "expected_order_ref_uniqueness_scope":  "within station_8_validation_ref"
                   }
               ]
 }

@@ -1,183 +1,221 @@
 ﻿{
-  "spec": "audit_log_core_v1",
-  "audit_schema_version": "audit_log_core_v1.0",
-  "architecture": "v1.6.1",
-  "cases": [
-    {
-      "test_case_id": "TC_AUD_001",
-      "description": "Valid audit event receives deterministic sha256 audit_hash.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": "run_20260516_013045_078",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "Order requires lot-size increase - forbidden",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": true,
-        "audit_hash_prefix": "sha256:",
-        "original_event_unchanged": true
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_002",
-      "description": "Missing audit_schema_version must be rejected with precise error.",
-      "input_event": {
-        "run_id": "run_20260516_013045_078",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "Order requires lot-size increase - forbidden",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "Missing required field: audit_schema_version"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_003",
-      "description": "Wrong audit_schema_version must be rejected.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v2.0",
-        "run_id": "run_20260516_013045_078",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "Order requires lot-size increase - forbidden",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "Unsupported audit_schema_version"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_004",
-      "description": "Nullable rule_id and asset_id must be allowed when fields are present.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": "run_20260516_013045_079",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": null,
-        "validator_status": "APPROVED",
-        "system_status": "NORMAL_CONTINUE",
-        "pipeline_action": "CONTINUE",
-        "asset_id": null,
-        "reason": "Proposed order list passed all Station 8 checks.",
-        "event_type": "ORDER_LIST_APPROVED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": true,
-        "audit_hash_prefix": "sha256:"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_005",
-      "description": "Missing nullable field rule_id must still be rejected because the field must be present.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": "run_20260516_013045_079",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "validator_status": "APPROVED",
-        "system_status": "NORMAL_CONTINUE",
-        "pipeline_action": "CONTINUE",
-        "asset_id": null,
-        "reason": "Proposed order list passed all Station 8 checks.",
-        "event_type": "ORDER_LIST_APPROVED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "Missing required field: rule_id"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_006",
-      "description": "Non-nullable field run_id must not be null.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": null,
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "Order requires lot-size increase - forbidden",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "Required field must not be null: run_id"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_007",
-      "description": "Reason longer than 300 characters must be rejected.",
-      "input_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": "run_20260516_013045_080",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "reason must not exceed 300 characters"
-      }
-    },
-    {
-      "test_case_id": "TC_AUD_008",
-      "description": "Stored event with changed reason after hashing must fail verification.",
-      "stored_event": {
-        "audit_schema_version": "audit_log_core_v1.0",
-        "run_id": "run_20260516_013045_081",
-        "timestamp": "2026-05-16T01:30:45.123Z",
-        "station": "Station_8_OrderValidator",
-        "rule_id": "VAL_ORD_003",
-        "validator_status": "REJECTED",
-        "system_status": "NO_NEW_ACTIONS",
-        "pipeline_action": "STOP_BEFORE_EXECUTION_SIMULATION",
-        "asset_id": "SMH",
-        "reason": "Changed reason after hashing",
-        "event_type": "RULE_REJECTED",
-        "event_scope": "ORDER_LIST",
-        "audit_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-      },
-      "expected_result": {
-        "valid": false,
-        "expected_error_contains": "Audit hash mismatch"
-      }
-    }
-  ]
+    "spec":  "audit_log_core_v1",
+    "audit_schema_version":  "audit_log_core_v1.0",
+    "architecture":  "v1.6.1",
+    "cases":  [
+                  {
+                      "test_case_id":  "TC_AUD_001",
+                      "description":  "Valid audit event receives deterministic sha256 audit_hash.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  "run_20260516_013045_078",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  "VAL_ORD_003",
+                                          "validator_status":  "REJECTED",
+                                          "system_status":  "NO_NEW_ACTIONS",
+                                          "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                          "asset_id":  "SMH",
+                                          "reason":  "Order requires lot-size increase - forbidden",
+                                          "event_type":  "RULE_REJECTED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  true,
+                                              "audit_hash_prefix":  "sha256:",
+                                              "original_event_unchanged":  true
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_002",
+                      "description":  "Missing audit_schema_version must be rejected with precise error.",
+                      "input_event":  {
+                                          "run_id":  "run_20260516_013045_078",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  "VAL_ORD_003",
+                                          "validator_status":  "REJECTED",
+                                          "system_status":  "NO_NEW_ACTIONS",
+                                          "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                          "asset_id":  "SMH",
+                                          "reason":  "Order requires lot-size increase - forbidden",
+                                          "event_type":  "RULE_REJECTED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "Missing required field: audit_schema_version"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_003",
+                      "description":  "Wrong audit_schema_version must be rejected.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v2.0",
+                                          "run_id":  "run_20260516_013045_078",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  "VAL_ORD_003",
+                                          "validator_status":  "REJECTED",
+                                          "system_status":  "NO_NEW_ACTIONS",
+                                          "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                          "asset_id":  "SMH",
+                                          "reason":  "Order requires lot-size increase - forbidden",
+                                          "event_type":  "RULE_REJECTED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "Unsupported audit_schema_version"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_004",
+                      "description":  "Nullable rule_id and asset_id must be allowed when fields are present.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  "run_20260516_013045_079",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  null,
+                                          "validator_status":  "APPROVED",
+                                          "system_status":  "NORMAL_CONTINUE",
+                                          "pipeline_action":  "CONTINUE",
+                                          "asset_id":  null,
+                                          "reason":  "Proposed order list passed all Station 8 checks.",
+                                          "event_type":  "ORDER_LIST_APPROVED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  true,
+                                              "audit_hash_prefix":  "sha256:"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_005",
+                      "description":  "Missing nullable field rule_id must still be rejected because the field must be present.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  "run_20260516_013045_079",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "validator_status":  "APPROVED",
+                                          "system_status":  "NORMAL_CONTINUE",
+                                          "pipeline_action":  "CONTINUE",
+                                          "asset_id":  null,
+                                          "reason":  "Proposed order list passed all Station 8 checks.",
+                                          "event_type":  "ORDER_LIST_APPROVED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "Missing required field: rule_id"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_006",
+                      "description":  "Non-nullable field run_id must not be null.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  null,
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  "VAL_ORD_003",
+                                          "validator_status":  "REJECTED",
+                                          "system_status":  "NO_NEW_ACTIONS",
+                                          "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                          "asset_id":  "SMH",
+                                          "reason":  "Order requires lot-size increase - forbidden",
+                                          "event_type":  "RULE_REJECTED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "Required field must not be null: run_id"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_007",
+                      "description":  "Reason longer than 300 characters must be rejected.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  "run_20260516_013045_080",
+                                          "timestamp":  "2026-05-16T01:30:45.123Z",
+                                          "station":  "Station_8_OrderValidator",
+                                          "rule_id":  "VAL_ORD_003",
+                                          "validator_status":  "REJECTED",
+                                          "system_status":  "NO_NEW_ACTIONS",
+                                          "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                          "asset_id":  "SMH",
+                                          "reason":  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                          "event_type":  "RULE_REJECTED",
+                                          "event_scope":  "ORDER_LIST"
+                                      },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "reason must not exceed 300 characters"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_008",
+                      "description":  "Stored event with changed reason after hashing must fail verification.",
+                      "stored_event":  {
+                                           "audit_schema_version":  "audit_log_core_v1.0",
+                                           "run_id":  "run_20260516_013045_081",
+                                           "timestamp":  "2026-05-16T01:30:45.123Z",
+                                           "station":  "Station_8_OrderValidator",
+                                           "rule_id":  "VAL_ORD_003",
+                                           "validator_status":  "REJECTED",
+                                           "system_status":  "NO_NEW_ACTIONS",
+                                           "pipeline_action":  "STOP_BEFORE_EXECUTION_SIMULATION",
+                                           "asset_id":  "SMH",
+                                           "reason":  "Changed reason after hashing",
+                                           "event_type":  "RULE_REJECTED",
+                                           "event_scope":  "ORDER_LIST",
+                                           "audit_hash":  "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                                       },
+                      "expected_result":  {
+                                              "valid":  false,
+                                              "expected_error_contains":  "Audit hash mismatch"
+                                          }
+                  },
+                  {
+                      "test_case_id":  "TC_AUD_009",
+                      "description":  "Execution Simulator audit event is audit-compatible and hashable.",
+                      "input_event":  {
+                                          "audit_schema_version":  "audit_log_core_v1.0",
+                                          "run_id":  "run_20260517_020000_001",
+                                          "timestamp":  "2026-05-17T02:00:00.000Z",
+                                          "station":  "ExecutionSimulator",
+                                          "rule_id":  null,
+                                          "validator_status":  "PASS",
+                                          "system_status":  "NORMAL_CONTINUE",
+                                          "pipeline_action":  "CONTINUE",
+                                          "asset_id":  null,
+                                          "reason":  "Execution simulation completed with SUCCESS.",
+                                          "event_type":  "EXECUTION_SIMULATION_SUCCESS",
+                                          "event_scope":  "ORDER_LIST",
+                                          "station_8_validation_ref":  "station8_val_TC_EXEC_001",
+                                          "simulation_status":  "SUCCESS",
+                                          "input_order_count":  1,
+                                          "full_fill_count":  1,
+                                          "partial_fill_count":  0,
+                                          "no_fill_count":  0,
+                                          "failed_fill_count":  0,
+                                          "total_execution_cost":  "1.25",
+                                          "total_commission":  "1.00",
+                                          "total_slippage_cost":  "0.25",
+                                          "execution_report_ref":  "execution_reports/run_20260517_020000_001.json",
+                                          "post_execution_portfolio_ref":  "portfolio_snapshots/run_20260517_020000_001_post_execution.json"
+                                      },
+                      "expected_result":  {
+                                              "valid":  true,
+                                              "audit_hash_prefix":  "sha256:",
+                                              "verify_audit_event_success":  true,
+                                              "validator_status":  "PASS",
+                                              "simulation_status_separate":  true,
+                                              "no_pipeline_impact":  true
+                                          }
+                  }
+              ]
 }

@@ -1,126 +1,48 @@
 ﻿# New Chat Handoff Prompt v1
 
-Status: CURRENT
-Prompt Version: handoff_prompt.v1
-Architecture: v1.6.1
-Last updated: 2026-05-15
-Owner: Trading System Project
+Wir arbeiten im Projekt Trading System.
 
-## Zweck
+Bitte nutze den hochgeladenen vollständigen Projektstand als Wahrheit. Keine Annahmen erfinden und keine nicht konsolidierten ZIP-/Patch-/Handoff-Stände als Wahrheit behandeln.
 
-Diese Datei enthält den verbindlichen Übergabe-Prompt für einen neuen Chat, falls der aktuelle Chat endet oder die maximale Chatlänge erreicht wird.
+## Arbeitsmodus
 
-Der neue Chat darf nicht aus Erinnerung oder aus dem alten Chat rekonstruieren, sondern muss nach Upload des Projekt-ZIP aus den lokalen Spezifikationsdateien arbeiten.
+A) Wir arbeiten primär auf Spezifikationsebene.
+B) Fokus: Form, Struktur, Schnittstellen, Regeln, Statuslogik, Architekturgrenzen, Parameter und Golden Cases.
+C) Code nur sparsam als Referenz/Pseudocode, wenn absolute Eindeutigkeit notwendig ist.
+D) Implementierung bleibt später Codex überlassen.
+E) Spezifikationen kompakt, menschenlesbar und ohne Redundanz formulieren.
 
-## Übergabe-Prompt
+## Aktueller Stand
 
-Wir setzen das Trading-System-Projekt fort.
+A) Station 8 — Order Validator
+Abgeschlossen und konsolidiert um station_8_validation_ref sowie validated_order_list[].order_ref.
 
-Wichtig:
-Ich lade gleich das aktuelle Projekt-ZIP hoch.
-Der neue Chat kann lokale Windows-Pfade nicht selbst lesen.
-Arbeite daher ausschließlich aus den hochgeladenen Dateien, nicht aus Erinnerung und nicht aus dem alten Chat.
+B) Audit-Log Core v1.0
+Abgeschlossen und erweitert um audit-kompatible Execution-Simulator-Events.
 
-Projekt:
-Regime-adaptiver Portfolio-Allocator mit dynamischer Risikosteuerung, deduktiver Finanzlogik und LLM-Meta-Manager.
+C) Execution Simulator Core v1.0
+Status: DRAFT. Enthält Input/Output, Simulationsannahmen, Fill-Regeln, Cash/Portfolio/Liquidität, Short-Regeln, Statuslogik, Audit-Anbindung und Golden Cases.
 
-Gültiger Stand:
-Architecture v1.6.1.
-Station 1 bis Station 8 der Validierungs-Pipeline sind lokal dokumentiert.
-Nächster fachlicher Schritt ist Audit-Log-Struktur Core v1.0.
+## Wichtige Dateien
 
-Lokaler Projektpfad beim Benutzer:
-C:\Users\Daily\Documents\TradingSystem\trading_allocator_project
+- specs/14_station_8_order_validator.md
+- specs/15_audit_log_core_v1.md
+- specs/16_execution_simulator_core_v1.md
+- specs/98_spec_index.md
+- specs/99_handoff_snapshot_current.md
+- tests/golden_cases/station_8_order_validator_cases.json
+- tests/golden_cases/audit_log_core_v1_cases.json
+- tests/golden_cases/execution_simulator_core_v1_cases.json
 
-Nach dem ZIP-Upload bitte zuerst diese Dateien lesen und als verbindliche Projektgrundlage behandeln:
+## Wichtige Regeln
 
-1. specs\98_spec_index.md
-2. specs\99_handoff_snapshot_current.md
-3. specs\00_project_overview_v1_6_1.md
-4. specs\01_architecture_overview_v1_6_1.md
-5. specs\02_llm_output_schema_v1.md
-6. specs\03_risk_metrics_v1.md
-7. specs\04_guardrails_v1.md
-8. specs\05_deductive_rules_v1.md
-9. specs\06_validator_pipeline_v1.md
-10. specs\07_station_1_pre_llm_validator.md
-11. specs\08_station_2_llm_meta_manager.md
-12. specs\09_station_3_technical_schema_validator.md
-13. specs\10_station_4_business_logic_validator.md
-14. specs\11_station_5_market_risk_validator.md
-15. specs\12_station_6_portfolio_engine.md
-16. specs\13_station_7_post_trade_risk_validator.md
-17. specs\14_station_8_order_validator.md
-15. config\rule_registry.yaml
-16. tests\golden_cases\station_3_tsv_cases.json
-17. tests\golden_cases\station_4_blv_cases.json
-18. tests\golden_cases\station_5_mrv_cases.json
-19. tests\golden_cases\station_6_portfolio_engine_cases.json
-20. tests\golden_cases\station_7_post_trade_risk_validator_cases.json
-21. tests\golden_cases\station_8_order_validator_cases.json
+A) Execution Simulator ist keine Station 9.
+B) Keine Pipelinewirkung durch Simulator-FAILED.
+C) Eigene Execution-Event-Typen bleiben erhalten: EXECUTION_SIMULATION_SUCCESS, EXECUTION_SIMULATION_PARTIAL, EXECUTION_SIMULATION_FAILED.
+D) Keine Zuordnung auf RULE_PASS, RULE_REJECTED oder TECHNICAL_ERROR.
+E) validator_status = PASS bleibt neutral; simulation_status wird separat geführt.
+F) Rückverfolgbarkeit: station_8_validation_ref → validated_order_list[].order_ref → simulated_fills[].source_order_ref.
 
-Besonders wichtig:
-Station 5 enthält aktuell folgende finalisierte Regeln:
-- VAL_MRV_004A — Asset außerhalb Universe ohne Bestand
-- VAL_MRV_004B — Asset außerhalb Universe mit Altbestand und INCREASE
-- VAL_MRV_004C — Asset außerhalb Universe mit Altbestand und HOLD / DECREASE / LIQUIDATE
-- VAL_MRV_005 — Asset Confidence Threshold
-- VAL_MRV_006 — Regime Shift Risk Blocks Increase
-- VAL_MRV_007 — Correlated Pair No Double Increase
+## Nächster Schritt
 
-
-Station 6 enthält aktuell folgende finalisierte Regeln:
-- VAL_ENG_001 — Feasibility Check
-- VAL_ENG_002 — Summen-Integrität
-- VAL_ENG_003 — Input- und Datenintegrität
-
-Station 7 enthält aktuell folgende finalisierte Regeln:
-- VAL_PTR_001 — Single Asset Exposure Limit Breach
-- VAL_PTR_002 — HHI Concentration Limit Breach
-- VAL_PTR_003 — Missing or Invalid Risk Configuration
-
-Station 8 enthält aktuell folgende finalisierte Regeln:
-- VAL_ORD_001 — Technische Order-Integrität
-- VAL_ORD_002 — Liquiditäts-Check
-- VAL_ORD_003 — Broker-/Tick-Size-/Lot-Normalisierung
-- VAL_ORD_004 — Kosten / Slippage
-- VAL_ORD_005 — Normalisierte Orderliste verletzt Zielplan / Post-Trade-Konformität
-Arbeitsregeln:
-- Lokale Specs sind die Single Source of Truth.
-- Nicht aus Erinnerung rekonstruieren.
-- Vorschläge nicht automatisch übernehmen.
-- Neue Vorschläge gegen Architecture v1.6.1 prüfen.
-- SAFE_HOLD und CASH_ONLY strikt trennen.
-- Technischer Fehler → SAFE_HOLD / NO_NEW_ACTIONS.
-- Echtes Markt-/Risk-Event → FORCE_CASH_ONLY / BLOCK_RISK_INCREASE / kontrollierte Risikoreduktion.
-- LLM bleibt Meta-Manager, nicht Trading-Bot.
-- Python bleibt finale Validierungs-, Guardrail-, Portfolio- und Simulationsinstanz.
-- Risk Metrics sind Warnsignale.
-- Guardrails sind binäre Python-Sperren.
-- Keine stille Änderung ohne Audit Log.
-- Keine eigenmächtige Liquidation durch Validatoren.
-- Keine automatische Universe-Erweiterung.
-- Keine automatische Live-Parameteroptimierung.
-- Codex erst einsetzen, wenn eine Spezifikation freigegeben ist.
-
-Arbeitsstil:
-Erst bestehenden Stand aus den Dateien zusammenfassen.
-Dann sagen, ob der Stand konsistent ist.
-Dann erst mit Audit-Log-Struktur Core v1.0 beginnen.
-Bei neuen Vorschlägen immer:
-1. mit bestehender Spezifikation vergleichen,
-2. bewerten,
-3. ggf. korrigieren,
-4. finale Fassung vorschlagen.
-
-Beginne nach dem ZIP-Upload mit:
-„Ich prüfe zuerst die hochgeladenen Spezifikationsdateien und bestätige den aktuellen Stand vor Station 6.“
-
-## Änderungsprotokoll
-
-### handoff_prompt.v1 — 2026-05-15
-
-Initiale versionierte Fassung des Übergabe-Prompts.
-
-
-
+Zuerst projektübergreifende Konsistenzprüfung durchführen. Erst danach Git aktualisieren und finales vollständiges Projekt-ZIP erstellen.

@@ -79,6 +79,18 @@ Diese Felder werden nur verwendet, wenn sie fachlich relevant sind.
 | num_orders_rejected | int / null | Station 8 |
 | order_proposal_status | string / null | Station 8: APPROVED / REJECTED |
 | rejected_order_details | string / null | Station 8: JSON-Array als String |
+| station_8_validation_ref | string / null | Execution Simulator: Referenz zur Station-8-Freigabe |
+| simulation_status | string / null | Execution Simulator: SUCCESS / PARTIAL / FAILED |
+| input_order_count | int / null | Execution Simulator: Anzahl simulierter Orders |
+| full_fill_count | int / null | Execution Simulator: vollständig gefüllte Orders |
+| partial_fill_count | int / null | Execution Simulator: teilweise gefüllte Orders |
+| no_fill_count | int / null | Execution Simulator: nicht gefüllte Orders |
+| failed_fill_count | int / null | Execution Simulator: nicht simulierbare Orders |
+| total_execution_cost | string / null | Execution Simulator: Gesamtkosten als Decimal-String |
+| total_commission | string / null | Execution Simulator: Gebühren als Decimal-String |
+| total_slippage_cost | string / null | Execution Simulator: Slippage-Kosten als Decimal-String |
+| execution_report_ref | string / null | Execution Simulator: Referenz auf vollständigen Execution Report |
+| post_execution_portfolio_ref | string / null | Execution Simulator: Referenz auf simulierten Portfoliozustand |
 
 ## Grundregeln
 
@@ -315,7 +327,19 @@ AUDIT_LOG_SCHEMA_CORE_V1_0 = pa.schema([
     pa.field("num_orders_proposed", pa.int64(), nullable=True),
     pa.field("num_orders_rejected", pa.int64(), nullable=True),
     pa.field("order_proposal_status", pa.string(), nullable=True),
-    pa.field("rejected_order_details", pa.string(), nullable=True)
+    pa.field("rejected_order_details", pa.string(), nullable=True),
+    pa.field("station_8_validation_ref", pa.string(), nullable=True),
+    pa.field("simulation_status", pa.string(), nullable=True),
+    pa.field("input_order_count", pa.int64(), nullable=True),
+    pa.field("full_fill_count", pa.int64(), nullable=True),
+    pa.field("partial_fill_count", pa.int64(), nullable=True),
+    pa.field("no_fill_count", pa.int64(), nullable=True),
+    pa.field("failed_fill_count", pa.int64(), nullable=True),
+    pa.field("total_execution_cost", pa.string(), nullable=True),
+    pa.field("total_commission", pa.string(), nullable=True),
+    pa.field("total_slippage_cost", pa.string(), nullable=True),
+    pa.field("execution_report_ref", pa.string(), nullable=True),
+    pa.field("post_execution_portfolio_ref", pa.string(), nullable=True)
 ])
 ```
 
@@ -410,6 +434,18 @@ Diese Tabelle legt fest, wie Audit-Felder zwischen Python, JSON, Parquet und Gol
 | num_orders_rejected | int oder None | number oder null | nullable int64 | exakter Vergleich |
 | order_proposal_status | str oder None | string oder null | nullable string | exakter Vergleich |
 | rejected_order_details | list zur Laufzeit, JSON-String bei Speicherung | array oder string-exportiert | nullable string | nach JSON-Deserialisierung prüfbar |
+| station_8_validation_ref | str oder None | string oder null | nullable string | Referenz zur Station-8-Freigabe |
+| simulation_status | str oder None | string oder null | nullable string | SUCCESS / PARTIAL / FAILED |
+| input_order_count | int oder None | number oder null | nullable int64 | Anzahl simulierter Orders |
+| full_fill_count | int oder None | number oder null | nullable int64 | vollständig gefüllte Orders |
+| partial_fill_count | int oder None | number oder null | nullable int64 | teilweise gefüllte Orders |
+| no_fill_count | int oder None | number oder null | nullable int64 | nicht gefüllte Orders |
+| failed_fill_count | int oder None | number oder null | nullable int64 | nicht simulierbare Orders |
+| total_execution_cost | str oder None | string oder null | nullable string | Decimal-String |
+| total_commission | str oder None | string oder null | nullable string | Decimal-String |
+| total_slippage_cost | str oder None | string oder null | nullable string | Decimal-String |
+| execution_report_ref | str oder None | string oder null | nullable string | Referenz auf vollständigen Execution Report |
+| post_execution_portfolio_ref | str oder None | string oder null | nullable string | Referenz auf simulierten Portfoliozustand |
 
 ## Kompatibilitätsregeln
 
@@ -812,3 +848,21 @@ Sie prüfen insbesondere:
 - Hash-Verifikation
 - Hash-Mismatch-Erkennung
 - Audit-Event-Integrität
+
+## Audit-kompatible Execution-Simulator-Events nach Station 8
+
+A) Zweck: Der Execution Simulator darf nach Station 8 eigene Audit-Events in Audit-Log Core v1.0 schreiben.
+
+B) Abgrenzung: Diese Events sind keine Station-1-bis-8-Validierungsereignisse, keine Station 9 und keine Pipeline-Steuerung.
+
+C) Eigene Event-Typen: EXECUTION_SIMULATION_SUCCESS, EXECUTION_SIMULATION_PARTIAL, EXECUTION_SIMULATION_FAILED.
+
+D) Kein Mapping: Execution-Simulator-Ergebnisse werden nicht auf RULE_PASS, RULE_REJECTED oder TECHNICAL_ERROR gemappt.
+
+E) Statusregeln: validator_status bleibt PASS. simulation_status wird separat geführt. system_status bleibt NORMAL_CONTINUE. pipeline_action bleibt CONTINUE.
+
+F) FAILED-Regel: EXECUTION_SIMULATION_FAILED bedeutet nur, dass die Simulation nicht belastbar war. Es invalidiert Station 8 nicht rückwirkend und stoppt keine Pipeline.
+
+G) Optionale Simulator-Auditfelder: station_8_validation_ref, simulation_status, input_order_count, full_fill_count, partial_fill_count, no_fill_count, failed_fill_count, total_execution_cost, total_commission, total_slippage_cost, execution_report_ref und post_execution_portfolio_ref.
+
+H) Integrität: Jedes Execution-Simulator-Audit-Event läuft durch add_audit_hash() und muss mit verify_audit_event() prüfbar sein.
