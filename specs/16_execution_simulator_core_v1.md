@@ -31,6 +31,8 @@ Pflicht-Input:
 
 validated_order_list enthält ausschließlich Orders, die durch Station 8 freigegeben wurden.
 
+station_8_validation_ref ist Top-Level-Pflichtfeld des Simulator-Inputs und wird nicht pro Order in validated_order_list wiederholt.
+
 Mindestfelder pro Order:
 
 - asset_id
@@ -40,8 +42,6 @@ Mindestfelder pro Order:
 - order_type
 - quantity
 - limit_price nullable
-- station_8_validation_ref
-
 Für short-fähige SELL-Orders zusätzlich:
 
 - allow_short: true
