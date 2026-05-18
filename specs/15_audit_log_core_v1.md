@@ -1,6 +1,6 @@
 ﻿# Audit-Log-Struktur Core v1.0
 
-Status: DRAFT
+Status: FINAL
 Version: v1.0
 Architecture: v1.6.1
 Last updated: 2026-05-16
