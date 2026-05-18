@@ -157,7 +157,7 @@ Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und 
 ## Execution Simulator Core v1.0
 
 - specs/16_execution_simulator_core_v1.md
-  Enthält den Draft des nachgelagerten What-If-Execution-Simulators nach Station 8 inklusive Input/Output, Simulationsannahmen, Fill-Regeln, Cash-/Portfolio-Fortschreibung, Short-Regeln, Statuslogik und Audit-Log-Anbindung.
+  Enthält den als konsistenten DRAFT abgeschlossenen nachgelagerten What-If-Execution-Simulator nach Station 8 inklusive Input/Output, Output-/Report-Contract, Simulationsannahmen, Fill-Regeln, Cash-/Portfolio-Fortschreibung, Short-Regeln, Statuslogik und Audit-Log-Anbindung.
 
 - tests/golden_cases/execution_simulator_core_v1_cases.json
   Enthält Golden Cases für SUCCESS, PARTIAL, NO_FILL, FAILED, Cash-Grenzen, Short-Autorisierung, source_order_ref-Rückverfolgbarkeit, Audit-Hash und Portfolio-Konsistenz.

@@ -1,19 +1,20 @@
-﻿# Handoff Snapshot Current
+# Handoff Snapshot Current
 
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
+Snapshot date: 2026-05-18
 
 ## Aktueller Stand
 
 A) Station 8 — Order Validator
-Abgeschlossen und konsolidiert um station_8_validation_ref sowie validated_order_list[].order_ref.
+Final abgeschlossen und konsolidiert um station_8_validation_ref sowie order_ref pro validierter Order.
 
 B) Audit-Log Core v1.0
-Abgeschlossen und erweitert um audit-kompatible Execution-Simulator-Events nach Station 8.
+Final abgeschlossen und erweitert um audit-kompatible Execution-Simulator-Events nach Station 8.
 
 C) Execution Simulator Core v1.0
-Angelegt als DRAFT. Enthält Rolle, Input/Output, Simulationsannahmen, Fill-/Preis-/Slippage-Regeln, Cash/Portfolio/Liquidität, Short-Regeln, Statuslogik, Audit-Log-Anbindung, Golden Cases und Codex-Hinweis.
+Als konsistenter DRAFT abgeschlossen. Enthält Rolle, Input/Output, Output-/Report-Contract, Simulationsannahmen, Fill-/Preis-/Slippage-Regeln, Cash/Portfolio/Liquidität, Short-Regeln, Statuslogik, Audit-Log-Anbindung, Golden Cases und Codex-Hinweis.
 
 ## Wichtige Dateien
 
@@ -34,8 +35,9 @@ C) Execution-Simulator-Events behalten eigene event_type-Werte: EXECUTION_SIMULA
 D) Execution-Simulator-Events werden nicht auf RULE_PASS, RULE_REJECTED oder TECHNICAL_ERROR gemappt.
 E) validator_status bleibt PASS; simulation_status wird separat geführt.
 F) Simulator-FAILED bedeutet: Simulation nicht belastbar, nicht Station 8 ungültig, kein Pipeline-Stopp.
-G) Rückverfolgbarkeit: station_8_validation_ref → validated_order_list[].order_ref → simulated_fills[].source_order_ref.
+G) Rückverfolgbarkeit: station_8_validation_ref → order_ref pro validierter Order → source_order_ref pro simuliertem Fill.
+H) Keine erneute Konsolidierung von Specs 14/15/16 ohne konkreten Fehlerbefund.
 
 ## Nächster Schritt
 
-Projektübergreifende Konsistenzprüfung aller betroffenen Dateien durchführen. Danach erst Git aktualisieren und ein finales vollständiges Projekt-ZIP erstellen.
+Nächsten fachlichen Spezifikationsblock festlegen. Naheliegender Kandidat: Pre-Order / Proposed Order Contract Core v1.0 als Vertrag zwischen strategischer Entscheidung und Station 8 Order Validator.
