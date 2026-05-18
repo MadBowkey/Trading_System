@@ -213,11 +213,13 @@
                       "expected_validated_order_list":  [
                                                             {
                                                                 "order_ref":  "TC_ORD_007_ORDER_001",
-                                                                "asset_id":  "SPY"
+                                                                "asset_id":  "SPY",
+                                                                "source_proposed_order_ref":  "TC_ORD_007_PROPOSED_ORDER_001"
                                                             },
                                                             {
                                                                 "order_ref":  "TC_ORD_007_ORDER_002",
-                                                                "asset_id":  "QQQ"
+                                                                "asset_id":  "QQQ",
+                                                                "source_proposed_order_ref":  "TC_ORD_007_PROPOSED_ORDER_002"
                                                             }
                                                         ],
                       "expected_order_ref_uniqueness_scope":  "within station_8_validation_ref"

@@ -988,3 +988,13 @@ B) validated_order_list[].order_ref: Pflichtfeld je freigegebener Order. Jede fr
 C) Eindeutigkeitsregel: order_ref ist innerhalb einer station_8_validation_ref eindeutig.
 
 D) Zweck: Execution Simulator und Audit-Log können eindeutig nachvollziehen, welcher simulierte Fill auf welche von Station 8 validierte Order zurückgeht.
+
+## Station-8-Anbindung an ProposedOrder
+
+A) Input-Voraussetzung: Station 8 verarbeitet ausschließlich proposed_order_list-Eingaben mit CONTRACT_READY aus dem Pre-Order / Proposed Order Contract.
+
+B) Traceability-Regel: Jede freigegebene Order in validated_order_list enthält order_ref und source_proposed_order_ref.
+
+C) source_proposed_order_ref verweist exakt auf proposed_order_ref der ursprünglichen ProposedOrder.
+
+D) Referenzkette: proposed_order_ref → source_proposed_order_ref / order_ref → source_order_ref.
