@@ -80,9 +80,10 @@ Der Contract definiert Form, Mindeststruktur und Referenzen. Er validiert keine 
 
 C) Referenzkette / Traceability
 
-proposed_order_ref → order_ref → source_order_ref
+proposed_order_ref → source_proposed_order_ref / order_ref → source_order_ref
 
 - proposed_order_ref – ursprünglicher Ordervorschlag
+- source_proposed_order_ref – Rückverweis der validierten Order auf die ursprüngliche ProposedOrder
 - order_ref – von Station 8 freigegebene validierte Order
 - source_order_ref – Execution-Fill verweist auf validierte Order
 
