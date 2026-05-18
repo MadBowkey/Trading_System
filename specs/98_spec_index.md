@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Architecture: v1.6.1
-Last updated: 2026-05-15
+Last updated: 2026-05-19
 
 ## Zweck
 
@@ -138,6 +138,8 @@ Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 - VAL_MRV_007
 
 Nächster fachlicher Schritt:
+
+Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
 
 
 ## Arbeitsregel
