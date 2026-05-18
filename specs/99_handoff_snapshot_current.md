@@ -1,4 +1,4 @@
-# Handoff Snapshot Current
+﻿# Handoff Snapshot Current
 
 Status: CURRENT
 Project: Trading System
@@ -16,14 +16,19 @@ Final abgeschlossen und erweitert um audit-kompatible Execution-Simulator-Events
 C) Execution Simulator Core v1.0
 Als konsistenter DRAFT abgeschlossen. Enthält Rolle, Input/Output, Output-/Report-Contract, Simulationsannahmen, Fill-/Preis-/Slippage-Regeln, Cash/Portfolio/Liquidität, Short-Regeln, Statuslogik, Audit-Log-Anbindung, Golden Cases und Codex-Hinweis.
 
+D) Pre-Order / Proposed Order Contract Core v1.0
+Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8 Order Validator.
+
 ## Wichtige Dateien
 
 - specs/14_station_8_order_validator.md
 - specs/15_audit_log_core_v1.md
 - specs/16_execution_simulator_core_v1.md
+- specs/17_pre_order_proposed_order_contract_core_v1.md
 - tests/golden_cases/station_8_order_validator_cases.json
 - tests/golden_cases/audit_log_core_v1_cases.json
 - tests/golden_cases/execution_simulator_core_v1_cases.json
+- tests/golden_cases/pre_order_contract_core_v1_cases.json
 - specs/98_spec_index.md
 - specs/97_new_chat_handoff_prompt_v1.md
 
@@ -37,7 +42,8 @@ E) validator_status bleibt PASS; simulation_status wird separat geführt.
 F) Simulator-FAILED bedeutet: Simulation nicht belastbar, nicht Station 8 ungültig, kein Pipeline-Stopp.
 G) Rückverfolgbarkeit: station_8_validation_ref → order_ref pro validierter Order → source_order_ref pro simuliertem Fill.
 H) Keine erneute Konsolidierung von Specs 14/15/16 ohne konkreten Fehlerbefund.
+I) ProposedOrder ist ein Vorschlag vor Station 8, keine validierte oder ausführbare Order.
 
 ## Nächster Schritt
 
-Nächsten fachlichen Spezifikationsblock festlegen. Naheliegender Kandidat: Pre-Order / Proposed Order Contract Core v1.0 als Vertrag zwischen strategischer Entscheidung und Station 8 Order Validator.
+Spec 17 fachlich prüfen und bei Bedarf gezielt konsolidieren. Danach erst Commit und optional vollständiges Projekt-ZIP.

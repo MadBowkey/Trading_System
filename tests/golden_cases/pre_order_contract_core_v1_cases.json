@@ -1,0 +1,81 @@
+{
+  "spec": "pre_order_proposed_order_contract_core_v1",
+  "version": "v1.0",
+  "architecture": "v1.6.1",
+  "cases": [
+    {
+      "test_case_id": "TC_PRE_001",
+      "title": "Gültige LIMIT-BUY Order",
+      "input_condition": "Vollständige ProposedOrder mit side BUY, order_type LIMIT, limit_price gesetzt und allen Pflichtfeldern.",
+      "expected_result": {
+        "contract_status": "CONTRACT_READY",
+        "forward_to_station_8": true,
+        "proposed_order_list_unchanged": true
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_002",
+      "title": "MARKET mit limit_price",
+      "input_condition": "order_type MARKET, limit_price gesetzt.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID",
+        "invalid_fields_contains": ["limit_price"]
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_003",
+      "title": "LIMIT ohne limit_price",
+      "input_condition": "order_type LIMIT, limit_price null.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID",
+        "invalid_or_missing_fields_contains": ["limit_price"]
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_004",
+      "title": "Ungültige quantity",
+      "input_condition": "quantity kleiner gleich 0, Float statt Decimal-String oder ungültiges Format.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID",
+        "invalid_fields_contains": ["quantity"]
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_005",
+      "title": "Fehlende Herkunftsreferenz",
+      "input_condition": "Weder decision_ref noch position_change_plan_ref vorhanden.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID",
+        "reason_contains": "Traceability"
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_006",
+      "title": "Unvollständige Short-Autorisierung",
+      "input_condition": "allow_short true, aber short_authorization_ref oder max_authorized_short_quantity fehlt.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID"
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_007",
+      "title": "Nicht erlaubter Order-Typ",
+      "input_condition": "order_type STOP, STOP_LIMIT oder ähnlich.",
+      "expected_result": {
+        "contract_status": "CONTRACT_INVALID",
+        "invalid_fields_contains": ["order_type"]
+      }
+    },
+    {
+      "test_case_id": "TC_PRE_008",
+      "title": "Traceability-Erhalt",
+      "input_condition": "Gültige Liste mit korrekten proposed_order_ref.",
+      "expected_result": {
+        "contract_status": "CONTRACT_READY",
+        "proposed_order_ref_unchanged": true,
+        "order_ref_created": false,
+        "station_8_validation_ref_created": false
+      }
+    }
+  ]
+}

@@ -167,3 +167,18 @@ Aktueller Konsolidierungsstand:
 - Station 8 ist abgeschlossen und um station_8_validation_ref sowie validated_order_list[].order_ref konsolidiert.
 - Audit Core v1.0 ist abgeschlossen und um audit-kompatible Execution-Simulator-Events erweitert.
 - Execution Simulator Core v1.0 bleibt Status: DRAFT.
+
+## Pre-Order / Proposed Order Contract Core v1.0
+
+- specs/17_pre_order_proposed_order_contract_core_v1.md
+  Enthält den DRAFT des Pre-Order / Proposed Order Contracts vor Station 8 inklusive ProposedOrder-Feldern, Strukturstatus, Übergabe an Station 8, Abgrenzung und Codex-Hinweis.
+
+- tests/golden_cases/pre_order_contract_core_v1_cases.json
+  Enthält Golden Cases für CONTRACT_READY, CONTRACT_INVALID, LIMIT/MARKET-Regeln, quantity-Format, Traceability, Short-Autorisierung und Abgrenzung zu Station 8.
+
+Aktueller Status:
+
+- Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
+- Station 8 bleibt final abgeschlossen.
+- Audit Core v1.0 bleibt final abgeschlossen.
+- Execution Simulator Core v1.0 bleibt als konsistenter DRAFT abgeschlossen.
