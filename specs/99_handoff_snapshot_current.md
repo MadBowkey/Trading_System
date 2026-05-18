@@ -40,10 +40,11 @@ C) Execution-Simulator-Events behalten eigene event_type-Werte: EXECUTION_SIMULA
 D) Execution-Simulator-Events werden nicht auf RULE_PASS, RULE_REJECTED oder TECHNICAL_ERROR gemappt.
 E) validator_status bleibt PASS; simulation_status wird separat geführt.
 F) Simulator-FAILED bedeutet: Simulation nicht belastbar, nicht Station 8 ungültig, kein Pipeline-Stopp.
-G) Rückverfolgbarkeit: station_8_validation_ref → order_ref pro validierter Order → source_order_ref pro simuliertem Fill.
+G) Rückverfolgbarkeit: proposed_order_ref → source_proposed_order_ref / order_ref → source_order_ref.
 H) Keine erneute Konsolidierung von Specs 14/15/16 ohne konkreten Fehlerbefund.
 I) ProposedOrder ist ein Vorschlag vor Station 8, keine validierte oder ausführbare Order.
+J) Station 8 ist an ProposedOrder angebunden; jede validierte Order erhält source_proposed_order_ref und order_ref.
 
 ## Nächster Schritt
 
-Spec 17 fachlich prüfen und bei Bedarf gezielt konsolidieren. Danach erst Commit und optional vollständiges Projekt-ZIP.
+Nächster fachlicher Kandidat: Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
