@@ -182,7 +182,8 @@
                                                                             "order_type":  "LIMIT",
                                                                             "limit_price":  "500.00",
                                                                             "symbol":  "SPY",
-                                                                            "asset_id":  "SPY"
+                                                                            "asset_id":  "SPY",
+                                                                            "proposed_order_ref":  "TC_ORD_007_PROPOSED_ORDER_001"
                                                                         },
                                                                         {
                                                                             "quantity":  "5",
@@ -190,7 +191,8 @@
                                                                             "order_type":  "LIMIT",
                                                                             "limit_price":  "420.00",
                                                                             "symbol":  "QQQ",
-                                                                            "asset_id":  "QQQ"
+                                                                            "asset_id":  "QQQ",
+                                                                            "proposed_order_ref":  "TC_ORD_007_PROPOSED_ORDER_002"
                                                                         }
                                                                     ],
                                             "cost_context":  {
