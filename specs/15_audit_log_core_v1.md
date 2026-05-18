@@ -177,6 +177,9 @@ Core v1.0 unterscheidet folgende Audit-Event-Typen:
 | PORTFOLIO_CONSTRUCTION_FAILED | Station 6 konnte keine zulässige Zielstruktur berechnen |
 | PORTFOLIO_VALIDATED | Station 7 hat das Zielportfolio freigegeben |
 | ORDER_LIST_APPROVED | Station 8 hat die Orderliste freigegeben |
+| EXECUTION_SIMULATION_SUCCESS | Execution Simulator hat eine vollständige Simulation erzeugt |
+| EXECUTION_SIMULATION_PARTIAL | Execution Simulator hat eine teilweise Simulation erzeugt |
+| EXECUTION_SIMULATION_FAILED | Execution Simulator konnte keine belastbare Simulation erzeugen |
 
 ## Event-Scope
 
