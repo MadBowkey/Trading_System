@@ -1,9 +1,22 @@
-﻿# Handoff Snapshot Current
+# Handoff Snapshot Current
 
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
 Snapshot date: 2026-05-19
+
+## Pflichtkontext fuer neuen Chat
+
+- specs/95_operational_workflow_rules.md
+- specs/97_new_chat_handoff_prompt_v1.md
+- specs/98_spec_index.md
+- _codex_reports/pre_handoff_gate_002_current_main.md
+
+Pre-Handoff Gate 002 auf aktuellem main wurde bestanden:
+
+- KRITISCH: 0
+- MITTEL: 0
+- REDAKTIONELL: 1, nicht blockierend
 
 ## Aktueller Stand
 
@@ -21,6 +34,7 @@ Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / 
 
 ## Wichtige Dateien
 
+- specs/95_operational_workflow_rules.md
 - specs/14_station_8_order_validator.md
 - specs/15_audit_log_core_v1.md
 - specs/16_execution_simulator_core_v1.md
@@ -31,6 +45,7 @@ Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / 
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
 - specs/98_spec_index.md
 - specs/97_new_chat_handoff_prompt_v1.md
+- _codex_reports/pre_handoff_gate_002_current_main.md
 
 ## Wichtige Entscheidungen
 
@@ -40,10 +55,14 @@ C) Execution-Simulator-Events behalten eigene event_type-Werte: EXECUTION_SIMULA
 D) Execution-Simulator-Events werden nicht auf RULE_PASS, RULE_REJECTED oder TECHNICAL_ERROR gemappt.
 E) validator_status bleibt PASS; simulation_status wird separat geführt.
 F) Simulator-FAILED bedeutet: Simulation nicht belastbar, nicht Station 8 ungültig, kein Pipeline-Stopp.
-G) Rückverfolgbarkeit: proposed_order_ref → source_proposed_order_ref / order_ref → source_order_ref.
+G) Rückverfolgbarkeit: proposed_order_ref -> source_proposed_order_ref / order_ref -> source_order_ref.
 H) Keine erneute Konsolidierung von Specs 14/15/16 ohne konkreten Fehlerbefund.
 I) ProposedOrder ist ein Vorschlag vor Station 8, keine validierte oder ausführbare Order.
 J) Station 8 ist an ProposedOrder angebunden; jede validierte Order erhält source_proposed_order_ref und order_ref.
+K) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
+L) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
+M) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
+N) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
 
 ## Nächster Schritt
 
