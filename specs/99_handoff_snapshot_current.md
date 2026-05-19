@@ -3,7 +3,7 @@
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
-Snapshot date: 2026-05-18
+Snapshot date: 2026-05-19
 
 ## Aktueller Stand
 
