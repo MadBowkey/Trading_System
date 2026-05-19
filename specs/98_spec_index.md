@@ -12,17 +12,21 @@ Sie zeigt, welche Datei welche verbindliche Information enthaelt.
 
 ## Single Source of Truth
 
-Die fachlich verbindlichen Spezifikationen liegen unter:
+GitHub `main` ist der kanonische technische Projektstand.
+
+Die fachlich verbindlichen Spezifikationen liegen im Repo unter:
 
 specs/
 
-Die maschinenlesbaren Konfigurationen liegen unter:
+Die maschinenlesbaren Konfigurationen liegen im Repo unter:
 
 config/
 
-Die verbindlichen Testbeispiele liegen unter:
+Die verbindlichen Testbeispiele liegen im Repo unter:
 
 tests/golden_cases/
+
+Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mit GitHub `main` synchronisiert sind.
 
 ## Workflow / Handoff
 
