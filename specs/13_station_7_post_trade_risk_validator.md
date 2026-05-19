@@ -47,6 +47,10 @@ Freigabe des unveränderten geprüften Zielportfolios für Station 8 oder vollst
 
 Validator-Status:
 
+PASS
+
+Event-Type:
+
 PORTFOLIO_VALIDATED
 
 Systemstatus:
