@@ -18,7 +18,7 @@ C) Fachliche Spezifikation von Modulen, Schnittstellen, Statuslogik und Architek
 
 D) Codex darf Golden Cases nur auf Basis bereits beschlossener Specs ergaenzen, konkretisieren oder maschinenlesbarer machen und formale Konsistenz gegen beschlossene Specs pruefen.
 
-E) Der lokale Projektordner und GitHub `main` sind der verbindliche Projektstand. Backend- oder chat-only-Aenderungen gelten nicht als erledigt, solange sie nicht im Repo nachvollziehbar geaendert, geprueft und bei Bedarf gemerged sind.
+E) GitHub `main` ist der kanonische technische Projektstand. Der lokale Projektordner ist eine Arbeitskopie und nicht selbst die Wahrheit. Backend-, chat-only- oder lokale Aenderungen gelten erst als erledigt, wenn sie als Repo-Aenderung nachvollziehbar sind und bei Bedarf auf GitHub `main` gemerged wurden.
 
 F) Lokale PowerShell-Dateiaenderungen muessen als ein vollstaendiger ausfuehrbarer Block geliefert werden. Wenn Dateien geschrieben werden, ist explizites `StreamWriter`-Handling mit `Write`, `Close` und `try/finally` Pflicht. Keine kommentierten Einzelfragmente. Nach dem Script folgen erwartete Ausgabe, Nicht-Eintreten-Kriterien und Auswertungsanweisung.
 
