@@ -1,4 +1,4 @@
-﻿# Specification Index
+# Specification Index
 
 Status: CURRENT
 Architecture: v1.6.1
@@ -8,7 +8,7 @@ Last updated: 2026-05-19
 
 Diese Datei ist die Inhaltskarte der lokalen Projektspezifikation.
 
-Sie zeigt, welche Datei welche verbindliche Information enthält.
+Sie zeigt, welche Datei welche verbindliche Information enthaelt.
 
 ## Single Source of Truth
 
@@ -23,6 +23,27 @@ config/
 Die verbindlichen Testbeispiele liegen unter:
 
 tests/golden_cases/
+
+## Workflow / Handoff
+
+- specs/95_operational_workflow_rules.md
+  Enthält die verbindlichen Arbeitsregeln für ChatGPT, Codex, GitHub-Rueckkanal, lokale Ausfuehrung, PowerShell-Dateiaenderungen und neue Chat-Uebergaben.
+
+- specs/97_new_chat_handoff_prompt_v1.md
+  Enthält den versionierten Uebergabe-Prompt fuer einen neuen Chat.
+
+- specs/99_handoff_snapshot_current.md
+  Enthält den aktuellen Uebergabe-Snapshot fuer einen neuen Chat.
+
+- _codex_reports/pre_handoff_gate_002_current_main.md
+  Enthält das bestandene Pre-Handoff-Gate 002 und den Gesamtprojekt-Konsistenz- und Strukturtest auf aktuellem main.
+
+Aktueller Gate-Status:
+
+- Pre-Handoff Gate 002: bestanden.
+- KRITISCH: 0.
+- MITTEL: 0.
+- REDAKTIONELL: 1, nicht blockierend.
 
 ## Spezifikationsdateien
 
@@ -79,14 +100,6 @@ tests/golden_cases/
 - specs/14_station_8_order_validator.md
   Enthält die Spezifikation für Station 8 inklusive VAL_ORD_001 bis VAL_ORD_005.
 
-### Übergabe
-
-- specs/97_new_chat_handoff_prompt_v1.md
-  Enthält den versionierten Übergabe-Prompt für einen neuen Chat.
-
-- specs/99_handoff_snapshot_current.md
-  Enthält den aktuellen Übergabe-Snapshot für einen neuen Chat.
-
 ## Konfigurationsdateien
 
 - config/rule_registry.yaml
@@ -141,12 +154,13 @@ Nächster fachlicher Schritt:
 
 Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
 
-
 ## Arbeitsregel
 
 Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
 
-Neue Entscheidungen werden zuerst in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+Neue fachliche Entscheidungen werden zuerst durch Team plus ChatGPT in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
+
+Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
 
 ## Audit-Log Core v1.0
 
