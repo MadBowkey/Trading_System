@@ -125,6 +125,7 @@ audit_log_core_v1.0
 Core v1.0 erlaubt stationenübergreifend folgende Statuswerte:
 
 - PASS
+- PASS_WITH_CONSTRAINTS
 - APPROVED
 - BLOCKED
 - DOWNGRADED
