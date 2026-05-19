@@ -32,10 +32,11 @@ J) `weiter` bedeutet: den naechsten logischen Schritt ausfuehren, nicht mehrere 
 
 ## Aktueller Gate-Stand
 
-Pre-Handoff Gate 002 auf aktuellem `main` wurde bestanden:
+Finales Pre-Handoff Gate 004 auf aktuellem `main` wurde bestanden:
 
 - KRITISCH: 0
 - MITTEL: 0
-- REDAKTIONELL: 1, nicht blockierend
+- REDAKTIONELL: 0 blockierend
+- Handoff-Empfehlung: JA
 
-Der redaktionelle Hinweis betrifft aeltere Terminologie in `specs/01_architecture_overview_v1_6_1.md` und `specs/06_validator_pipeline_v1.md`; er blockiert die Uebergabe nicht.
+Gate 004 beruecksichtigt die Source-of-Truth-Korrektur: GitHub `main` ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
