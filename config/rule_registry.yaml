@@ -60,9 +60,14 @@
     validator: BusinessLogicValidator
     category: business_logic
     trigger: "Duplicate asset_id in target_allocation_adjustments."
-    validator_status: CONDITIONAL
-    system_status: CONDITIONAL
-    pipeline_action: CONDITIONAL
+    status_resolution: conditional
+    allowed_outcomes:
+      - validator_status: DOWNGRADED
+        system_status: NORMAL_CONTINUE
+        pipeline_action: CONTINUE
+      - validator_status: BLOCKED
+        system_status: SAFE_HOLD
+        pipeline_action: STOP
     repair_allowed: conditional
     allowed_repair: "Identical duplicates: keep one. INCREASE vs HOLD: downgrade to HOLD. Fundamental conflicts such as INCREASE vs LIQUIDATE: BLOCKED."
     audit_required: true
@@ -310,10 +315,16 @@
     validator: OrderValidator
     category: broker_tick_lot_normalization
     trigger: "Proposed order requires broker tick-size, lot-size or minimum-quantity normalization."
-    validator_status: DOWNGRADED_OR_REJECTED
-    system_status: NORMAL_CONTINUE_OR_NO_NEW_ACTIONS
-    pipeline_action: CONTINUE_OR_STOP_BEFORE_EXECUTION_SIMULATION
-    order_proposal_status: APPROVED_OR_REJECTED
+    status_resolution: conditional
+    allowed_outcomes:
+      - validator_status: DOWNGRADED
+        system_status: NORMAL_CONTINUE
+        pipeline_action: CONTINUE
+        order_proposal_status: APPROVED
+      - validator_status: REJECTED
+        system_status: NO_NEW_ACTIONS
+        pipeline_action: STOP_BEFORE_EXECUTION_SIMULATION
+        order_proposal_status: REJECTED
     repair_allowed: true
     allowed_repair: "Only harmless technical normalization: conservative tick-size rounding, downward lot-size rounding, or plan-neutral zero-order removal. Any non-harmless adjustment rejects the entire order list."
     mutation_allowed: true
