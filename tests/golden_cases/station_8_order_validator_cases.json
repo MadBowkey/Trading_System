@@ -2,6 +2,18 @@
     "station":  "order_validator",
     "version":  "v1.0",
     "architecture":  "v1.6.1",
+    "test_scope":  "station_8_rule_cases_after_contract_ready",
+    "contract_precondition":  {
+                                  "default_contract_status":  "CONTRACT_READY",
+                                  "applies_to":  "All Station 8 rule cases unless a case explicitly tests malformed Station 8 input handoff.",
+                                  "exception_cases":  [
+                                                        {
+                                                            "test_case_id":  "TC_ORD_001",
+                                                            "reason":  "Negative Station 8 input integrity case for malformed or incomplete order handoff."
+                                                        }
+                                                    ],
+                                  "payload_policy":  "Station 8 golden cases are station-local rule fixtures and are not required to duplicate full Spec 17 ProposedOrder payloads."
+                              },
     "cases":  [
                   {
                       "description":  "Missing required order fields must block the order list.",
