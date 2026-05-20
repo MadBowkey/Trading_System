@@ -3,7 +3,7 @@
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
-Snapshot date: 2026-05-19
+Snapshot date: 2026-05-20
 
 ## Pflichtkontext fuer neuen Chat
 
@@ -12,11 +12,13 @@ Snapshot date: 2026-05-19
 - specs/98_spec_index.md
 - _codex_reports/pre_handoff_gate_004_final_after_spt.md
 
-Finales Pre-Handoff Gate 004 auf aktuellem main wurde bestanden:
+Letztes bestandenes Pre-Handoff Gate:
 
+- Finales Pre-Handoff Gate 004 wurde auf damaligem main-Stand bestanden.
 - KRITISCH: 0
 - MITTEL: 0
 - Handoff-Empfehlung: JA
+- Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
 
 ## Aktueller Stand
 
@@ -32,6 +34,9 @@ Als konsistenter DRAFT abgeschlossen. Enthält Rolle, Input/Output, Output-/Repo
 D) Pre-Order / Proposed Order Contract Core v1.0
 Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8 Order Validator.
 
+E) Portfolio State & Ledger Core v1.0
+Als DRAFT angelegt. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und schlankem Ledger-Index.
+
 ## Wichtige Dateien
 
 - specs/95_operational_workflow_rules.md
@@ -39,6 +44,7 @@ Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / 
 - specs/15_audit_log_core_v1.md
 - specs/16_execution_simulator_core_v1.md
 - specs/17_pre_order_proposed_order_contract_core_v1.md
+- specs/18_portfolio_state_ledger_core_v1.md
 - tests/golden_cases/station_8_order_validator_cases.json
 - tests/golden_cases/audit_log_core_v1_cases.json
 - tests/golden_cases/execution_simulator_core_v1_cases.json
@@ -59,12 +65,15 @@ G) Rückverfolgbarkeit: proposed_order_ref -> source_proposed_order_ref / order_
 H) Keine erneute Konsolidierung von Specs 14/15/16 ohne konkreten Fehlerbefund.
 I) ProposedOrder ist ein Vorschlag vor Station 8, keine validierte oder ausführbare Order.
 J) Station 8 ist an ProposedOrder angebunden; jede validierte Order erhält source_proposed_order_ref und order_ref.
-K) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
-L) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
-M) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
-N) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
-O) GitHub main ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
+K) Portfolio State & Ledger ist keine Station 9, sondern eine Querschicht.
+L) SIMULATED_POST_EXECUTION wird nie automatisch zu CURRENT_CONFIRMED.
+M) Ledger ist append-only; Ledger-Index ist nur abgeleitete Navigationsstruktur.
+N) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
+O) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
+P) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
+Q) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
+R) GitHub main ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
 
 ## Nächster Schritt
 
-Nächster fachlicher Kandidat: Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
+Nächster fachlicher Schritt: Spec 18 Golden Cases definieren und später unter tests/golden_cases/ abbilden.
