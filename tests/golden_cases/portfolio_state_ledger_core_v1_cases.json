@@ -1,0 +1,275 @@
+{
+  "spec": "portfolio_state_ledger_core_v1",
+  "version": "v1.0",
+  "architecture": "v1.6.1",
+  "cases": [
+    {
+      "test_case_id": "TC_LEDGER_001",
+      "description": "Valid CURRENT_CONFIRMED state is accepted and stored in the append-only ledger.",
+      "input_payload": {
+        "operation": "append_state",
+        "portfolio_state": {
+          "portfolio_state_ref": "ps_current_001",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_ledger_001",
+          "timestamp_utc": "2026-05-20T03:00:00Z",
+          "portfolio_state_type": "CURRENT_CONFIRMED",
+          "source": "MANUAL_IMPORT",
+          "portfolio_value": "100000.00",
+          "cash": "10000.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "100",
+              "market_value": "90000.00"
+            }
+          ],
+          "data_quality_status": "VALID",
+          "audit_ref": "sha256:audit_current_001"
+        }
+      },
+      "expected_result": {
+        "valid": true,
+        "ledger_action": "APPEND_ACCEPTED",
+        "stored": true,
+        "expected_portfolio_state_type": "CURRENT_CONFIRMED"
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_002",
+      "description": "Missing required portfolio state fields must be rejected as CONTRACT_INVALID.",
+      "input_payload": {
+        "operation": "append_state",
+        "portfolio_state": {
+          "portfolio_state_ref": "ps_invalid_002",
+          "run_id": "run_ledger_002",
+          "timestamp_utc": "2026-05-20T03:05:00Z",
+          "portfolio_state_type": "CURRENT_CONFIRMED",
+          "source": "MANUAL_IMPORT",
+          "portfolio_value": "100000.00",
+          "cash": "10000.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "100",
+              "market_value": "90000.00"
+            }
+          ],
+          "data_quality_status": "VALID"
+        }
+      },
+      "expected_result": {
+        "valid": false,
+        "ledger_action": "REJECTED",
+        "expected_status": "CONTRACT_INVALID",
+        "expected_missing_fields": [
+          "parent_portfolio_state_ref",
+          "audit_ref"
+        ]
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_003",
+      "description": "SIMULATED_POST_EXECUTION remains strictly simulated and must not auto-convert to CURRENT_CONFIRMED.",
+      "input_payload": {
+        "operation": "append_state",
+        "portfolio_state": {
+          "portfolio_state_ref": "ps_sim_003",
+          "parent_portfolio_state_ref": "ps_validated_target_003",
+          "run_id": "run_ledger_003",
+          "timestamp_utc": "2026-05-20T03:10:00Z",
+          "portfolio_state_type": "SIMULATED_POST_EXECUTION",
+          "source": "ExecutionSimulator",
+          "portfolio_value": "100125.00",
+          "cash": "9875.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "101",
+              "market_value": "90250.00"
+            }
+          ],
+          "data_quality_status": "SIMULATED",
+          "audit_ref": "sha256:audit_sim_003"
+        }
+      },
+      "expected_result": {
+        "valid": true,
+        "ledger_action": "APPEND_ACCEPTED",
+        "stored_portfolio_state_type": "SIMULATED_POST_EXECUTION",
+        "must_not_create_state_type": "CURRENT_CONFIRMED",
+        "auto_confirmation_allowed": false
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_004",
+      "description": "MANUAL_CORRECTION creates a new ledger entry with correct parent_portfolio_state_ref.",
+      "input_payload": {
+        "operation": "append_correction",
+        "existing_ledger_refs": [
+          "ps_current_004_parent"
+        ],
+        "portfolio_state": {
+          "portfolio_state_ref": "ps_manual_correction_004",
+          "parent_portfolio_state_ref": "ps_current_004_parent",
+          "run_id": "run_ledger_004",
+          "timestamp_utc": "2026-05-20T03:15:00Z",
+          "portfolio_state_type": "MANUAL_CORRECTION",
+          "source": "MANUAL_CORRECTION",
+          "portfolio_value": "100050.00",
+          "cash": "10050.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "100",
+              "market_value": "90000.00"
+            }
+          ],
+          "data_quality_status": "VALID_CORRECTED",
+          "audit_ref": "sha256:audit_manual_004",
+          "correction_reason": "Corrected cash balance after manual verification."
+        }
+      },
+      "expected_result": {
+        "valid": true,
+        "ledger_action": "APPEND_ACCEPTED",
+        "new_entry_created": true,
+        "parent_ref_required": true,
+        "expected_parent_portfolio_state_ref": "ps_current_004_parent"
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_005",
+      "description": "Append-only violation through update or overwrite attempt must be rejected.",
+      "input_payload": {
+        "operation": "overwrite_state",
+        "existing_ledger_refs": [
+          "ps_current_005"
+        ],
+        "portfolio_state_ref_to_modify": "ps_current_005",
+        "proposed_mutation": {
+          "cash": "99999.00"
+        }
+      },
+      "expected_result": {
+        "valid": false,
+        "ledger_action": "REJECTED",
+        "expected_status": "APPEND_ONLY_VIOLATION",
+        "existing_entry_must_remain_unchanged": true,
+        "correction_requires_new_entry": true
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_006",
+      "description": "Ledger Index can be fully reconstructed from Ledger entries.",
+      "input_payload": {
+        "operation": "rebuild_index",
+        "ledger_entries": [
+          {
+            "portfolio_state_ref": "ps_current_006",
+            "parent_portfolio_state_ref": null,
+            "run_id": "run_ledger_006",
+            "portfolio_state_type": "CURRENT_CONFIRMED",
+            "timestamp_utc": "2026-05-20T03:20:00Z",
+            "source": "MANUAL_IMPORT",
+            "audit_ref": "sha256:audit_current_006"
+          },
+          {
+            "portfolio_state_ref": "ps_snapshot_006",
+            "parent_portfolio_state_ref": "ps_current_006",
+            "run_id": "run_ledger_006",
+            "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+            "timestamp_utc": "2026-05-20T03:21:00Z",
+            "source": "Station_1_PreLLMValidator",
+            "audit_ref": "sha256:audit_snapshot_006"
+          }
+        ]
+      },
+      "expected_result": {
+        "valid": true,
+        "index_rebuild_success": true,
+        "index_contains_only_ledger_fields": true,
+        "expected_index_keys": [
+          "portfolio_state_ref",
+          "parent_portfolio_state_ref",
+          "run_id",
+          "portfolio_state_type",
+          "timestamp_utc",
+          "source",
+          "audit_ref"
+        ]
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_007",
+      "description": "If Ledger Index contradicts Ledger, Ledger wins and Index is ignored.",
+      "input_payload": {
+        "operation": "resolve_index_conflict",
+        "ledger_entry": {
+          "portfolio_state_ref": "ps_current_007",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_ledger_007",
+          "portfolio_state_type": "CURRENT_CONFIRMED",
+          "timestamp_utc": "2026-05-20T03:25:00Z",
+          "source": "MANUAL_IMPORT",
+          "audit_ref": "sha256:audit_current_007"
+        },
+        "index_entry": {
+          "portfolio_state_ref": "ps_current_007",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_ledger_007",
+          "portfolio_state_type": "SIMULATED_POST_EXECUTION",
+          "timestamp_utc": "2026-05-20T03:25:00Z",
+          "source": "ExecutionSimulator",
+          "audit_ref": "sha256:audit_current_007"
+        }
+      },
+      "expected_result": {
+        "valid": true,
+        "authoritative_source": "ledger",
+        "index_ignored": true,
+        "resolved_portfolio_state_type": "CURRENT_CONFIRMED"
+      }
+    },
+    {
+      "test_case_id": "TC_LEDGER_008",
+      "description": "Execution Simulator SIMULATED_POST_EXECUTION is stored with audit_ref and run_id but remains unconfirmed.",
+      "input_payload": {
+        "operation": "append_state",
+        "portfolio_state": {
+          "portfolio_state_ref": "ps_exec_sim_008",
+          "parent_portfolio_state_ref": "ps_validated_target_008",
+          "run_id": "run_ledger_008",
+          "timestamp_utc": "2026-05-20T03:30:00Z",
+          "portfolio_state_type": "SIMULATED_POST_EXECUTION",
+          "source": "ExecutionSimulator",
+          "portfolio_value": "100250.00",
+          "cash": "9750.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "102",
+              "market_value": "90500.00"
+            }
+          ],
+          "data_quality_status": "SIMULATED",
+          "audit_ref": "sha256:audit_exec_sim_008"
+        }
+      },
+      "expected_result": {
+        "valid": true,
+        "ledger_action": "APPEND_ACCEPTED",
+        "source": "ExecutionSimulator",
+        "run_id_required": true,
+        "audit_ref_required": true,
+        "stored_portfolio_state_type": "SIMULATED_POST_EXECUTION",
+        "confirmed": false
+      }
+    }
+  ]
+}
