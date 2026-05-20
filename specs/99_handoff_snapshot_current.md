@@ -10,13 +10,13 @@ Snapshot date: 2026-05-19
 - specs/95_operational_workflow_rules.md
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
-- _codex_reports/pre_handoff_gate_002_current_main.md
+- _codex_reports/pre_handoff_gate_004_final_after_spt.md
 
-Pre-Handoff Gate 002 auf aktuellem main wurde bestanden:
+Finales Pre-Handoff Gate 004 auf aktuellem main wurde bestanden:
 
 - KRITISCH: 0
 - MITTEL: 0
-- REDAKTIONELL: 1, nicht blockierend
+- Handoff-Empfehlung: JA
 
 ## Aktueller Stand
 
@@ -45,7 +45,7 @@ Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / 
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
 - specs/98_spec_index.md
 - specs/97_new_chat_handoff_prompt_v1.md
-- _codex_reports/pre_handoff_gate_002_current_main.md
+- _codex_reports/pre_handoff_gate_004_final_after_spt.md
 
 ## Wichtige Entscheidungen
 
@@ -63,6 +63,7 @@ K) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit 
 L) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
 M) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
 N) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
+O) GitHub main ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
 
 ## Nächster Schritt
 

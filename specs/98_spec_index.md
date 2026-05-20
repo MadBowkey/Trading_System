@@ -39,15 +39,15 @@ Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mi
 - specs/99_handoff_snapshot_current.md
   Enthält den aktuellen Uebergabe-Snapshot fuer einen neuen Chat.
 
-- _codex_reports/pre_handoff_gate_002_current_main.md
-  Enthält das bestandene Pre-Handoff-Gate 002 und den Gesamtprojekt-Konsistenz- und Strukturtest auf aktuellem main.
+- _codex_reports/pre_handoff_gate_004_final_after_spt.md
+  Enthält das finale bestandene Pre-Handoff-Gate 004 nach der Source-of-Truth-Klaerung.
 
 Aktueller Gate-Status:
 
-- Pre-Handoff Gate 002: bestanden.
+- Finales Pre-Handoff Gate 004: bestanden.
 - KRITISCH: 0.
 - MITTEL: 0.
-- REDAKTIONELL: 1, nicht blockierend.
+- Handoff-Empfehlung: JA.
 
 ## Spezifikationsdateien
 

@@ -9,13 +9,13 @@ Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
 - `specs/95_operational_workflow_rules.md`
 - `specs/98_spec_index.md`
 - `specs/99_handoff_snapshot_current.md`
-- `_codex_reports/pre_handoff_gate_002_current_main.md`
+- `_codex_reports/pre_handoff_gate_004_final_after_spt.md`
 
-Pre-Handoff Gate 002 auf aktuellem `main` wurde bestanden:
+Finales Pre-Handoff Gate 004 auf aktuellem `main` wurde bestanden:
 
 - KRITISCH: 0
 - MITTEL: 0
-- REDAKTIONELL: 1, nicht blockierend
+- Handoff-Empfehlung: JA
 
 ## Harte Uebergaberegel
 
@@ -47,10 +47,11 @@ A) Projektweite Struktur, Konsistenz, Reports und Sync laufen soweit moeglich ue
 B) Codex-relevante Vorgaenge werden soweit moeglich automatisiert; das Team soll keine PR-Nummern, Reports oder Diffs manuell suchen oder kopieren muessen.
 C) Fachliche Spezifikation von Modulen, Schnittstellen, Statuslogik und Architekturentscheidungen erfolgt durch Team plus ChatGPT.
 D) Codex darf fachliche Logik nicht erfinden und ergaenzt Golden Cases nur auf Basis bereits beschlossener Specs.
-E) Backend- oder chat-only-Aenderungen gelten nicht als erledigt, solange sie nicht im Repo nachvollziehbar geaendert, geprueft und bei Bedarf gemerged sind.
-F) Lokale PowerShell-Dateiaenderungen muessen als ein vollstaendiger ausfuehrbarer Block geliefert werden; bei Datei-Schreibvorgaengen mit explizitem StreamWriter Write/Close und try/finally.
-G) Lange Reports, Logs und Diffs gehoeren nach GitHub; Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
-H) `weiter` bedeutet den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln.
+E) GitHub `main` ist der kanonische technische Projektstand. Lokale Ordner sind Arbeitskopien, nicht Wahrheit.
+F) Backend- oder chat-only-Aenderungen gelten nicht als erledigt, solange sie nicht im Repo nachvollziehbar geaendert, geprueft und bei Bedarf auf GitHub `main` gemerged sind.
+G) Lokale PowerShell-Dateiaenderungen muessen als ein vollstaendiger ausfuehrbarer Block geliefert werden; bei Datei-Schreibvorgaengen mit explizitem StreamWriter Write/Close und try/finally.
+H) Lange Reports, Logs und Diffs gehoeren nach GitHub; Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
+I) `weiter` bedeutet den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln.
 
 ## Aktueller Stand
 
@@ -75,7 +76,7 @@ Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebal
 - specs/17_pre_order_proposed_order_contract_core_v1.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
-- _codex_reports/pre_handoff_gate_002_current_main.md
+- _codex_reports/pre_handoff_gate_004_final_after_spt.md
 - tests/golden_cases/station_8_order_validator_cases.json
 - tests/golden_cases/audit_log_core_v1_cases.json
 - tests/golden_cases/execution_simulator_core_v1_cases.json
@@ -110,4 +111,4 @@ Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
 Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
 
-Bitte nur fachlich vorschlagen, wie Spec 18 aufgebaut werden sollte. Noch keine lokale Dateiänderung.
+Bitte nur fachlich vorschlagen, wie Spec 18 aufgebaut werden sollte. Noch keine lokale Dateiaenderung.
