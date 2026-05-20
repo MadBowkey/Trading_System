@@ -70,7 +70,7 @@ D) Pre-Order / Proposed Order Contract Core v1.0
 Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8.
 
 E) Portfolio State & Ledger Core v1.0
-Status: DRAFT. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis, Ledger-Index und Golden Cases.
+Status: FINAL. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis, Ledger-Index, Ledger Operation Outcomes und Golden Cases.
 
 ## Wichtige Dateien
 
@@ -102,7 +102,8 @@ H) Rueckverfolgbarkeit: proposed_order_ref -> source_proposed_order_ref / order_
 I) Portfolio State & Ledger ist keine Station 9.
 J) SIMULATED_POST_EXECUTION wird nie automatisch CURRENT_CONFIRMED.
 K) Ledger ist append-only; Ledger-Index ist nur abgeleitete Navigationsstruktur.
-L) Keine Uebergabe ohne bestandenes aktuelles Pre-Handoff-Gate.
+L) Ledger Operation Outcomes erzeugen keine Pipeline-, System- oder Audit-Core-Statuswerte.
+M) Keine Uebergabe ohne bestandenes aktuelles Pre-Handoff-Gate.
 
 ## Projektweite Read-only-Pruefung
 
@@ -119,4 +120,4 @@ Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
 ## Naechster fachlicher Schritt
 
-Spec 18 gegen bestehende Schnittstellen pruefen und danach entscheiden, ob Portfolio State & Ledger Core v1.0 auf FINAL gehoben werden kann.
+Projektweite Konsistenz- und Schnittstellenpruefung nach Spec 18 FINAL durchfuehren und danach den naechsten Implementierungs- oder Spezifikationsschritt festlegen.
