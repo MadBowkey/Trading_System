@@ -35,7 +35,7 @@ D) Pre-Order / Proposed Order Contract Core v1.0
 Als DRAFT angelegt. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8 Order Validator.
 
 E) Portfolio State & Ledger Core v1.0
-Als DRAFT angelegt und um Golden Cases ergänzt. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und schlankem Ledger-Index.
+FINAL. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Golden Cases, Codex-Hinweis, Ledger-Index und Ledger Operation Outcomes.
 
 ## Wichtige Dateien
 
@@ -69,12 +69,13 @@ J) Station 8 ist an ProposedOrder angebunden; jede validierte Order erhält sour
 K) Portfolio State & Ledger ist keine Station 9, sondern eine Querschicht.
 L) SIMULATED_POST_EXECUTION wird nie automatisch zu CURRENT_CONFIRMED.
 M) Ledger ist append-only; Ledger-Index ist nur abgeleitete Navigationsstruktur.
-N) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
-O) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
-P) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
-Q) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
-R) GitHub main ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
+N) Ledger Operation Outcomes erzeugen keine Pipeline-, System- oder Audit-Core-Statuswerte.
+O) Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
+P) Fachliche Spezifikation von Modulen und Schnittstellen erfolgt durch Team plus ChatGPT; Codex erfindet keine neue fachliche Logik.
+Q) Codex-relevante Vorgaenge werden soweit möglich automatisiert; manuelles Kopieren von PR-Nummern, Reports oder Diffs ist Ausnahme.
+R) Lokale PowerShell-Dateiaenderungen erfordern einen vollständigen ausführbaren Block und bei Schreibvorgaengen explizites StreamWriter-Handling mit Write, Close und try/finally.
+S) GitHub main ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
 
 ## Nächster Schritt
 
-Nächster fachlicher Schritt: Spec 18 gegen bestehende Schnittstellen prüfen und danach entscheiden, ob Portfolio State & Ledger Core v1.0 auf FINAL gehoben werden kann.
+Nächster fachlicher Schritt: projektweite Konsistenz- und Schnittstellenprüfung nach Spec 18 FINAL durchführen und danach den nächsten Implementierungs- oder Spezifikationsschritt festlegen.
