@@ -117,7 +117,7 @@ Aktueller Gate-Status:
   Enthält den Pre-Order / Proposed Order Contract vor Station 8 inklusive ProposedOrder-Feldern, Strukturstatus, Übergabe an Station 8, Abgrenzung und Codex-Hinweis.
 
 - specs/18_portfolio_state_ledger_core_v1.md
-  Enthält Portfolio State & Ledger Core v1.0 als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, append-only Ledger-Regeln, Schnittstellen, Core-v1-Grenzen, Golden Cases, Codex-Hinweis und Ledger-Index.
+  Enthält Portfolio State & Ledger Core v1.0 als FINAL-Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, append-only Ledger-Regeln, Schnittstellen, Core-v1-Grenzen, Golden Cases, Codex-Hinweis, Ledger-Index und Ledger Operation Outcomes.
 
 ## Konfigurationsdateien
 
@@ -189,11 +189,11 @@ Execution Simulator Core v1.0 ist als konsistenter DRAFT abgeschlossen.
 
 Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
 
-Portfolio State & Ledger Core v1.0 ist als DRAFT angelegt und um Golden Cases ergänzt.
+Portfolio State & Ledger Core v1.0 ist FINAL.
 
 Nächster fachlicher Schritt:
 
-Spec 18 gegen bestehende Schnittstellen prüfen und danach entscheiden, ob Portfolio State & Ledger Core v1.0 auf FINAL gehoben werden kann.
+Projektweite Konsistenz- und Schnittstellenprüfung nach Spec 18 FINAL durchführen und danach den nächsten Implementierungs- oder Spezifikationsschritt festlegen.
 
 ## Arbeitsregel
 
