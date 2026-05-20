@@ -3,7 +3,7 @@
 Status: DRAFT
 Version: v1.0
 Architecture: v1.6.1
-Last updated: 2026-05-15
+Last updated: 2026-05-20
 Owner: Trading System Project
 
 ## Kurzbeschreibung
@@ -257,13 +257,20 @@ Noch zu spezifizieren:
 
 Diese Station ist begonnen.
 
-VAL_MRV_004A, VAL_MRV_004B und VAL_MRV_004C sind fachlich abgenommen.
+Fachlich beschlossen und implementierungsfähig sind:
 
-Die übrigen MRV-Regeln sind noch offen.
+- VAL_MRV_004A
+- VAL_MRV_004B
+- VAL_MRV_004C
+- VAL_MRV_005
+- VAL_MRV_006
+- VAL_MRV_007
+
+Weitere MRV-Erweiterungen bleiben offen und sind nicht implementierungsfähig, bis sie separat spezifiziert, geprüft und in Rule Registry sowie Golden Cases abgebildet sind.
 
 ## Codex-Hinweis
 
-Codex darf diese Station später implementieren, sobald alle MRV-Regeln finalisiert sind.
+Codex darf die fachlich beschlossenen Regeln VAL_MRV_004A bis VAL_MRV_007 später implementieren.
 
 Warum:
 Die Regeln sind deterministisch, gut testbar und sicherheitskritisch.
