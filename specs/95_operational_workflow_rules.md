@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Project: Trading System
-Last updated: 2026-05-19
+Last updated: 2026-05-20
 
 ## Zweck
 
@@ -29,6 +29,8 @@ H) Ein neuer Chat muss zuerst read-only eine projektweite Konsistenz- und Strukt
 I) Lange Reports, Logs und Diffs gehoeren nach GitHub in Reports, Issues oder PRs. Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
 
 J) `weiter` bedeutet: den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln, und dabei die Rollenverteilung Team/ChatGPT/Codex einhalten.
+
+K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT den PR-Status, das zugehoerige Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist. Erledigte zugehoerige Issues werden mit `state_reason: completed` geschlossen. Neue Codex-PRs muessen im PR-Body `Closes #<Issue-Nummer>` enthalten. Issue #7 bleibt offen, solange lokaler Sync ein eigener offener Arbeitspunkt ist.
 
 ## Aktueller Gate-Stand
 
