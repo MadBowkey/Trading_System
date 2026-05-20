@@ -70,7 +70,7 @@ D) Pre-Order / Proposed Order Contract Core v1.0
 Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8.
 
 E) Portfolio State & Ledger Core v1.0
-Status: DRAFT. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und Ledger-Index.
+Status: DRAFT. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis, Ledger-Index und Golden Cases.
 
 ## Wichtige Dateien
 
@@ -87,6 +87,7 @@ Status: DRAFT. Definiert Portfolio State und append-only Portfolio Ledger als Qu
 - tests/golden_cases/audit_log_core_v1_cases.json
 - tests/golden_cases/execution_simulator_core_v1_cases.json
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
+- tests/golden_cases/portfolio_state_ledger_core_v1_cases.json
 
 ## Wichtige Regeln
 
@@ -118,4 +119,4 @@ Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
 ## Naechster fachlicher Schritt
 
-Spec 18 Golden Cases definieren und spaeter unter tests/golden_cases/ abbilden.
+Spec 18 gegen bestehende Schnittstellen pruefen und danach entscheiden, ob Portfolio State & Ledger Core v1.0 auf FINAL gehoben werden kann.
