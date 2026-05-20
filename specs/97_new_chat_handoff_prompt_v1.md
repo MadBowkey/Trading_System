@@ -11,11 +11,13 @@ Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
 - `specs/99_handoff_snapshot_current.md`
 - `_codex_reports/pre_handoff_gate_004_final_after_spt.md`
 
-Finales Pre-Handoff Gate 004 auf aktuellem `main` wurde bestanden:
+Letztes bestandenes Pre-Handoff Gate:
 
+- Finales Pre-Handoff Gate 004 wurde auf damaligem `main`-Stand bestanden.
 - KRITISCH: 0
 - MITTEL: 0
 - Handoff-Empfehlung: JA
+- Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
 
 ## Harte Uebergaberegel
 
@@ -67,6 +69,9 @@ Status: DRAFT. Integration abgeschlossen. Kein Bestandteil der Validierungs-Pipe
 D) Pre-Order / Proposed Order Contract Core v1.0
 Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebalancing-Logik und Station 8.
 
+E) Portfolio State & Ledger Core v1.0
+Status: DRAFT. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und Ledger-Index.
+
 ## Wichtige Dateien
 
 - specs/95_operational_workflow_rules.md
@@ -74,6 +79,7 @@ Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebal
 - specs/15_audit_log_core_v1.md
 - specs/16_execution_simulator_core_v1.md
 - specs/17_pre_order_proposed_order_contract_core_v1.md
+- specs/18_portfolio_state_ledger_core_v1.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
 - _codex_reports/pre_handoff_gate_004_final_after_spt.md
@@ -92,7 +98,10 @@ E) validator_status = PASS bleibt neutral; simulation_status wird separat gefueh
 F) ProposedOrder ist keine validierte oder ausfuehrbare Order.
 G) Station 8 bleibt die fachliche Order-Validierung.
 H) Rueckverfolgbarkeit: proposed_order_ref -> source_proposed_order_ref / order_ref -> source_order_ref.
-I) Keine Uebergabe ohne bestandenes Pre-Handoff-Gate.
+I) Portfolio State & Ledger ist keine Station 9.
+J) SIMULATED_POST_EXECUTION wird nie automatisch CURRENT_CONFIRMED.
+K) Ledger ist append-only; Ledger-Index ist nur abgeleitete Navigationsstruktur.
+L) Keine Uebergabe ohne bestandenes aktuelles Pre-Handoff-Gate.
 
 ## Projektweite Read-only-Pruefung
 
@@ -107,8 +116,6 @@ F) offensichtliche Uebergabeluecken
 
 Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
-## Naechster fachlicher Kandidat
+## Naechster fachlicher Schritt
 
-Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
-
-Bitte nur fachlich vorschlagen, wie Spec 18 aufgebaut werden sollte. Noch keine lokale Dateiaenderung.
+Spec 18 Golden Cases definieren und spaeter unter tests/golden_cases/ abbilden.
