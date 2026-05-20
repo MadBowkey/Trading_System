@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Architecture: v1.6.1
-Last updated: 2026-05-19
+Last updated: 2026-05-20
 
 ## Zweck
 
@@ -40,14 +40,15 @@ Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mi
   Enthält den aktuellen Uebergabe-Snapshot fuer einen neuen Chat.
 
 - _codex_reports/pre_handoff_gate_004_final_after_spt.md
-  Enthält das finale bestandene Pre-Handoff-Gate 004 nach der Source-of-Truth-Klaerung.
+  Enthält das letzte bestandene Pre-Handoff-Gate 004 nach der Source-of-Truth-Klaerung.
 
 Aktueller Gate-Status:
 
-- Finales Pre-Handoff Gate 004: bestanden.
+- Finales Pre-Handoff Gate 004: bestanden auf damaligem main-Stand.
 - KRITISCH: 0.
 - MITTEL: 0.
 - Handoff-Empfehlung: JA.
+- Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
 
 ## Spezifikationsdateien
 
@@ -104,6 +105,20 @@ Aktueller Gate-Status:
 - specs/14_station_8_order_validator.md
   Enthält die Spezifikation für Station 8 inklusive VAL_ORD_001 bis VAL_ORD_005.
 
+### Core-Infrastruktur und nachgelagerte Module
+
+- specs/15_audit_log_core_v1.md
+  Enthält die zentrale Audit-Log-Struktur Core v1.0 für Station 1 bis Station 8 inklusive Standardfeldern, Statuswerten, Event-Typen, Parquet-Schema, Partitionierung, Hash- und Verifikationslogik.
+
+- specs/16_execution_simulator_core_v1.md
+  Enthält den nachgelagerten What-If-Execution-Simulator nach Station 8 inklusive Input/Output, Output-/Report-Contract, Simulationsannahmen, Fill-Regeln, Cash-/Portfolio-Fortschreibung, Short-Regeln, Statuslogik und Audit-Log-Anbindung.
+
+- specs/17_pre_order_proposed_order_contract_core_v1.md
+  Enthält den Pre-Order / Proposed Order Contract vor Station 8 inklusive ProposedOrder-Feldern, Strukturstatus, Übergabe an Station 8, Abgrenzung und Codex-Hinweis.
+
+- specs/18_portfolio_state_ledger_core_v1.md
+  Enthält Portfolio State & Ledger Core v1.0 als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, append-only Ledger-Regeln, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und Ledger-Index.
+
 ## Konfigurationsdateien
 
 - config/rule_registry.yaml
@@ -141,9 +156,20 @@ Aktueller Gate-Status:
 - tests/golden_cases/station_8_order_validator_cases.json
   Testfälle für Station 8.
 
+- tests/golden_cases/audit_log_core_v1_cases.json
+  Enthält Golden Cases für Audit-Log Core v1.0 inklusive audit_schema_version, Pflichtfeldprüfung, nullable rule_id / asset_id, Non-Null-Prüfung, Reason-Limit und Hash-Verifikation.
+
+- tests/golden_cases/execution_simulator_core_v1_cases.json
+  Enthält Golden Cases für SUCCESS, PARTIAL, NO_FILL, FAILED, Cash-Grenzen, Short-Autorisierung, source_order_ref-Rückverfolgbarkeit, Audit-Hash und Portfolio-Konsistenz.
+
+- tests/golden_cases/pre_order_contract_core_v1_cases.json
+  Enthält Golden Cases für CONTRACT_READY, CONTRACT_INVALID, LIMIT/MARKET-Regeln, quantity-Format, Traceability, Short-Autorisierung und Abgrenzung zu Station 8.
+
+Spec 18 Golden Cases sind noch nicht angelegt.
+
 ## Aktueller Arbeitsstand
 
-Station 1 bis Station 8 sind lokal dokumentiert.
+Station 1 bis Station 8 sind dokumentiert.
 
 Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 
@@ -154,51 +180,24 @@ Station 5 ist für den aktuellen Core-v1-Scope ergänzt um:
 - VAL_MRV_006
 - VAL_MRV_007
 
+Station 8 ist FINAL.
+
+Audit Core v1.0 ist FINAL.
+
+Execution Simulator Core v1.0 ist als konsistenter DRAFT abgeschlossen.
+
+Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
+
+Portfolio State & Ledger Core v1.0 ist als DRAFT angelegt.
+
 Nächster fachlicher Schritt:
 
-Spec 18 — Portfolio State / Portfolio Ledger Core v1.0.
+Spec 18 Golden Cases definieren und später unter tests/golden_cases/ abbilden.
 
 ## Arbeitsregel
 
-Vor Weiterarbeit an einer Station zuerst die zugehörige Spec-Datei prüfen.
+Vor Weiterarbeit an einer Station oder Spec zuerst die zugehörige Spec-Datei prüfen.
 
 Neue fachliche Entscheidungen werden zuerst durch Team plus ChatGPT in specs/ dokumentiert, danach in config/ und tests/ abgebildet.
 
 Projektweite Struktur-, Konsistenz-, Report- und Sync-Aufgaben laufen soweit möglich über Codex plus GitHub-Rueckkanal.
-
-## Audit-Log Core v1.0
-
-- specs/15_audit_log_core_v1.md
-  Enthält die zentrale Audit-Log-Struktur Core v1.0 für Station 1 bis Station 8 inklusive Standardfeldern, Statuswerten, Event-Typen, Parquet-Schema, Partitionierung, Hash- und Verifikationslogik.
-
-- tests/golden_cases/audit_log_core_v1_cases.json
-  Enthält Golden Cases für Audit-Log Core v1.0 inklusive audit_schema_version, Pflichtfeldprüfung, nullable rule_id / asset_id, Non-Null-Prüfung, Reason-Limit und Hash-Verifikation.
-
-## Execution Simulator Core v1.0
-
-- specs/16_execution_simulator_core_v1.md
-  Enthält den als konsistenten DRAFT abgeschlossenen nachgelagerten What-If-Execution-Simulator nach Station 8 inklusive Input/Output, Output-/Report-Contract, Simulationsannahmen, Fill-Regeln, Cash-/Portfolio-Fortschreibung, Short-Regeln, Statuslogik und Audit-Log-Anbindung.
-
-- tests/golden_cases/execution_simulator_core_v1_cases.json
-  Enthält Golden Cases für SUCCESS, PARTIAL, NO_FILL, FAILED, Cash-Grenzen, Short-Autorisierung, source_order_ref-Rückverfolgbarkeit, Audit-Hash und Portfolio-Konsistenz.
-
-Aktueller Konsolidierungsstand:
-
-- Station 8 ist abgeschlossen und um station_8_validation_ref sowie validated_order_list[].order_ref konsolidiert.
-- Audit Core v1.0 ist abgeschlossen und um audit-kompatible Execution-Simulator-Events erweitert.
-- Execution Simulator Core v1.0 bleibt Status: DRAFT.
-
-## Pre-Order / Proposed Order Contract Core v1.0
-
-- specs/17_pre_order_proposed_order_contract_core_v1.md
-  Enthält den DRAFT des Pre-Order / Proposed Order Contracts vor Station 8 inklusive ProposedOrder-Feldern, Strukturstatus, Übergabe an Station 8, Abgrenzung und Codex-Hinweis.
-
-- tests/golden_cases/pre_order_contract_core_v1_cases.json
-  Enthält Golden Cases für CONTRACT_READY, CONTRACT_INVALID, LIMIT/MARKET-Regeln, quantity-Format, Traceability, Short-Autorisierung und Abgrenzung zu Station 8.
-
-Aktueller Status:
-
-- Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
-- Station 8 bleibt final abgeschlossen.
-- Audit Core v1.0 bleibt final abgeschlossen.
-- Execution Simulator Core v1.0 bleibt als konsistenter DRAFT abgeschlossen.
