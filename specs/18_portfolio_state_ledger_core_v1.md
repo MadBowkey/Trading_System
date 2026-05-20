@@ -118,17 +118,20 @@ Nicht Teil von Portfolio State & Ledger Core v1.0:
 - mehrperiodige Simulation
 - neue Portfolio-State-Typen ohne fachlichen Beschluss
 
-## H) Golden Cases
+## H) Golden Cases Portfolio State & Ledger Core v1.0
 
-Golden Cases werden später ergänzt.
+| Case | Zweck | Erwartung |
+|---|---|---|
+| TC_LEDGER_001 | Gültiger CURRENT_CONFIRMED State | State wird akzeptiert und im Ledger gespeichert. |
+| TC_LEDGER_002 | Fehlende Pflichtfelder | State wird abgelehnt: CONTRACT_INVALID. |
+| TC_LEDGER_003 | SIMULATED_POST_EXECUTION | Bleibt strikt simuliert; keine automatische Umwandlung zu CURRENT_CONFIRMED. |
+| TC_LEDGER_004 | MANUAL_CORRECTION | Neuer Ledger-Eintrag mit korrektem parent_portfolio_state_ref. |
+| TC_LEDGER_005 | Append-only-Verstoß | Versuch eines Updates oder Overwrites wird abgelehnt. |
+| TC_LEDGER_006 | Ledger-Index Rekonstruierbarkeit | Index kann vollständig aus dem Ledger neu erzeugt werden. |
+| TC_LEDGER_007 | Index-Widerspruch | Ledger gewinnt immer; Index wird ignoriert. |
+| TC_LEDGER_008 | Execution Simulator State | SIMULATED_POST_EXECUTION wird mit audit_ref und run_id korrekt gespeichert, bleibt aber nicht bestätigt. |
 
-Für Core v1.0 sind später mindestens zu prüfen:
-
-- gültiger CURRENT_CONFIRMED State
-- ungültiger State bei fehlender Pflichtreferenz
-- SIMULATED_POST_EXECUTION wird nicht automatisch CURRENT_CONFIRMED
-- MANUAL_CORRECTION erzeugt neuen Ledger-Eintrag mit parent_portfolio_state_ref
-- Ledger-Index ist aus dem Ledger rekonstruierbar
+Diese acht Fälle decken die Kernschutzregeln von Spec 18 ab: Append-only, Trennung simuliert/echt, Referenzintegrität und Index-Rekonstruierbarkeit.
 
 ## I) Codex-Hinweis
 
