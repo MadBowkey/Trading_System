@@ -185,3 +185,35 @@ Regeln:
 - Der Index darf gelöscht und neu aufgebaut werden.
 - Der Index darf keine States erzeugen, ändern oder bestätigen.
 - Der Index enthält keine zusätzlichen fachlichen Informationen.
+
+## K) Ledger Operation Outcomes Core v1.0
+
+Ledger Operation Outcomes beschreiben nur das Ergebnis einer Portfolio-State-/Ledger-Operation.
+
+Sie sind keine Pipeline-Statuswerte, keine Systemstatuswerte und keine Audit-Core-Statuswerte.
+
+Erlaubte Outcomes in Core v1.0:
+
+A) APPEND_ACCEPTED – ein neuer Portfolio-State-Eintrag wurde erfolgreich append-only in den Ledger aufgenommen.
+
+B) REJECTED – eine Ledger-Operation wurde abgelehnt; der Ledger bleibt unverändert.
+
+C) CONTRACT_INVALID – eine Ledger-Operation wurde wegen fehlender Pflichtfelder, ungültiger Felder oder ungültiger Struktur abgelehnt.
+
+D) APPEND_ONLY_VIOLATION – eine Operation versucht, einen bestehenden Ledger-Eintrag zu ändern, zu überschreiben oder zu löschen; die Operation wird abgelehnt.
+
+Regeln:
+
+- Jeder REJECTED-, CONTRACT_INVALID- oder APPEND_ONLY_VIOLATION-Fall darf keinen bestehenden Ledger-Eintrag verändern.
+- CONTRACT_INVALID ist ein technischer Contract-Fehler der Ledger-Operation, kein fachlicher Portfolio- oder Risikoreject.
+- APPEND_ONLY_VIOLATION ist ein Integritätsverstoß gegen die Ledger-Regel, kein Pipeline-Stopp.
+- Audit Core bleibt unverändert; die Ledger-Operation referenziert Audit über audit_ref.
+- Ledger Operation Outcomes erzeugen keine neuen pipeline_action-, system_status- oder validator_status-Werte.
+
+Minimale data_quality_status-Werte in Core v1.0:
+
+- VALID – bestätigter oder formal gültiger Zustand.
+- SIMULATED – hypothetischer simulierter Zustand.
+- VALID_CORRECTED – gültiger manuell korrigierter Zustand.
+
+data_quality_status ist State-Metadatum. Es ersetzt keinen Ledger Operation Outcome und keinen Audit-Status.
