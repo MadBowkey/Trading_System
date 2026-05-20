@@ -117,7 +117,7 @@ Aktueller Gate-Status:
   Enthält den Pre-Order / Proposed Order Contract vor Station 8 inklusive ProposedOrder-Feldern, Strukturstatus, Übergabe an Station 8, Abgrenzung und Codex-Hinweis.
 
 - specs/18_portfolio_state_ledger_core_v1.md
-  Enthält Portfolio State & Ledger Core v1.0 als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, append-only Ledger-Regeln, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis und Ledger-Index.
+  Enthält Portfolio State & Ledger Core v1.0 als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, append-only Ledger-Regeln, Schnittstellen, Core-v1-Grenzen, Golden Cases, Codex-Hinweis und Ledger-Index.
 
 ## Konfigurationsdateien
 
@@ -165,7 +165,8 @@ Aktueller Gate-Status:
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
   Enthält Golden Cases für CONTRACT_READY, CONTRACT_INVALID, LIMIT/MARKET-Regeln, quantity-Format, Traceability, Short-Autorisierung und Abgrenzung zu Station 8.
 
-Spec 18 Golden Cases sind noch nicht angelegt.
+- tests/golden_cases/portfolio_state_ledger_core_v1_cases.json
+  Enthält Golden Cases für Portfolio State & Ledger Core v1.0 inklusive CURRENT_CONFIRMED, CONTRACT_INVALID, SIMULATED_POST_EXECUTION, MANUAL_CORRECTION, Append-only-Verstoß, Ledger-Index-Rekonstruktion, Index-Widerspruch und Execution-Simulator-State.
 
 ## Aktueller Arbeitsstand
 
@@ -188,11 +189,11 @@ Execution Simulator Core v1.0 ist als konsistenter DRAFT abgeschlossen.
 
 Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
 
-Portfolio State & Ledger Core v1.0 ist als DRAFT angelegt.
+Portfolio State & Ledger Core v1.0 ist als DRAFT angelegt und um Golden Cases ergänzt.
 
 Nächster fachlicher Schritt:
 
-Spec 18 Golden Cases definieren und später unter tests/golden_cases/ abbilden.
+Spec 18 gegen bestehende Schnittstellen prüfen und danach entscheiden, ob Portfolio State & Ledger Core v1.0 auf FINAL gehoben werden kann.
 
 ## Arbeitsregel
 
