@@ -6,7 +6,7 @@ _TBD_
 ## 2) Schnittstellen (Input/Output/Annahmen + referenzierte Module)
 _TBD_
 
-## 3) Gefundene Konflikte (kritisch/mittel/neutral/entfernen)
+## 3) Gefundene Konflikte (CRITICAL/HIGH/MEDIUM/LOW)
 _TBD_
 
 ## 4) Begründung der Einstufung

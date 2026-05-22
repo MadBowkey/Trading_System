@@ -50,13 +50,7 @@ Explizite Abhängigkeit:
 - Wirkung: Unklar, ob bewusstes Placeholder-Stadium oder fachlich final; Risiko späterer Inkonsistenzen in Stationen, die diese Inputs erwarten.
 - Begründung MEDIUM: Kein direkter Laufzeitnachweis für Ausfall hier im Repo, aber klarer Integritäts-/Betriebsrisikoindikator.
 
-### Konflikt M01-C03 — Klassifikation: HIGH
-- Typ: Vertrags-/Klassifikationskonflikt zwischen Audit-Taxonomien.
-- Befund: Vorhandene Audit-Vorlagen nutzen derzeit die Klassen `kritisch/mittel/neutral/entfernen`, neue Vorgabe verlangt `CRITICAL/HIGH/MEDIUM/LOW`.
-- Wirkung: Vergleichbarkeit und konsistente Priorisierung über Dokumente hinweg gefährdet.
-- Begründung HIGH: Direkter Einfluss auf Entscheidungsqualität des Audits.
-
-### Konflikt M01-C04 — Klassifikation: LOW
+### Konflikt M01-C03 — Klassifikation: LOW
 - Typ: Nachvollziehbarkeit/Quellenklarheit.
 - Befund: Universe-Datei ist als `universe.example.yaml` benannt (Beispielcharakter), ohne im Audit eindeutig definiertes produktives Pendant.
 - Wirkung: Risiko von Missverständnissen beim Übergang von Spezifikation zu produktiver Konfiguration.
@@ -75,10 +69,9 @@ Sicherheits-/Robustheitsbewertung (datenbezogen):
 
 ## 6) Empfehlung / Maßnahmen / offene Punkte
 Empfehlungen (priorisiert):
-1. **HIGH**: Einheitliche Konflikttaxonomie verbindlich festlegen (Master + Register + Module): `CRITICAL/HIGH/MEDIUM/LOW`.
-2. **HIGH**: Minimal ausführbaren Datenebenen-Implementierungs-Slice definieren (Ingest → Quality Checks → Gate-Entscheid), damit Modul-1-Aussagen testbar werden.
-3. **MEDIUM**: `indicator_registry` und `regime_matrix` fachlich befüllen oder explizit als bewusst leer (mit Regeln/Fallback) deklarieren.
-4. **LOW**: Konfigurationskonvention dokumentieren (`*.example.yaml` vs. produktive `*.yaml`) und Referenzpfad festlegen.
+1. **HIGH**: Minimal ausführbaren Datenebenen-Implementierungs-Slice definieren (Ingest → Quality Checks → Gate-Entscheid), damit Modul-1-Aussagen testbar werden.
+2. **MEDIUM**: `indicator_registry` und `regime_matrix` fachlich befüllen oder explizit als bewusst leer (mit Regeln/Fallback) deklarieren.
+3. **LOW**: Konfigurationskonvention dokumentieren (`*.example.yaml` vs. produktive `*.yaml`) und Referenzpfad festlegen.
 
 Offene Punkte:
 - Welche konkrete Datei gilt als produktive Universe-Konfiguration?
