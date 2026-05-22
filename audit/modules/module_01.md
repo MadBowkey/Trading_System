@@ -1,30 +1,57 @@
 # Modul 01 – Datenebene
 
-## 1) Zweck
-Sicherstellen, dass Datenbeschaffung, Datenqualität, Latenz und Versionierung konsistent, nachvollziehbar und für Strategie-, Risiko- und Backtest-Logik belastbar sind.
+## 1) Zweck und Verantwortung des Moduls
+Die Datenebene stellt die technische und fachliche Integritätsbasis für die gesamte Pipeline bereit.
 
-## 2) Schnittstellen (Input/Output/Annahmen + referenzierte Module)
-- **Input:** Externe Marktdatenquellen, Referenzdaten, Metadaten.
-- **Output:** Bereinigte, versionierte Datensätze und Qualitätskennzahlen für nachgelagerte Module.
-- **Annahmen:** Daten sind zeitlich korrekt, vollständig genug und ohne unerkannte Leckageeffekte.
-- **Referenzierte Module:**
+Verantwortung im Systemkontext:
+- Bereitstellung konsistenter, zeitlich valider und ausreichend vollständiger Eingabedaten für nachgelagerte Stationen.
+- Verhinderung von Pipeline-Fortsetzung bei klarer Dateninvalidität.
+- Sicherstellung nachvollziehbarer Datenqualitätszustände.
+
+## 2) Eingaben / Datenquellen
+Fest im Repo erkennbare Daten-/Konfigurationsquellen:
+- `config/universe.example.yaml`
+- `config/indicator_registry.yaml`
+- `config/regime_matrix.yaml`
+- `config/risk_guardrails.yaml`
+- `config/rule_registry.yaml`
+- `tests/golden_cases/*.json`
+
+## 3) Ausgaben / Verträge / Abhängigkeiten
+- Upstream-Gate für Station 1 → Station 2/3.
+- Datenqualitätszustände werden in Core-Artefakten mitgeführt.
+- Direkte Abhängigkeiten:
   - Modul 02 (Feature/Signal)
   - Modul 03 (Strategie/Entscheidung)
   - Modul 05 (Risikomanagement)
   - Modul 08 (Backtest/Simulation)
 
-## 3) Gefundene Konflikte (kritisch/mittel/neutral/entfernen)
-- **Offen (vorläufig):** Noch keine codebasierte Verifikation durchgeführt; potenzielle Konflikte werden in den Folgeschritten aus der tatsächlichen Datenpipeline erhoben.
+## 4) Risiken / Konflikte / Inkonsistenzen
 
-## 4) Begründung der Einstufung
-- Ohne Prüfung realer Datenpfade, Zeitstempel-Logik und Qualitätskontrollen ist keine belastbare finale Klassifikation möglich.
-- Deshalb initiale Vorstufe: Konflikte noch offen, konkrete Einstufung nach technischer Prüfung.
+### Konflikt M01-C01 — Klassifikation: HIGH
+- Typ: Governance-/Spezifikationslücke.
+- Befund: Projekt enthält umfangreiche Spezifikationen und Golden Cases, aber keine produktive Implementierung der Datenpipeline.
+- Wirkung: Fachliche Prüfregeln sind definiert, aber technisch nicht ausführbar/verifizierbar im aktuellen Repo-Stand.
 
-## 5) Abhängigkeitseffekt (betroffene Module)
-- Fehler in der Datenebene propagieren direkt in Signalqualität (Modul 02), Entscheidungslogik (Modul 03), Risikobewertung (Modul 05) und Backtest-Gültigkeit (Modul 08).
-- Potenziell kritischer Kaskadeneffekt bei inkonsistenten Zeitbezügen oder Datenlücken.
+### Konflikt M01-C02 — Klassifikation: MEDIUM
+- Typ: Konfigurationsvollständigkeit.
+- Befund: `indicator_registry.yaml` und `regime_matrix.yaml` enthalten leere Arrays.
 
-## 6) Vorläufige Maßnahme (jetzt klären / in Matrix entscheiden)
-- **Jetzt klären:** Dateninventar und Datenfluss dokumentieren (Quelle → Transformation → Speicherung → Nutzung).
-- **Jetzt klären:** Prüfregeln für Vollständigkeit, Zeitkonsistenz, Dubletten und Ausreißer definieren.
-- **In Matrix entscheiden:** Zielniveau von Latenz/Qualität vs. Aufwand für Härtung der Pipeline.
+### Konflikt M01-C03 — Klassifikation: LOW
+- Typ: Nachvollziehbarkeit/Quellenklarheit.
+- Befund: Universe-Datei nur als `universe.example.yaml` sichtbar.
+
+## 5) Architektur- und Sicherheitsbewertung
+- Positiv: Klare Spezifikationstiefe und Traceability-Konzept.
+- Kritisch: Repo derzeit primär spezifikations-/testfallgetrieben ohne nachweisbare Runtime-Implementierung.
+- Restrisiko: Sicherheitsannahmen aktuell dokumentiert, aber nicht empirisch verifiziert.
+
+## 6) Empfehlung / Maßnahmen / offene Punkte
+1. HIGH: Minimal ausführbaren Datenebenen-Slice definieren.
+2. MEDIUM: `indicator_registry` und `regime_matrix` fachlich befüllen oder explizit als bewusst leer deklarieren.
+3. LOW: Konfigurationskonvention dokumentieren (`*.example.yaml` vs produktive `*.yaml`).
+
+Offene Punkte:
+- Welche Datei gilt als produktive Universe-Konfiguration?
+- Welche Pflichtfelder gelten für `regime_matrix` und `indicator_registry`?
+- Soll Station 1 bei leeren, aber formal gültigen Registern blockieren oder warnen?
