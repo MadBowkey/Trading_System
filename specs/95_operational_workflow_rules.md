@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Project: Trading System
-Last updated: 2026-06-17
+Last updated: 2026-06-18
 
 ## Zweck
 
@@ -46,11 +46,11 @@ P) Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet ChatGPT das 
 
 Letztes bestandenes Pre-Handoff Gate:
 
-- Gate 007
-- Report: `_codex_reports/pre_handoff_gate_007_after_transition_protocol.md`
+- Gate 008
+- Report: `_codex_reports/pre_handoff_gate_008_transition_execution.md`
 - KRITISCH: 0
 - MITTEL: 0
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Gate 006 bleibt historisch bestanden. Gate 007 ist der aktuelle Uebergabestand nach Einfuehrung des New Chat Transition Protocol.
+Gate 007 bleibt historisch bestanden. Gate 008 ist der aktuelle Uebergabestand nach Ausfuehrung des New Chat Transition Protocol.
