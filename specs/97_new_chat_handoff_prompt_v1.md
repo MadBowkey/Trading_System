@@ -1,43 +1,32 @@
 # New Chat Handoff Prompt v1
 
-Wir arbeiten im Projekt Trading System.
+Project: Trading System
 
-## Pflichtkontext
+## Read first
 
-Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
+- specs/93_new_chat_transition_protocol.md
+- specs/94_start_audit_protocol.md
+- specs/95_operational_workflow_rules.md
+- specs/96_frozen_project_state.md
+- specs/98_spec_index.md
+- specs/99_handoff_snapshot_current.md
+- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
 
-- `specs/93_new_chat_transition_protocol.md`
-- `specs/94_start_audit_protocol.md`
-- `specs/95_operational_workflow_rules.md`
-- `specs/96_frozen_project_state.md`
-- `specs/98_spec_index.md`
-- `specs/99_handoff_snapshot_current.md`
-- `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
+## Gate
 
-## Gate-Status
+Gate 007 passed.
 
-Letztes bestandenes Pre-Handoff Gate:
+KRITISCH: 0
+MITTEL: 0
 
-- Gate 006
-- Report: `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
-- KRITISCH: 0
-- MITTEL: 0
-- Handoff-Empfehlung: JA
+## First response
 
-Nach Einfuehrung von `specs/93_new_chat_transition_protocol.md` ist vor der naechsten Uebergabe ein aktuelles Gate erforderlich.
+Read the mandatory context first. Then report briefly:
 
-## Erste Antwort im neuen Chat
-
-Der neue Chat soll zuerst nur read-only pruefen und knapp berichten:
-
-A) Projektstand gelesen
-B) relevante Dateien gefunden
-C) aktueller Stand verstanden
-D) projektweite Konsistenzpruefung
-E) Befunde nach Schweregrad
-F) Uebergabestand verwendbar: Ja/Nein
-G) naechster fachlicher Vorschlag
-
-## Naechster fachlicher Schritt
-
-Vor einer neuen Uebergabe das aktuelle Transition-Protokoll ausfuehren oder den naechsten fachlichen Arbeitspunkt festlegen.
+A) project state read
+B) relevant files found
+C) current state understood
+D) consistency check
+E) findings by severity
+F) handoff usable yes/no
+G) next suggested work item
