@@ -82,17 +82,17 @@ Regel: Eine Architekturgrenze gilt erst als belastbar, wenn sie durch Datei, Con
 Wirkung: Was nicht beweisbar getrennt ist, gilt als potenziell vermischt.
 Nicht tun: Nur argumentativ behaupten, dass eine Grenze sauber ist.
 
-FS-009 — Simulator liefert Constraints, keinen State
+FS-009 — Simulator liefert keine offiziellen States
 Status: ACTIVE
-Regel: Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals Portfolio-State erzeugen.
-Wirkung: Execution Simulator liefert Prognose, Szenario oder ExecutionConstraintReport; Reconciliation bleibt alleiniger Weg zu bestaetigtem State.
-Nicht tun: `Simulator -> PortfolioState.update(partial_fill)` oder interne Weiterrechnung auf simuliertem offiziellen State.
+Regel: Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals offiziellen, bestaetigten oder reconciled Portfolio-State erzeugen.
+Wirkung: Execution Simulator liefert Prognose, Szenario, ExecutionConstraintReport, SimulationReport oder einen nicht-offiziellen Szenario-State; Reconciliation bleibt alleiniger Weg zu bestaetigtem State.
+Nicht tun: `Simulator -> CURRENT_CONFIRMED`, Reconciliation-Ersatz oder interne Weiterrechnung auf simuliertem offiziellen State.
 
 FS-010 — Simulation vs. Reconciliation
 Status: ACTIVE
 Regel: Nur echte Broker-/Exchange-Fills duerfen ueber Reconciliation offiziellen Portfolio-State aktualisieren.
-Wirkung: `SIMULATED_POST_EXECUTION` darf nie automatisch `CURRENT_CONFIRMED` werden.
-Nicht tun: Partial Fill, No Fill oder Slippage aus Simulation als echten Bestand behandeln.
+Wirkung: `SIMULATED_POST_EXECUTION` darf gespeichert oder berichtet werden, wird aber nie automatisch `CURRENT_CONFIRMED`.
+Nicht tun: Partial Fill, No Fill, Slippage oder SIMULATED_POST_EXECUTION aus Simulation als echten Bestand behandeln.
 
 FS-011 — LLM und Guardrails
 Status: ACTIVE
