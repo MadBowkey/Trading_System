@@ -109,9 +109,9 @@ A) Der Execution Simulator darf keine finale Risikoentscheidung treffen.
 
 B) Die finale Risikologik darf simulierte Ausfuehrungen nicht als echte Zustaende behandeln.
 
-C) Der Execution Simulator darf keinen PortfolioState, Ledger-State, Reconciliation-State, CASH_ONLY-Status oder Risk-Regime final setzen.
+C) Der Execution Simulator darf keinen offiziellen, bestaetigten oder reconciled Portfolio State, keinen Reconciliation-State, keinen CASH_ONLY-Status und kein Risk-Regime final setzen.
 
-D) Final Risk darf SimulationReport, Partial Fill, No Fill oder Slippage nicht als echte Position, echten Fill oder echten Risk-State verbuchen.
+D) Final Risk darf SimulationReport, Partial Fill, No Fill, Slippage, post_execution_portfolio oder SIMULATED_POST_EXECUTION nicht als echte Position, echten Fill oder echten Risk-State verbuchen.
 
 E) Nur Reconciliation echter Broker-/Exchange-Fills darf offiziellen Portfolio-State aktualisieren.
 
@@ -119,6 +119,8 @@ Erlaubter Simulator-Rueckkanal:
 
 - ExecutionConstraint
 - SimulationReport
+- post_execution_portfolio als rein hypothetisches Simulationsergebnis
+- SIMULATED_POST_EXECUTION als nicht-offizieller, nicht-bestaetigter Szenario-State
 - liquidity_status
 - max_executable_quantity
 - expected_slippage_bps
@@ -127,11 +129,12 @@ Erlaubter Simulator-Rueckkanal:
 
 Verbotener Rueckkanal:
 
-- PortfolioState.update aus Simulation
-- Ledger/Reconciliation-State aus Simulation
-- echte Position aus SimulationReport
-- echter Fill aus SimulationReport
-- finaler Risk-State aus SimulationReport
+- offizieller, bestaetigter oder reconciled PortfolioState aus Simulation
+- PortfolioState.update als CURRENT_CONFIRMED aus Simulation
+- Reconciliation-State aus Simulation
+- echte Position aus SimulationReport oder SIMULATED_POST_EXECUTION
+- echter Fill aus SimulationReport oder SIMULATED_POST_EXECUTION
+- finaler Risk-State aus SimulationReport oder SIMULATED_POST_EXECUTION
 - interne Weiterrechnung auf simuliertem offiziellen State
 
 Soll-Kette:
@@ -140,7 +143,7 @@ Official Snapshot
 -> Strategy / LLM Candidate
 -> Risk Precheck
 -> Execution Simulator
--> ExecutionConstraint / SimulationReport
+-> ExecutionConstraint / SimulationReport / non-official Scenario State
 -> Final Risk Scenario Validation
 -> OrderTicket
 -> Exchange
@@ -151,26 +154,28 @@ Official Snapshot
 Verbotene Kette:
 
 Execution Simulator
--> PortfolioState Update
+-> Official PortfolioState Update
 
 oder:
 
-SimulationReport
+SimulationReport / SIMULATED_POST_EXECUTION
 -> echte Position / echter Fill / echter Risk-State
 
 ## State-Leak-Golden-Case-Pflicht
 
 Mindestens diese Faelle muessen existieren oder als fehlend gemeldet werden:
 
-A) FULL_FILL: Order moeglich, State bleibt bis Reconciliation unveraendert.
+A) FULL_FILL: Order moeglich, offizieller State bleibt bis Reconciliation unveraendert.
 
-B) PARTIAL_FILL: Simulator meldet Teilfuellbarkeit, State bleibt unveraendert, neuer isolierter Plan / Reduce / Block.
+B) PARTIAL_FILL: Simulator meldet Teilfuellbarkeit, offizieller State bleibt unveraendert, neuer isolierter Plan / Reduce / Block.
 
-C) NO_FILL: keine State-Aenderung, Order blockiert oder neu geplant.
+C) NO_FILL: keine offizielle State-Aenderung, Order blockiert oder neu geplant.
 
-D) HIGH_SLIPPAGE: keine State-Aenderung, Order reduziert oder blockiert.
+D) HIGH_SLIPPAGE: keine offizielle State-Aenderung, Order reduziert oder blockiert.
 
 E) STALE_ORDERBOOK: Simulation ungueltig, keine Risikoentscheidung auf Basis dieser Simulation.
+
+F) SIMULATED_POST_EXECUTION: darf gespeichert oder berichtet werden, bleibt aber nicht bestaetigt und wird nie CURRENT_CONFIRMED.
 
 ## Erster Schritt im State-Leak-Audit
 
