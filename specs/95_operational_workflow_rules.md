@@ -40,6 +40,8 @@ N) Wenn der Benutzer `frozen` schreibt, muss `specs/96_frozen_project_state.md` 
 
 O) Zukuenftige Architektur-Audits starten nach `specs/94_start_audit_protocol.md`. Audits sind read-only, behandeln bestehende Artefakte als Hypothesen und klassifizieren Befunde mindestens als PASS, WARN, FAIL oder ALT.
 
+P) Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet ChatGPT das New Chat Transition Protocol aus `specs/93_new_chat_transition_protocol.md`. Der Prozess sammelt Pflichtkontext, prueft Frozen State, prueft Struktur/Konsistenz, erstellt einen aktuellen Pre-Handoff-Gate-Report, aktualisiert 95/97/98/99 und gibt die Uebergabe nur bei KRITISCH 0 und MITTEL 0 frei.
+
 ## Aktueller Gate-Stand
 
 Letztes bestandenes Pre-Handoff Gate:
@@ -51,4 +53,4 @@ Letztes bestandenes Pre-Handoff Gate:
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Gate 005 ist historisch erledigt. Der dortige Befund G005-MITTEL-001 wurde durch die Architekturentscheidung zur nicht-offiziellen SIMULATED_POST_EXECUTION-Grenze geschlossen.
+Nach Einfuehrung von `specs/93_new_chat_transition_protocol.md` muss ein neues Gate ausgefuehrt werden, bevor eine neue Uebergabe als aktuell freigegeben gilt.
