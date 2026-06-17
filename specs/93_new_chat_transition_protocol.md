@@ -52,7 +52,7 @@ E) `specs/98_spec_index.md`
 
 F) `specs/99_handoff_snapshot_current.md`
 
-- enthaelt aktuellen Snapshot, aktuellen Gate-Status und den letzten freigegebenen Handoff-Stand.
+- enthaelt aktuellen Snapshot, aktuellen Gate-Status, aktuellen Gate-Report, aktuellen naechsten fachlichen Arbeitspunkt und den kurzen Copy-Paste-Prompt.
 
 ## Pflichtpruefung bei Uebergabe
 
@@ -88,6 +88,7 @@ Pruefen:
 - Dateirollen 95 bis 99 ueberschneidungsarm?
 - 97 verweist auf 99 und letzten Gate-Report?
 - 99 verweist auf den aktuellen Gate-Report?
+- 99 enthaelt einen konkreten naechsten fachlichen Arbeitspunkt oder sagt ausdruecklich, dass keiner gesetzt ist?
 - Gate-Status widerspruchsfrei?
 - Specs und Golden Cases konsistent?
 - Frozen State gegen Specs widerspruchsfrei?
@@ -117,8 +118,8 @@ Wenn KRITISCH > 0 oder MITTEL > 0:
 Wenn KRITISCH = 0 und MITTEL = 0:
 
 - Uebergabe freigegeben.
-- 99 wird auf den aktuellen Gate-Status aktualisiert.
-- 97 wird als New-Prompt-Datei aktualisiert.
+- 99 wird auf aktuellen Gate-Status, aktuellen Gate-Report, naechsten fachlichen Arbeitspunkt und kurzen Copy-Paste-Prompt aktualisiert.
+- 97 wird als New-Prompt-Datei aktualisiert, falls sich Startlogik oder Pflichtkontext geaendert haben.
 - 95, 96 und 98 werden nur aktualisiert, wenn sich Regeln, Frozen State oder Indexstruktur geaendert haben.
 
 ## Kurzprompt fuer den neuen Chat
