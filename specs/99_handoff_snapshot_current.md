@@ -3,9 +3,9 @@
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
-Snapshot date: 2026-06-17
+Snapshot date: 2026-06-18
 
-## Pflichtkontext fuer neuen Chat
+## Read first
 
 - specs/93_new_chat_transition_protocol.md
 - specs/94_start_audit_protocol.md
@@ -13,26 +13,26 @@ Snapshot date: 2026-06-17
 - specs/96_frozen_project_state.md
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
-- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
+- _codex_reports/pre_handoff_gate_008_transition_execution.md
 
-## Gate-Status
+## Gate
 
-- Letztes bestandenes Gate: Gate 007
-- KRITISCH: 0
-- MITTEL: 0
-- Handoff-Empfehlung: JA
+Gate 008 passed.
 
-## Aktueller Stand
+KRITISCH: 0
+MITTEL: 0
 
-- Station 8: FINAL
-- Audit Core v1.0: FINAL
-- Execution Simulator Core v1.0: DRAFT
-- Pre-Order Contract Core v1.0: DRAFT
-- Portfolio State & Ledger Core v1.0: FINAL
-- New Chat Transition Protocol: CURRENT
-- Start Audit Protocol: CURRENT
-- Frozen Project State: CURRENT
+## Current state
 
-## Naechster Schritt
+Station 8: FINAL.
+Audit Core v1.0: FINAL.
+Execution Simulator Core v1.0: DRAFT.
+Pre-Order Contract Core v1.0: DRAFT.
+Portfolio State & Ledger Core v1.0: FINAL.
+Transition Protocol: CURRENT.
+Start Audit Protocol: CURRENT.
+Frozen Project State: CURRENT.
 
-Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 007 freigegeben.
+## Next step
+
+Start the new chat or define the next work item.
