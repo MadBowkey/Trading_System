@@ -12,31 +12,20 @@ Snapshot date: 2026-06-17
 - specs/96_frozen_project_state.md
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
-- _codex_reports/pre_handoff_gate_005_after_frozen_state.md
+- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
 
 ## Gate-Status
 
 Letztes bestandenes Pre-Handoff Gate:
 
-- Gate 004
+- Gate 006
+- Report: `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
 - KRITISCH: 0
 - MITTEL: 0
+- REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Aktuelles Pre-Handoff Gate:
-
-- Gate 005
-- Report: `_codex_reports/pre_handoff_gate_005_after_frozen_state.md`
-- KRITISCH: 0
-- MITTEL: 1
-- REDAKTIONELL: 0 blockierend
-- Handoff-Empfehlung: NEIN
-
-Offener Befund:
-
-- G005-MITTEL-001
-
-Eine neue Chat-Uebergabe ist nicht freigegeben, solange dieser Befund offen ist.
+Gate 005 ist historisch erledigt.
 
 ## Aktueller Stand
 
@@ -65,8 +54,8 @@ G) Frozen Project State: CURRENT.
 - tests/golden_cases/execution_simulator_core_v1_cases.json
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
 - tests/golden_cases/portfolio_state_ledger_core_v1_cases.json
-- _codex_reports/pre_handoff_gate_005_after_frozen_state.md
+- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
 
 ## Nächster Schritt
 
-G005-MITTEL-001 fachlich entscheiden. Danach relevante Specs / Golden Cases gezielt aktualisieren und ein neues Pre-Handoff-Gate ausfuehren. Uebergabe erst starten, wenn KRITISCH 0 und MITTEL 0 bestaetigt sind.
+Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 006 freigegeben.
