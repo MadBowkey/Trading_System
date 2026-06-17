@@ -108,8 +108,8 @@ Nicht tun: Kurzfristige Vereinfachung akzeptieren, wenn sie spaeter Modulgrenzen
 
 FS-013 — Neue Chat-Uebergabe
 Status: ACTIVE
-Regel: Neue Chats muessen neben 95/97/98/99 auch `specs/94_start_audit_protocol.md` und diese Datei lesen.
-Wirkung: Neue Chats kennen nicht nur formalen Projektstand, sondern auch uebergabekritische Chat-Entscheidungen.
+Regel: Neue Chats muessen neben 95/97/98/99 auch `specs/93_new_chat_transition_protocol.md`, `specs/94_start_audit_protocol.md` und diese Datei lesen.
+Wirkung: Neue Chats kennen nicht nur formalen Projektstand, sondern auch Uebergabeprozess und uebergabekritische Chat-Entscheidungen.
 Nicht tun: Nur Handoff-Snapshot lesen und danach chat-beschlossene Architekturregeln ignorieren.
 
 FS-014 — Start Audit Protocol
@@ -123,3 +123,9 @@ Status: ACTIVE
 Regel: Beim ersten echten State-Leak-Audit werden zuerst nur read-only Suchtreffer gesammelt und gepostet.
 Wirkung: Danach werden die Fundstellen gezielt klassifiziert.
 Nicht tun: Sofort Code, Specs oder Golden Cases umschreiben.
+
+FS-016 — Uebergabe-Kurzbefehl
+Status: ACTIVE
+Regel: Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet das New Chat Transition Protocol aus `specs/93_new_chat_transition_protocol.md`.
+Wirkung: Die KI sammelt Pflichtkontext, prueft Frozen State, prueft Konsistenz/Struktur, erzeugt oder aktualisiert Gate-Report, aktualisiert Handoff-Dateien und gibt die Uebergabe nur bei KRITISCH 0 und MITTEL 0 frei.
+Nicht tun: Einen langen improvisierten Prompt erzeugen oder ohne Gate direkt in einen neuen Chat wechseln.
