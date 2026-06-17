@@ -49,4 +49,12 @@ Finales Pre-Handoff Gate 004 auf damaligem `main` wurde bestanden:
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Nach dieser Datei-Aktualisierung muss vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate ausgefuehrt werden.
+Aktuelles Pre-Handoff Gate 005 auf aktuellem `main` wurde ausgefuehrt:
+
+- Report: `_codex_reports/pre_handoff_gate_005_after_frozen_state.md`
+- KRITISCH: 0
+- MITTEL: 1
+- REDAKTIONELL: 0 blockierend
+- Handoff-Empfehlung: NEIN
+
+Offener MITTEL-Befund: G005-MITTEL-001 — Simulator State Boundary Inconsistency. Vor einer neuen Uebergabe muss diese Architekturgrenze entschieden werden.
