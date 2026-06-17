@@ -13,16 +13,14 @@ Snapshot date: 2026-06-17
 - specs/96_frozen_project_state.md
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
-- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
+- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
 
 ## Gate-Status
 
-- Letztes bestandenes Gate: Gate 006
+- Letztes bestandenes Gate: Gate 007
 - KRITISCH: 0
 - MITTEL: 0
 - Handoff-Empfehlung: JA
-
-Nach dem neuen Transition Protocol ist vor der naechsten Uebergabe ein frisches Gate erforderlich.
 
 ## Aktueller Stand
 
@@ -37,4 +35,4 @@ Nach dem neuen Transition Protocol ist vor der naechsten Uebergabe ein frisches 
 
 ## Naechster Schritt
 
-Aktuelles Pre-Handoff-Gate fuer den neuen Transition-Prozess ausfuehren.
+Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 007 freigegeben.
