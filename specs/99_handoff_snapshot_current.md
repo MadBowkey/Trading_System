@@ -7,6 +7,7 @@ Snapshot date: 2026-06-17
 
 ## Pflichtkontext fuer neuen Chat
 
+- specs/93_new_chat_transition_protocol.md
 - specs/94_start_audit_protocol.md
 - specs/95_operational_workflow_rules.md
 - specs/96_frozen_project_state.md
@@ -16,46 +17,24 @@ Snapshot date: 2026-06-17
 
 ## Gate-Status
 
-Letztes bestandenes Pre-Handoff Gate:
-
-- Gate 006
-- Report: `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
+- Letztes bestandenes Gate: Gate 006
 - KRITISCH: 0
 - MITTEL: 0
-- REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Gate 005 ist historisch erledigt.
+Nach dem neuen Transition Protocol ist vor der naechsten Uebergabe ein frisches Gate erforderlich.
 
 ## Aktueller Stand
 
-A) Station 8 — Order Validator: FINAL.
-B) Audit-Log Core v1.0: FINAL.
-C) Execution Simulator Core v1.0: DRAFT.
-D) Pre-Order / Proposed Order Contract Core v1.0: DRAFT.
-E) Portfolio State & Ledger Core v1.0: FINAL.
-F) Start Audit Protocol: CURRENT.
-G) Frozen Project State: CURRENT.
+- Station 8: FINAL
+- Audit Core v1.0: FINAL
+- Execution Simulator Core v1.0: DRAFT
+- Pre-Order Contract Core v1.0: DRAFT
+- Portfolio State & Ledger Core v1.0: FINAL
+- New Chat Transition Protocol: CURRENT
+- Start Audit Protocol: CURRENT
+- Frozen Project State: CURRENT
 
-## Wichtige Dateien
+## Naechster Schritt
 
-- specs/94_start_audit_protocol.md
-- specs/95_operational_workflow_rules.md
-- specs/96_frozen_project_state.md
-- specs/97_new_chat_handoff_prompt_v1.md
-- specs/98_spec_index.md
-- specs/14_station_8_order_validator.md
-- specs/15_audit_log_core_v1.md
-- specs/16_execution_simulator_core_v1.md
-- specs/17_pre_order_proposed_order_contract_core_v1.md
-- specs/18_portfolio_state_ledger_core_v1.md
-- tests/golden_cases/station_8_order_validator_cases.json
-- tests/golden_cases/audit_log_core_v1_cases.json
-- tests/golden_cases/execution_simulator_core_v1_cases.json
-- tests/golden_cases/pre_order_contract_core_v1_cases.json
-- tests/golden_cases/portfolio_state_ledger_core_v1_cases.json
-- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
-
-## Nächster Schritt
-
-Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 006 freigegeben.
+Aktuelles Pre-Handoff-Gate fuer den neuen Transition-Prozess ausfuehren.
