@@ -6,7 +6,9 @@ Wir arbeiten im Projekt Trading System.
 
 Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
 
+- `specs/94_start_audit_protocol.md`
 - `specs/95_operational_workflow_rules.md`
+- `specs/96_frozen_project_state.md`
 - `specs/98_spec_index.md`
 - `specs/99_handoff_snapshot_current.md`
 - `_codex_reports/pre_handoff_gate_004_final_after_spt.md`
@@ -18,6 +20,7 @@ Letztes bestandenes Pre-Handoff Gate:
 - MITTEL: 0
 - Handoff-Empfehlung: JA
 - Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
+- Seit Gate 004 wurden `specs/94_start_audit_protocol.md`, `specs/96_frozen_project_state.md` und die Handoff-Dateien aktualisiert; vor der naechsten Uebergabe ist ein neuer Gate-Lauf noetig.
 
 ## Harte Uebergaberegel
 
@@ -54,6 +57,8 @@ F) Backend- oder chat-only-Aenderungen gelten nicht als erledigt, solange sie ni
 G) Lokale PowerShell-Dateiaenderungen muessen als ein vollstaendiger ausfuehrbarer Block geliefert werden; bei Datei-Schreibvorgaengen mit explizitem StreamWriter Write/Close und try/finally.
 H) Lange Reports, Logs und Diffs gehoeren nach GitHub; Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
 I) `weiter` bedeutet den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln.
+J) Wenn der Benutzer `frozen` schreibt, muss `specs/96_frozen_project_state.md` geprueft und kuratiert aktualisiert werden; alte Eintraege sind auf Loeschung, Ersetzung oder Ueberfuehrung in Fachspecs zu pruefen.
+K) Architektur-Audits starten nach `specs/94_start_audit_protocol.md` und sind read-only.
 
 ## Aktueller Stand
 
@@ -72,9 +77,17 @@ Status: DRAFT. Definiert den Vertrag zwischen strategischer Entscheidung / Rebal
 E) Portfolio State & Ledger Core v1.0
 Status: FINAL. Definiert Portfolio State und append-only Portfolio Ledger als Querschicht, nicht Station 9, inklusive portfolio_state_type, minimalen Pflichtfeldern, Schnittstellen, Core-v1-Grenzen, Codex-Hinweis, Ledger-Index, Ledger Operation Outcomes und Golden Cases.
 
+F) Start Audit Protocol
+Status: CURRENT. Definiert den read-only Audit-Startmodus, Artefakte-als-Hypothesen-Regel, PASS/WARN/FAIL/ALT-Klassifikation, State-Leak-/Autoritaets-/Beweisfilter und erste Audit-Schwerpunkte.
+
+G) Frozen Project State
+Status: CURRENT. Friert uebergabekritische Chat-Entscheidungen kompakt ein, darunter Audit-Maximen, Gegenentwurfs-Pflichten, State-Leak-Sicherungen, LLM-/Guardrail-Abgrenzung und `frozen`-Pflegeregel.
+
 ## Wichtige Dateien
 
+- specs/94_start_audit_protocol.md
 - specs/95_operational_workflow_rules.md
+- specs/96_frozen_project_state.md
 - specs/14_station_8_order_validator.md
 - specs/15_audit_log_core_v1.md
 - specs/16_execution_simulator_core_v1.md
@@ -104,6 +117,14 @@ J) SIMULATED_POST_EXECUTION wird nie automatisch CURRENT_CONFIRMED.
 K) Ledger ist append-only; Ledger-Index ist nur abgeleitete Navigationsstruktur.
 L) Ledger Operation Outcomes erzeugen keine Pipeline-, System- oder Audit-Core-Statuswerte.
 M) Keine Uebergabe ohne bestandenes aktuelles Pre-Handoff-Gate.
+N) Frozen State ist kompakt, versioniert und nicht fachliche Single Source of Truth.
+O) Bestehende Artefakte gelten im Audit zunaechst als Hypothesen.
+P) Audit mutiert nicht und repariert nicht.
+Q) Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals Portfolio-State erzeugen.
+R) Nur Reconciliation echter Broker-/Exchange-Fills darf offiziellen Portfolio-State aktualisieren.
+S) Das LLM darf Strategie vorschlagen; harte Risiko-/Guardrail-/Validator-Entscheidungen muessen deterministisch pruefbar sein.
+T) Groessere Architekturentscheidungen muessen gegen starke Gegenentwuerfe oder schlankere Alternativen geprueft werden.
+U) Architekturgrenzen muessen durch Contracts, Golden Cases, Enums, Zustandsuebergaenge oder deterministische Tests beweisbar sein.
 
 ## Projektweite Read-only-Pruefung
 
@@ -115,9 +136,11 @@ C) Golden Cases
 D) Handoff / Index
 E) Redundanz / Struktur
 F) offensichtliche Uebergabeluecken
+G) Abgleich gegen Frozen State
+H) Abgleich gegen Start Audit Protocol, falls ein Audit begonnen wird
 
 Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
 ## Naechster fachlicher Schritt
 
-Projektweite Konsistenz- und Schnittstellenpruefung nach Spec 18 FINAL durchfuehren und danach den naechsten Implementierungs- oder Spezifikationsschritt festlegen.
+Vor der geplanten neuen Chat-Uebergabe ein aktuelles Pre-Handoff-Gate auf GitHub `main` durchfuehren, das `specs/94_start_audit_protocol.md` und `specs/96_frozen_project_state.md` einschliesst. Danach Uebergabe nur mit Gate-Status KRITISCH 0 und MITTEL 0 starten.
