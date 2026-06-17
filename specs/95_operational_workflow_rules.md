@@ -30,7 +30,7 @@ I) Lange Reports, Logs und Diffs gehoeren nach GitHub in Reports, Issues oder PR
 
 J) `weiter` bedeutet: den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln, und dabei die Rollenverteilung Team/ChatGPT/Codex einhalten.
 
-K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT den PR-Status, das zugehoerige Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist. Erledigte zugehoerige Issues werden mit `state_reason: completed` geschlossen. Neue Codex-PRs muessen im PR-Body `Closes #<Issue-Nummer>` enthalten. Issue #7 bleibt offen, solange lokaler Sync ein eigener offener Arbeitspunkt ist.
+K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT den PR-Status, das zugehoerige Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist. Erledigte zugehoerige Issues werden mit `state_reason: completed` geschlossen. Neue Codex-PRs muessen im PR-Body `Closes #<Issue-Nummer>` enthalten. Issue-Status folgt dem aktuellen GitHub-Stand und darf nicht aus veralteten Handoff-Texten abgeleitet werden.
 
 L) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus. Reine Report-Arbeiten werden als `_codex_reports/...md` per PR eingebracht. Reine lokale Ablaeufe werden als `_codex_reports/local_...md` dokumentiert oder mindestens mit eindeutigem Abschlusskommentar im Issue belegt. Das Team darf PR-Nummern oder Abschlussstatus nicht manuell suchen muessen.
 
