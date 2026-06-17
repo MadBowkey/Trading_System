@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Architecture: v1.6.1
-Last updated: 2026-05-20
+Last updated: 2026-06-17
 
 ## Zweck
 
@@ -30,8 +30,14 @@ Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mi
 
 ## Workflow / Handoff
 
+- specs/94_start_audit_protocol.md
+  Enthält den verbindlichen Startmodus fuer zukuenftige read-only Architektur-Audits inklusive Artefakte-als-Hypothesen-Regel, PASS/WARN/FAIL/ALT-Klassifikation, State-Leak-, Autoritaets-, Alternativen- und Beweisfilter.
+
 - specs/95_operational_workflow_rules.md
-  Enthält die verbindlichen Arbeitsregeln für ChatGPT, Codex, GitHub-Rueckkanal, lokale Ausfuehrung, PowerShell-Dateiaenderungen und neue Chat-Uebergaben.
+  Enthält die verbindlichen Arbeitsregeln für ChatGPT, Codex, GitHub-Rueckkanal, lokale Ausfuehrung, PowerShell-Dateiaenderungen, Frozen-State-Pflege und neue Chat-Uebergaben.
+
+- specs/96_frozen_project_state.md
+  Enthält kompakte, uebergabekritische Chat-Entscheidungen, die nicht als fachliche Single Source of Truth dienen, aber neue Chats gegen Kontextverlust und Token-Verdraengung schuetzen.
 
 - specs/97_new_chat_handoff_prompt_v1.md
   Enthält den versionierten Uebergabe-Prompt fuer einen neuen Chat.
@@ -49,6 +55,7 @@ Aktueller Gate-Status:
 - MITTEL: 0.
 - Handoff-Empfehlung: JA.
 - Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
+- Seit Gate 004 wurden 94/95/96/97/98/99 aktualisiert; vor der geplanten neuen Chat-Uebergabe ist ein aktuelles Gate erforderlich.
 
 ## Spezifikationsdateien
 
@@ -191,9 +198,13 @@ Pre-Order / Proposed Order Contract Core v1.0 ist als DRAFT angelegt.
 
 Portfolio State & Ledger Core v1.0 ist FINAL.
 
+Start Audit Protocol ist CURRENT.
+
+Frozen Project State ist CURRENT.
+
 Nächster fachlicher Schritt:
 
-Projektweite Konsistenz- und Schnittstellenprüfung nach Spec 18 FINAL durchführen und danach den nächsten Implementierungs- oder Spezifikationsschritt festlegen.
+Vor der geplanten neuen Chat-Uebergabe ein aktuelles Pre-Handoff-Gate auf GitHub `main` durchfuehren, das `specs/94_start_audit_protocol.md` und `specs/96_frozen_project_state.md` einschliesst. Danach erst neuen Chat starten.
 
 ## Arbeitsregel
 
