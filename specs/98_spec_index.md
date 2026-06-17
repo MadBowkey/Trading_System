@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Architecture: v1.6.1
-Last updated: 2026-06-17
+Last updated: 2026-06-18
 
 ## Canonical source
 
@@ -19,9 +19,9 @@ GitHub main is the canonical technical project state.
 
 ## Last passed gate
 
-- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
+- _codex_reports/pre_handoff_gate_008_transition_execution.md
 
-Gate 007 passed with KRITISCH 0 and MITTEL 0.
+Gate 008 passed with KRITISCH 0 and MITTEL 0.
 
 ## Core specs
 
