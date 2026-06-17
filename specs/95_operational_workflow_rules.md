@@ -46,11 +46,11 @@ P) Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet ChatGPT das 
 
 Letztes bestandenes Pre-Handoff Gate:
 
-- Gate 006
-- Report: `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
+- Gate 007
+- Report: `_codex_reports/pre_handoff_gate_007_after_transition_protocol.md`
 - KRITISCH: 0
 - MITTEL: 0
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Nach Einfuehrung von `specs/93_new_chat_transition_protocol.md` muss ein neues Gate ausgefuehrt werden, bevor eine neue Uebergabe als aktuell freigegeben gilt.
+Gate 006 bleibt historisch bestanden. Gate 007 ist der aktuelle Uebergabestand nach Einfuehrung des New Chat Transition Protocol.
