@@ -4,9 +4,15 @@ Status: CURRENT
 Architecture: v1.6.1
 Last updated: 2026-06-18
 
+## Zweck
+
+Diese Datei ist ein reiner Index.
+
+Sie enthaelt keine laufenden Gate-Snapshots und keine Handoff-Bewertung. Der aktuelle Uebergabestand steht in `specs/99_handoff_snapshot_current.md`.
+
 ## Canonical source
 
-GitHub main is the canonical technical project state.
+GitHub `main` is the canonical technical project state.
 
 ## Workflow files
 
@@ -15,13 +21,8 @@ GitHub main is the canonical technical project state.
 - specs/95_operational_workflow_rules.md
 - specs/96_frozen_project_state.md
 - specs/97_new_chat_handoff_prompt_v1.md
+- specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
-
-## Last passed gate
-
-- _codex_reports/pre_handoff_gate_008_transition_execution.md
-
-Gate 008 passed with KRITISCH 0 and MITTEL 0.
 
 ## Core specs
 
@@ -44,6 +45,14 @@ Gate 008 passed with KRITISCH 0 and MITTEL 0.
 - specs/16_execution_simulator_core_v1.md
 - specs/17_pre_order_proposed_order_contract_core_v1.md
 - specs/18_portfolio_state_ledger_core_v1.md
+
+## Config files
+
+- config/rule_registry.yaml
+- config/risk_guardrails.yaml
+- config/regime_matrix.yaml
+- config/indicator_registry.yaml
+- config/universe.example.yaml
 
 ## Golden cases
 
