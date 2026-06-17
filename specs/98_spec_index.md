@@ -45,17 +45,18 @@ Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mi
 - specs/99_handoff_snapshot_current.md
   Enthält den aktuellen Uebergabe-Snapshot fuer einen neuen Chat.
 
-- _codex_reports/pre_handoff_gate_004_final_after_spt.md
-  Enthält das letzte bestandene Pre-Handoff-Gate 004 nach der Source-of-Truth-Klaerung.
+- _codex_reports/pre_handoff_gate_005_after_frozen_state.md
+  Enthält das aktuelle Pre-Handoff-Gate 005 nach Frozen State / Start Audit Protocol.
 
 Aktueller Gate-Status:
 
-- Finales Pre-Handoff Gate 004: bestanden auf damaligem main-Stand.
+- Letztes bestandenes Gate: Gate 004 auf damaligem main-Stand.
+- Aktuelles Gate 005: FAILED.
 - KRITISCH: 0.
-- MITTEL: 0.
-- Handoff-Empfehlung: JA.
-- Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
-- Seit Gate 004 wurden 94/95/96/97/98/99 aktualisiert; vor der geplanten neuen Chat-Uebergabe ist ein aktuelles Gate erforderlich.
+- MITTEL: 1.
+- REDAKTIONELL: 0 blockierend.
+- Handoff-Empfehlung: NEIN.
+- Offener Befund: G005-MITTEL-001 — Simulator State Boundary Inconsistency.
 
 ## Spezifikationsdateien
 
@@ -202,9 +203,11 @@ Start Audit Protocol ist CURRENT.
 
 Frozen Project State ist CURRENT.
 
+Pre-Handoff Gate 005 ist FAILED mit MITTEL 1.
+
 Nächster fachlicher Schritt:
 
-Vor der geplanten neuen Chat-Uebergabe ein aktuelles Pre-Handoff-Gate auf GitHub `main` durchfuehren, das `specs/94_start_audit_protocol.md` und `specs/96_frozen_project_state.md` einschliesst. Danach erst neuen Chat starten.
+G005-MITTEL-001 entscheiden. Danach relevante Specs / Golden Cases gezielt aktualisieren und ein neues Pre-Handoff-Gate ausfuehren.
 
 ## Arbeitsregel
 
