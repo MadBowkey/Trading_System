@@ -56,13 +56,13 @@ FS-004 — Bestehende Artefakte sind Hypothesen
 Status: ACTIVE
 Regel: Jede bestehende Spezifikation, Pipeline und Modulgrenze gilt im Architektur-Audit zunaechst als Hypothese, nicht als gueltige Architekturentscheidung.
 Wirkung: Historie, Plausibilitaet und eloquente Begruendung geben keinen Heimvorteil.
-Nicht tun: Nur pruefen, ob die bestehende Loesung in sich erklaerbar ist.
+Nicht tun: Nur pruefen, ob die bestehende Loesung erklaerbar ist.
 
 FS-005 — Gegenentwurfs-Pflicht
 Status: ACTIVE
 Regel: Groessere Architekturentscheidungen muessen gegen mindestens einen starken Gegenentwurf oder eine schlankere Alternative geprueft werden.
 Wirkung: Bequeme oder naheliegende Loesungen gelten bis zur Alternativenpruefung als vorlaeufig.
-Nicht tun: Kompromisse akzeptieren, bevor harte vs. scheinbare Constraints und Alternativen geprueft sind.
+Nicht tun: Die zuerst naheliegende Loesung als Architekturautoritaet behandeln.
 
 FS-006 — Audit mutiert nicht
 Status: ACTIVE
@@ -70,44 +70,56 @@ Regel: Ein Audit ist read-only und darf nichts reparieren, umschreiben, optimier
 Wirkung: Audit erzeugt Befunde gegen feste Architektur-Invarianten.
 Nicht tun: Audit und Implementierung vermischen.
 
-FS-007 — Beweisbarkeit ist Pflicht
+FS-007 — Testbarkeit hat Vorrang
+Status: ACTIVE
+Regel: Testbarkeit ist ein harter Architekturfilter, nicht nachgelagerte Qualitaetssicherung.
+Wirkung: Golden Cases, Enum-Pruefungen, Validator-Checks, reproduzierbare Entscheidungsprotokolle, Fehlerklassifikationen und Cross-Reference-Checks muessen aktiv geprueft werden.
+Nicht tun: Plausible Architektur als ausreichend behandeln, wenn sie nicht beweisbar testbar ist.
+
+FS-008 — Beweisbarkeit ist Pflicht
 Status: ACTIVE
 Regel: Eine Architekturgrenze gilt erst als belastbar, wenn sie durch Datei, Contract, Golden Case, Enum, Zustandsuebergang oder deterministischen Test beweisbar ist.
 Wirkung: Was nicht beweisbar getrennt ist, gilt als potenziell vermischt.
 Nicht tun: Nur argumentativ behaupten, dass eine Grenze sauber ist.
 
-FS-008 — Simulator liefert Constraints, keinen State
+FS-009 — Simulator liefert Constraints, keinen State
 Status: ACTIVE
 Regel: Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals Portfolio-State erzeugen.
 Wirkung: Execution Simulator liefert Prognose, Szenario oder ExecutionConstraintReport; Reconciliation bleibt alleiniger Weg zu bestaetigtem State.
 Nicht tun: `Simulator -> PortfolioState.update(partial_fill)` oder interne Weiterrechnung auf simuliertem offiziellen State.
 
-FS-009 — Simulation vs. Reconciliation
+FS-010 — Simulation vs. Reconciliation
 Status: ACTIVE
 Regel: Nur echte Broker-/Exchange-Fills duerfen ueber Reconciliation offiziellen Portfolio-State aktualisieren.
 Wirkung: `SIMULATED_POST_EXECUTION` darf nie automatisch `CURRENT_CONFIRMED` werden.
 Nicht tun: Partial Fill, No Fill oder Slippage aus Simulation als echten Bestand behandeln.
 
-FS-010 — LLM und Guardrails
+FS-011 — LLM und Guardrails
 Status: ACTIVE
 Regel: Das LLM darf Strategie interpretieren und vorschlagen, aber harte Risiko-, Validierungs- und Guardrail-Entscheidungen muessen deterministisch ausserhalb reiner Prompt-Logik pruefbar sein.
 Wirkung: Harte Finanz-/Risikoregeln duerfen nicht weich im Prompt versteckt werden.
 Nicht tun: LLM als Ersatz fuer Python-Guardrails, Risk-Metrics oder Validatoren behandeln.
 
-FS-011 — Komplexitaet am richtigen Ort
+FS-012 — Core muss Zielarchitektur-Subset bleiben
 Status: ACTIVE
-Regel: Komplexitaet darf nur dort erhoeht werden, wo sie Struktur, Sicherheit, Testbarkeit oder spaetere Erweiterbarkeit verbessert.
-Wirkung: Scheinbar einfache Kompromisse muessen auf spaetere Folgekosten geprueft werden.
-Nicht tun: Funktionalitaet opfern oder Modulgrenzen verschieben, nur weil es kurzfristig einfacher wirkt.
+Regel: Core v1 muss ein sauberer Subset der Zielarchitektur sein.
+Wirkung: Fruehe Abkuerzungen duerfen keine spaetere architektonische Migration erzwingen.
+Nicht tun: Kurzfristige Vereinfachung akzeptieren, wenn sie spaeter Modulgrenzen oder State-Fluss umbaut.
 
-FS-012 — Neue Chat-Uebergabe
+FS-013 — Neue Chat-Uebergabe
 Status: ACTIVE
 Regel: Neue Chats muessen neben 95/97/98/99 auch `specs/94_start_audit_protocol.md` und diese Datei lesen.
 Wirkung: Neue Chats kennen nicht nur formalen Projektstand, sondern auch uebergabekritische Chat-Entscheidungen.
-Nicht tun: Nur Handoff-Snapshot lesen und danach Chat-beschlossene Architekturregeln ignorieren.
+Nicht tun: Nur Handoff-Snapshot lesen und danach chat-beschlossene Architekturregeln ignorieren.
 
-FS-013 — Start Audit Protocol
+FS-014 — Start Audit Protocol
 Status: ACTIVE
 Regel: Architektur-Audits starten nach `specs/94_start_audit_protocol.md`.
 Wirkung: Audit-Ergebnisse muessen PASS/WARN/FAIL/ALT und einen Beweis- oder Fehlbeweisbezug enthalten.
 Nicht tun: Audit als normales Review der bisherigen Loesung behandeln.
+
+FS-015 — State-Leak-Audit startet mit Suchaudit
+Status: ACTIVE
+Regel: Beim ersten echten State-Leak-Audit werden zuerst nur read-only Suchtreffer gesammelt und gepostet.
+Wirkung: Danach werden die Fundstellen gezielt klassifiziert.
+Nicht tun: Sofort Code, Specs oder Golden Cases umschreiben.
