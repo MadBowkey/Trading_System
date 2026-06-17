@@ -6,6 +6,7 @@ Wir arbeiten im Projekt Trading System.
 
 Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
 
+- `specs/93_new_chat_transition_protocol.md`
 - `specs/94_start_audit_protocol.md`
 - `specs/95_operational_workflow_rules.md`
 - `specs/96_frozen_project_state.md`
@@ -23,7 +24,7 @@ Letztes bestandenes Pre-Handoff Gate:
 - MITTEL: 0
 - Handoff-Empfehlung: JA
 
-Gate 005 ist historisch erledigt.
+Nach Einfuehrung von `specs/93_new_chat_transition_protocol.md` ist vor der naechsten Uebergabe ein aktuelles Gate erforderlich.
 
 ## Erste Antwort im neuen Chat
 
@@ -39,4 +40,4 @@ G) naechster fachlicher Vorschlag
 
 ## Naechster fachlicher Schritt
 
-Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 006 freigegeben.
+Vor einer neuen Uebergabe das aktuelle Transition-Protokoll ausfuehren oder den naechsten fachlichen Arbeitspunkt festlegen.
