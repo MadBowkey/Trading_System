@@ -1,194 +1,222 @@
 {
-    "spec":  "execution_simulator_core_v1",
-    "version":  "v1.0",
-    "architecture":  "v1.6.1",
-    "cases":  [
-                  {
-                      "test_case_id":  "TC_EXEC_001",
-                      "title":  "Erfolgreiche vollständige Simulation",
-                      "input_condition":  "Vollständige validierte Orderliste, ausreichende Liquidität und Cash, gültige Modelle.",
-                      "expected_result":  {
-                                              "all_fill_status":  "FULL",
-                                              "simulation_status":  "SUCCESS",
-                                              "execution_report_required":  true,
-                                              "post_execution_portfolio_required":  true,
-                                              "audit_event_type":  "EXECUTION_SIMULATION_SUCCESS",
-                                              "validator_status":  "PASS",
-                                              "system_status":  "NORMAL_CONTINUE",
-                                              "pipeline_action":  "CONTINUE",
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "simulated_fills":  [
-                                                                      {
-                                                                          "source_order_ref":  "TC_EXEC_001_ORDER_001",
-                                                                          "asset_id":  "SPY",
-                                                                          "fill_status":  "FULL",
-                                                                          "station_8_validation_ref":  "station8_val_TC_EXEC_001"
-                                                                      }
-                                                                  ],
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          },
-                      "input_payload":  {
-                                            "station_8_validation_ref":  "station8_val_TC_EXEC_001",
-                                            "validated_order_list":  [
-                                                                         {
-                                                                             "order_ref":  "TC_EXEC_001_ORDER_001",
-                                                                             "asset_id":  "SPY",
-                                                                             "side":  "BUY",
-                                                                             "order_type":  "LIMIT",
-                                                                             "quantity":  "10",
-                                                                             "limit_price":  "500.00"
-                                                                         }
-                                                                     ]
-                                        }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_002",
-                      "title":  "LIMIT-Preis nicht erreicht",
-                      "input_condition":  "LIMIT-Order, simulierter Preis verfehlt Limit.",
-                      "expected_result":  {
-                                              "fill_status":  "NO_FILL",
-                                              "simulation_status":  "PARTIAL",
-                                              "order_modified":  false,
-                                              "audit_event_type":  "EXECUTION_SIMULATION_PARTIAL",
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "simulated_fills":  [
-                                                                      {
-                                                                          "source_order_ref":  "TC_EXEC_002_ORDER_001",
-                                                                          "fill_status":  "NO_FILL",
-                                                                          "station_8_validation_ref":  "station8_val_TC_EXEC_002"
-                                                                      }
-                                                                  ],
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_003",
-                      "title":  "Begrenzte Liquidität",
-                      "input_condition":  "Order innerhalb Station-8-Grenze, Liquiditätsmodell erlaubt nur Teilfüllung.",
-                      "expected_result":  {
-                                              "fill_status":  "PARTIAL",
-                                              "simulation_status":  "PARTIAL",
-                                              "post_execution_portfolio_basis":  "filled_quantity_only",
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "simulated_fills":  [
-                                                                      {
-                                                                          "source_order_ref":  "TC_EXEC_003_ORDER_001",
-                                                                          "fill_status":  "PARTIAL",
-                                                                          "station_8_validation_ref":  "station8_val_TC_EXEC_003"
-                                                                      }
-                                                                  ],
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_004",
-                      "title":  "BUY mit unzureichendem Cash",
-                      "input_condition":  "BUY würde Cash negativ machen, keine Margin-Autorisierung.",
-                      "expected_result":  {
-                                              "allowed_fill_status":  [
-                                                                          "PARTIAL",
-                                                                          "NO_FILL"
-                                                                      ],
-                                              "simulation_status":  "PARTIAL",
-                                              "negative_cash_allowed":  false,
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_005",
-                      "title":  "SELL-Überhang ohne Short-Autorisierung",
-                      "input_condition":  "SELL quantity größer als aktuelle Long-Menge, keine Short-Autorisierung.",
-                      "expected_result":  {
-                                              "allowed_fill_status":  [
-                                                                          "PARTIAL",
-                                                                          "NO_FILL"
-                                                                      ],
-                                              "simulation_status":  "PARTIAL",
-                                              "unintended_short_position_allowed":  false,
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "simulated_fills":  [
-                                                                      {
-                                                                          "source_order_ref":  "TC_EXEC_005_ORDER_001",
-                                                                          "fill_status":  "PARTIAL_OR_NO_FILL",
-                                                                          "station_8_validation_ref":  "station8_val_TC_EXEC_005"
-                                                                      }
-                                                                  ],
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_006",
-                      "title":  "Autorisierte Short-Simulation",
-                      "input_condition":  "SELL quantity größer als aktuelle Long-Menge, allow_short true, short_authorization_ref vorhanden, plausible Short-/Margin-Annahmen.",
-                      "expected_result":  {
-                                              "short_position_simulation_allowed":  true,
-                                              "allowed_simulation_status":  [
-                                                                                "SUCCESS",
-                                                                                "PARTIAL"
-                                                                            ],
-                                              "invented_margin_or_borrowing_values_allowed":  false,
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "simulated_fills":  [
-                                                                      {
-                                                                          "source_order_ref":  "TC_EXEC_006_ORDER_001",
-                                                                          "asset_id":  "SPY",
-                                                                          "fill_status":  "FULL_OR_PARTIAL",
-                                                                          "station_8_validation_ref":  "station8_val_TC_EXEC_006"
-                                                                      }
-                                                                  ],
-                                              "station_8_validation_ref_required_per_simulated_fill":  true
-                                          },
-                      "input_payload":  {
-                                            "station_8_validation_ref":  "station8_val_TC_EXEC_006",
-                                            "validated_order_list":  [
-                                                                         {
-                                                                             "order_ref":  "TC_EXEC_006_ORDER_001",
-                                                                             "asset_id":  "SPY",
-                                                                             "side":  "SELL",
-                                                                             "allow_short":  true,
-                                                                             "short_authorization_ref":  "short_auth_TC_EXEC_006"
-                                                                         }
-                                                                     ]
-                                        }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_007",
-                      "title":  "Technischer Simulationsfehler oder fehlende Pflichtreferenz",
-                      "input_condition":  "Fehlendes oder ungültiges slippage_model, fee_structure, Marktdaten oder fehlende station_8_validation_ref.",
-                      "expected_result":  {
-                                              "simulation_status":  "FAILED",
-                                              "audit_event_type":  "EXECUTION_SIMULATION_FAILED",
-                                              "pipeline_impact":  false,
-                                              "station_8_invalidated":  false,
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "station_8_validation_ref_required_per_simulated_fill":  true,
-                                              "reason_required_when_failed":  true,
-                                              "reason_minimum_context":  "short technical context: cause, affected phase, or missing data basis"
-                                          }
-                  },
-                  {
-                      "test_case_id":  "TC_EXEC_008",
-                      "title":  "Audit-Hash und Portfolio-Konsistenz",
-                      "input_condition":  "Gültiges Simulationsergebnis.",
-                      "expected_result":  {
-                                              "audit_hash_required":  true,
-                                              "verify_audit_event_success":  true,
-                                              "validator_status":  "PASS",
-                                              "simulation_status_separate":  true,
-                                              "portfolio_consistency_rule":  "post_execution_portfolio.total_portfolio_value = cash_after + sum(position_market_values)",
-                                              "source_order_ref_required_per_simulated_fill":  true,
-                                              "traceability_chain":  "station_8_validation_ref -\u003e validated_order_list[].order_ref -\u003e simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
-                                              "station_8_validation_ref_required_per_simulated_fill":  true,
-                                              "execution_report_ref_stable_and_resolvable":  true
-                                          }
-                  }
-              ]
+  "spec": "execution_simulator_core_v1",
+  "version": "v1.0",
+  "architecture": "v1.6.1",
+  "cases": [
+    {
+      "test_case_id": "TC_EXEC_001",
+      "title": "Erfolgreiche vollständige Simulation",
+      "input_condition": "Vollständige validierte Orderliste, ausreichende Liquidität und Cash, gültige Modelle.",
+      "expected_result": {
+        "all_fill_status": "FULL",
+        "simulation_status": "SUCCESS",
+        "execution_report_required": true,
+        "post_execution_portfolio_required": true,
+        "post_execution_portfolio_is_simulation_artifact": true,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "audit_event_type": "EXECUTION_SIMULATION_SUCCESS",
+        "validator_status": "PASS",
+        "system_status": "NORMAL_CONTINUE",
+        "pipeline_action": "CONTINUE",
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "simulated_fills": [
+          {
+            "source_order_ref": "TC_EXEC_001_ORDER_001",
+            "asset_id": "SPY",
+            "fill_status": "FULL",
+            "station_8_validation_ref": "station8_val_TC_EXEC_001"
+          }
+        ],
+        "station_8_validation_ref_required_per_simulated_fill": true
+      },
+      "input_payload": {
+        "station_8_validation_ref": "station8_val_TC_EXEC_001",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_001_ORDER_001",
+            "asset_id": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00"
+          }
+        ]
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_002",
+      "title": "LIMIT-Preis nicht erreicht",
+      "input_condition": "LIMIT-Order, simulierter Preis verfehlt Limit.",
+      "expected_result": {
+        "fill_status": "NO_FILL",
+        "simulation_status": "PARTIAL",
+        "order_modified": false,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "audit_event_type": "EXECUTION_SIMULATION_PARTIAL",
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "simulated_fills": [
+          {
+            "source_order_ref": "TC_EXEC_002_ORDER_001",
+            "fill_status": "NO_FILL",
+            "station_8_validation_ref": "station8_val_TC_EXEC_002"
+          }
+        ],
+        "station_8_validation_ref_required_per_simulated_fill": true
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_003",
+      "title": "Begrenzte Liquidität",
+      "input_condition": "Order innerhalb Station-8-Grenze, Liquiditätsmodell erlaubt nur Teilfüllung.",
+      "expected_result": {
+        "fill_status": "PARTIAL",
+        "simulation_status": "PARTIAL",
+        "post_execution_portfolio_basis": "filled_quantity_only",
+        "post_execution_portfolio_is_simulation_artifact": true,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "simulated_fills": [
+          {
+            "source_order_ref": "TC_EXEC_003_ORDER_001",
+            "fill_status": "PARTIAL",
+            "station_8_validation_ref": "station8_val_TC_EXEC_003"
+          }
+        ],
+        "station_8_validation_ref_required_per_simulated_fill": true
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_004",
+      "title": "BUY mit unzureichendem Cash",
+      "input_condition": "BUY würde Cash negativ machen, keine Margin-Autorisierung.",
+      "expected_result": {
+        "allowed_fill_status": [
+          "PARTIAL",
+          "NO_FILL"
+        ],
+        "simulation_status": "PARTIAL",
+        "negative_cash_allowed": false,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "station_8_validation_ref_required_per_simulated_fill": true
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_005",
+      "title": "SELL-Überhang ohne Short-Autorisierung",
+      "input_condition": "SELL quantity größer als aktuelle Long-Menge, keine Short-Autorisierung.",
+      "expected_result": {
+        "allowed_fill_status": [
+          "PARTIAL",
+          "NO_FILL"
+        ],
+        "simulation_status": "PARTIAL",
+        "unintended_short_position_allowed": false,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "simulated_fills": [
+          {
+            "source_order_ref": "TC_EXEC_005_ORDER_001",
+            "fill_status": "PARTIAL_OR_NO_FILL",
+            "station_8_validation_ref": "station8_val_TC_EXEC_005"
+          }
+        ],
+        "station_8_validation_ref_required_per_simulated_fill": true
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_006",
+      "title": "Autorisierte Short-Simulation",
+      "input_condition": "SELL quantity größer als aktuelle Long-Menge, allow_short true, short_authorization_ref vorhanden, plausible Short-/Margin-Annahmen.",
+      "expected_result": {
+        "short_position_simulation_allowed": true,
+        "allowed_simulation_status": [
+          "SUCCESS",
+          "PARTIAL"
+        ],
+        "invented_margin_or_borrowing_values_allowed": false,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "simulated_fills": [
+          {
+            "source_order_ref": "TC_EXEC_006_ORDER_001",
+            "asset_id": "SPY",
+            "fill_status": "FULL_OR_PARTIAL",
+            "station_8_validation_ref": "station8_val_TC_EXEC_006"
+          }
+        ],
+        "station_8_validation_ref_required_per_simulated_fill": true
+      },
+      "input_payload": {
+        "station_8_validation_ref": "station8_val_TC_EXEC_006",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_006_ORDER_001",
+            "asset_id": "SPY",
+            "side": "SELL",
+            "allow_short": true,
+            "short_authorization_ref": "short_auth_TC_EXEC_006"
+          }
+        ]
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_007",
+      "title": "Technischer Simulationsfehler oder fehlende Pflichtreferenz",
+      "input_condition": "Fehlendes oder ungültiges slippage_model, fee_structure, Marktdaten oder fehlende station_8_validation_ref.",
+      "expected_result": {
+        "simulation_status": "FAILED",
+        "audit_event_type": "EXECUTION_SIMULATION_FAILED",
+        "pipeline_impact": false,
+        "station_8_invalidated": false,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "station_8_validation_ref_required_per_simulated_fill": true,
+        "reason_required_when_failed": true,
+        "reason_minimum_context": "short technical context: cause, affected phase, or missing data basis"
+      }
+    },
+    {
+      "test_case_id": "TC_EXEC_008",
+      "title": "Audit-Hash und Portfolio-Konsistenz",
+      "input_condition": "Gültiges Simulationsergebnis.",
+      "expected_result": {
+        "audit_hash_required": true,
+        "verify_audit_event_success": true,
+        "validator_status": "PASS",
+        "simulation_status_separate": true,
+        "portfolio_consistency_rule": "post_execution_portfolio.total_portfolio_value = cash_after + sum(position_market_values)",
+        "post_execution_portfolio_is_simulation_artifact": true,
+        "post_execution_portfolio_ref_is_not_current_confirmed": true,
+        "official_portfolio_state_created": false,
+        "current_confirmed_created": false,
+        "reconciliation_state_created": false,
+        "source_order_ref_required_per_simulated_fill": true,
+        "traceability_chain": "station_8_validation_ref -> validated_order_list[].order_ref -> simulated_fills[].station_8_validation_ref + simulated_fills[].source_order_ref",
+        "station_8_validation_ref_required_per_simulated_fill": true,
+        "execution_report_ref_stable_and_resolvable": true
+      }
+    }
+  ]
 }
