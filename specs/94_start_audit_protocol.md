@@ -8,7 +8,7 @@ Last updated: 2026-06-17
 
 Diese Datei definiert den Startmodus fuer zukuenftige Read-only-Architektur-Audits.
 
-Sie ersetzt keine fachliche Spezifikation. Sie legt fest, wie bestehende Specs, Schnittstellen, Modulgrenzen und Chat-beschlossene Regeln gegen harte Architektur-Invarianten geprueft werden.
+Sie ersetzt keine fachliche Spezifikation. Sie legt fest, wie bestehende Specs, Schnittstellen, Modulgrenzen und chat-beschlossene Regeln gegen harte Architektur-Invarianten geprueft werden.
 
 ## Grundsatz
 
@@ -16,7 +16,7 @@ Jedes bestehende Artefakt ist im Audit zunaechst eine Hypothese.
 
 Es erhaelt keine Autoritaet durch Historie, Plausibilitaet, bisherige Nutzung oder eloquente Begruendung.
 
-Geprueft wird nicht, ob die aktuelle Loesung erklaerbar ist, sondern ob sie strukturell sauber, state-sicher, alternativensensibel und beweisbar ist.
+Geprueft wird nicht, ob die aktuelle Loesung erklaerbar ist, sondern ob die Architektur beweisen kann, dass sie trotz Alternativen, Constraints und Komponentenuebergaengen strukturell sauber bleibt.
 
 ## Audit-Grenzen
 
@@ -26,7 +26,7 @@ Es darf:
 
 - Specs, Index, Handoff-Dateien, Reports, Config und Golden Cases lesen
 - Architekturgrenzen bewerten
-- Befunde klassifizieren
+- Suchtreffer und Befunde klassifizieren
 - fehlende Beweise benennen
 - bessere Architektur-Alternativen vorschlagen
 
@@ -39,63 +39,154 @@ Es darf nicht:
 - Optimierungen im Vorbeigehen einbauen
 - bestehende Artefakte stillschweigend als gueltig behandeln
 
-## Pflichtfilter
+## Harte Audit-Prueffelder
 
-A) Harte vs. scheinbare Constraints
+Jedes Audit prueft mindestens diese Felder:
 
-- Ist die Grenze technisch, regulatorisch oder fachlich zwingend?
-- Oder ist sie Altlast, Bequemlichkeit, Werkzeuggrenze oder unbelegte Annahme?
+A) Schichten-Trennung
 
-B) Alternativenpflicht
+- Python-Guardrails, Risk-Metrics, LLM-Entscheidung, Validator, Execution Simulator, Reconciliation und Portfolio State muessen klare Zustaendigkeiten haben.
+- Probabilistische, quantitative und deterministische Komponenten duerfen nicht vermischt werden.
 
-- Wurde mindestens eine bessere, schlankere oder robustere Alternative aktiv geprueft?
-- Wenn nein: Befund ALT oder WARN, je nach Risiko.
+B) Harte Limits vs. scheinbare Limits
 
-C) State-Leak-Pruefung
+- Jede Aussage wie `geht nicht`, `muss so sein` oder `ist alternativlos` wird auf echte technische, regulatorische oder fachliche Notwendigkeit geprueft.
+- Altlasten, Werkzeuggrenzen, Bequemlichkeit und unbelegte Annahmen gelten nicht als harte Constraints.
 
-- Kann ein hypothetischer, simulierter, abgeleiteter oder geplanter Zustand versehentlich offizieller State werden?
-- Was State veraendert, muss eindeutig Reconciliation / Official State zugeordnet sein.
+C) Deduktive Regeln vs. ML/LLM
 
-D) Autoritaets-Trennung
+- Feste Finanz- und Risikoregeln muessen als harte Leitplanken, Guardrails, Validatorlogik oder pruefbare Contracts sichtbar sein.
+- Sie duerfen nicht nur weich in Prompt- oder LLM-Logik versteckt sein.
 
-- LLM/probabilistisch: darf vorschlagen, interpretieren, begruenden.
-- Risk/Guardrail/Validator/deterministisch: muss harte Grenzen pruefen und erzwingen.
-- Simulator/quantitativ: darf rechnen und Constraints liefern, aber keinen offiziellen State erzeugen.
+D) Core-vs-Zielarchitektur
 
-E) Beweisfilter
+- Core v1 muss ein sauberer Subset der Zielarchitektur sein.
+- Fruehe Abkuerzungen duerfen keinen spaeteren architektonischen Umbau erzwingen.
 
-- Welche Datei, welcher Contract, welcher Golden Case oder welcher deterministische Test beweist die Grenze?
-- Was nicht beweisbar getrennt ist, gilt als potenziell vermischt.
+E) Kontrollierbarkeit
 
-## Erste Audit-Schwerpunkte
+- Jede Entscheidung muss erklaerbar, validierbar und bei Fehlern stoppbar sein.
+- Unklare Statuswerte, unklare Verantwortlichkeiten oder nicht stoppbare Entscheidungswege sind WARN oder FAIL.
 
-A) Execution Simulator <-> Final Risk Logic
+F) Komplexitaet
 
-- Simulator darf Execution-Szenarien und Constraints liefern.
-- Simulator darf niemals Portfolio-State erzeugen.
-- Simulationsergebnisse duerfen Risikologik beeinflussen, aber nicht Reconciliation oder CURRENT_CONFIRMED ersetzen.
+- Komplexitaet darf nur dort erhoeht werden, wo sie Struktur, Sicherheit, Testbarkeit oder Erweiterbarkeit verbessert.
+- Einfache sichtbare Kompromisse sind zu pruefen, wenn eine bessere strukturelle Alternative moeglich ist.
 
-B) LLM <-> Guardrails
+G) Testbarkeit
 
-- LLM darf keine harten Risikogrenzen ersetzen.
-- Harte Regeln duerfen nicht nur in Prompt-/LLM-Logik versteckt sein.
+- Testbarkeit ist ein eigener harter Auditfilter, nicht nachgelagerte Qualitaetssicherung.
+- Erwartet werden Golden Cases, Enum-Pruefungen, Validator-Checks, reproduzierbare Entscheidungsprotokolle, Fehlerklassifikationen und Cross-Reference-Checks.
+- Fehlende Testbarkeit ist besonders kritisch, weil ein System sonst plausibel aussehen kann, ohne strukturell beweisbar korrekt zu sein.
 
-C) Reconciliation <-> Portfolio State
+H) Alternativenpflicht
 
-- Nur echte Broker-/Exchange-Fills duerfen ueber Reconciliation offiziellen State aktualisieren.
-- SIMULATED_POST_EXECUTION darf nie automatisch CURRENT_CONFIRMED werden.
+- Groessere Architekturentscheidungen muessen gegen starke Gegenentwuerfe oder schlankere Alternativen geprueft werden.
+- Wird nur die zuerst naheliegende Loesung ausgearbeitet, ist das mindestens ALT, je nach Risiko auch WARN.
 
-D) Golden Cases / Testbarkeit
+## Beweislast
 
-- Architekturentscheidungen muessen durch Contracts, Enums, Zustandsuebergaenge oder Golden Cases pruefbar sein.
+Eine Architekturentscheidung gilt erst als belastbar, wenn sie durch mindestens eines der folgenden Artefakte beweisbar ist:
+
+- Spec-Contract
+- eindeutige Schnittstelle
+- Enum oder Statusmodell
+- harter Zustandsuebergang
+- Golden Case
+- deterministischer Test
+- Cross-Reference-Check
+- Audit- oder Entscheidungsprotokoll
+
+Ohne Beweis bleibt das Audit auf Argumentationsniveau.
+
+## Execution-Simulator-State-Leak-Audit
+
+Dieser Spezialfall ist vorrangig zu pruefen, weil der State-Leak leise entstehen kann.
+
+Harte Invarianten:
+
+A) Der Execution Simulator darf keine finale Risikoentscheidung treffen.
+
+B) Die finale Risikologik darf simulierte Ausfuehrungen nicht als echte Zustaende behandeln.
+
+C) Der Execution Simulator darf keinen PortfolioState, Ledger-State, Reconciliation-State, CASH_ONLY-Status oder Risk-Regime final setzen.
+
+D) Final Risk darf SimulationReport, Partial Fill, No Fill oder Slippage nicht als echte Position, echten Fill oder echten Risk-State verbuchen.
+
+E) Nur Reconciliation echter Broker-/Exchange-Fills darf offiziellen Portfolio-State aktualisieren.
+
+Erlaubter Simulator-Rueckkanal:
+
+- ExecutionConstraint
+- SimulationReport
+- liquidity_status
+- max_executable_quantity
+- expected_slippage_bps
+- residual_quantity_risk
+- scenario_type: FULL_FILL / PARTIAL_FILL / NO_FILL / SLIPPAGE_CASE / STALE_ORDERBOOK
+
+Verbotener Rueckkanal:
+
+- PortfolioState.update aus Simulation
+- Ledger/Reconciliation-State aus Simulation
+- echte Position aus SimulationReport
+- echter Fill aus SimulationReport
+- finaler Risk-State aus SimulationReport
+- interne Weiterrechnung auf simuliertem offiziellen State
+
+Soll-Kette:
+
+Official Snapshot
+-> Strategy / LLM Candidate
+-> Risk Precheck
+-> Execution Simulator
+-> ExecutionConstraint / SimulationReport
+-> Final Risk Scenario Validation
+-> OrderTicket
+-> Exchange
+-> Real FillEvent
+-> Reconciliation
+-> Official PortfolioState Update
+
+Verbotene Kette:
+
+Execution Simulator
+-> PortfolioState Update
+
+oder:
+
+SimulationReport
+-> echte Position / echter Fill / echter Risk-State
+
+## State-Leak-Golden-Case-Pflicht
+
+Mindestens diese Faelle muessen existieren oder als fehlend gemeldet werden:
+
+A) FULL_FILL: Order moeglich, State bleibt bis Reconciliation unveraendert.
+
+B) PARTIAL_FILL: Simulator meldet Teilfuellbarkeit, State bleibt unveraendert, neuer isolierter Plan / Reduce / Block.
+
+C) NO_FILL: keine State-Aenderung, Order blockiert oder neu geplant.
+
+D) HIGH_SLIPPAGE: keine State-Aenderung, Order reduziert oder blockiert.
+
+E) STALE_ORDERBOOK: Simulation ungueltig, keine Risikoentscheidung auf Basis dieser Simulation.
+
+## Erster Schritt im State-Leak-Audit
+
+Zuerst nur read-only Suchaudit laufen lassen und Treffer posten.
+
+Danach werden die Fundstellen gezielt klassifiziert.
+
+Nicht sofort Code, Specs oder Golden Cases umschreiben.
 
 ## Befundklassifikation
 
 PASS = Grenze ist sauber spezifiziert und beweisbar.
 
-WARN = Grenze ist begrifflich oder strukturell unscharf; spaeterer State-Leak oder Autoritaets-Leak moeglich.
+WARN / MITTEL = Grenze ist begrifflich oder strukturell unscharf; spaeterer State-Leak oder Autoritaets-Leak moeglich.
 
-FAIL = echte logische Vermischung, State-Leak, Autoritaets-Konfusion oder nicht erlaubte Mutation.
+FAIL / KRITISCH = echte logische Vermischung, State-Leak, Autoritaets-Konfusion oder nicht erlaubte Mutation.
 
 ALT = bessere Architektur-Alternative wurde nicht sichtbar geprueft oder vorschnell verworfen.
 
@@ -104,13 +195,14 @@ ALT = bessere Architektur-Alternative wurde nicht sichtbar geprueft oder vorschn
 Jeder Auditbericht enthaelt mindestens:
 
 A) Scope
-B) Gelesene Artefakte
-C) Gepruefte Architekturgrenzen
-D) PASS/WARN/FAIL/ALT-Befunde
-E) Beweisstelle oder fehlender Beweis
-F) Harte Constraints vs. scheinbare Constraints
-G) Gegenentwurf oder Alternative, falls relevant
-H) Entscheidungsvorschlag: behalten / aendern / verschieben / streichen
+B) gelesene Artefakte
+C) gepruefte Architekturgrenzen
+D) Suchtreffer, falls Suchaudit
+E) PASS/WARN/FAIL/ALT-Befunde
+F) Beweisstelle oder fehlender Beweis
+G) harte Constraints vs. scheinbare Constraints
+H) Gegenentwurf oder Alternative, falls relevant
+I) Entscheidungsvorschlag: behalten / aendern / verschieben / streichen
 
 ## Verhaeltnis zu Frozen State
 
