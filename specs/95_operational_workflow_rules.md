@@ -2,7 +2,7 @@
 
 Status: CURRENT
 Project: Trading System
-Last updated: 2026-05-20
+Last updated: 2026-06-17
 
 ## Zweck
 
@@ -34,13 +34,19 @@ K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT den PR-Status, das z
 
 L) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus. Reine Report-Arbeiten werden als `_codex_reports/...md` per PR eingebracht. Reine lokale Ablaeufe werden als `_codex_reports/local_...md` dokumentiert oder mindestens mit eindeutigem Abschlusskommentar im Issue belegt. Das Team darf PR-Nummern oder Abschlussstatus nicht manuell suchen muessen.
 
+M) Chat-beschlossene, uebergabekritische Architektur- und Arbeitsregeln, die nicht sinnvoll vollstaendig in 95/97/98/99 oder eine Fachspec gehoeren, werden kompakt in `specs/96_frozen_project_state.md` gefuehrt. Der Chat ist nicht die fachliche Source of Truth; Frozen State ist ein versionierter Schutz gegen Kontextverlust.
+
+N) Wenn der Benutzer `frozen` schreibt, muss `specs/96_frozen_project_state.md` geprueft und bei Bedarf aktualisiert werden. Dabei muss ausdruecklich geprueft werden, ob alte Eintraege geloescht, ersetzt oder in eine echte Spec ueberfuehrt werden koennen. Neue Eintraege duerfen nicht blind angehaengt werden. ChatGPT muss auch selbst vorschlagen, Frozen State zu aktualisieren, wenn eine uebergabekritische Regel beschlossen wurde.
+
+O) Zukuenftige Architektur-Audits starten nach `specs/94_start_audit_protocol.md`. Audits sind read-only, behandeln bestehende Artefakte als Hypothesen und klassifizieren Befunde mindestens als PASS, WARN, FAIL oder ALT.
+
 ## Aktueller Gate-Stand
 
-Finales Pre-Handoff Gate 004 auf aktuellem `main` wurde bestanden:
+Finales Pre-Handoff Gate 004 auf damaligem `main` wurde bestanden:
 
 - KRITISCH: 0
 - MITTEL: 0
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Gate 004 beruecksichtigt die Source-of-Truth-Korrektur: GitHub `main` ist der kanonische technische Projektstand; lokale Ordner sind Arbeitskopien.
+Nach dieser Datei-Aktualisierung muss vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate ausgefuehrt werden.
