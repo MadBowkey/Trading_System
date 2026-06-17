@@ -42,19 +42,13 @@ O) Zukuenftige Architektur-Audits starten nach `specs/94_start_audit_protocol.md
 
 ## Aktueller Gate-Stand
 
-Finales Pre-Handoff Gate 004 auf damaligem `main` wurde bestanden:
+Letztes bestandenes Pre-Handoff Gate:
 
+- Gate 006
+- Report: `_codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md`
 - KRITISCH: 0
 - MITTEL: 0
 - REDAKTIONELL: 0 blockierend
 - Handoff-Empfehlung: JA
 
-Aktuelles Pre-Handoff Gate 005 auf aktuellem `main` wurde ausgefuehrt:
-
-- Report: `_codex_reports/pre_handoff_gate_005_after_frozen_state.md`
-- KRITISCH: 0
-- MITTEL: 1
-- REDAKTIONELL: 0 blockierend
-- Handoff-Empfehlung: NEIN
-
-Offener MITTEL-Befund: G005-MITTEL-001 — Simulator State Boundary Inconsistency. Vor einer neuen Uebergabe muss diese Architekturgrenze entschieden werden.
+Gate 005 ist historisch erledigt. Der dortige Befund G005-MITTEL-001 wurde durch die Architekturentscheidung zur nicht-offiziellen SIMULATED_POST_EXECUTION-Grenze geschlossen.
