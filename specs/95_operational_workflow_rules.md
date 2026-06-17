@@ -8,49 +8,50 @@ Last updated: 2026-06-18
 
 Diese Datei dokumentiert die verbindlichen Arbeitsregeln fuer ChatGPT, Codex, GitHub-Rueckkanal, lokale Ausfuehrung und neue Chat-Uebergaben.
 
+Sie enthaelt keine laufenden Gate-Snapshots. Aktueller Gate- und Handoff-Status steht in `specs/99_handoff_snapshot_current.md`.
+
 ## Verbindliche Regeln
 
 A) Projektweite Struktur, Konsistenz, Reports und Sync laufen soweit moeglich ueber Codex plus GitHub-Rueckkanal.
 
-B) Codex-relevante Vorgaenge werden soweit moeglich automatisiert: ChatGPT erstellt GitHub-Issues/PR-Kommentare, liest PRs, Reports, Kommentare und geaenderte Dateien selbst und das Team muss PR-Nummern, Reports oder Diffs nicht manuell suchen oder kopieren. Manuelle Eingriffe sind Ausnahme bei Plattform- oder Berechtigungsgrenzen.
+B) Codex-relevante Vorgaenge werden soweit moeglich automatisiert: ChatGPT erstellt GitHub-Issues/PR-Kommentare, liest PRs, Reports, Kommentare und geaenderte Dateien selbst. Das Team muss PR-Nummern, Reports oder Diffs nicht manuell suchen oder kopieren. Manuelle Eingriffe sind Ausnahme bei Plattform- oder Berechtigungsgrenzen.
 
 C) Fachliche Spezifikation von Modulen, Schnittstellen, Statuslogik und Architekturentscheidungen erfolgt durch Team plus ChatGPT. Codex darf keine neue fachliche Logik erfinden.
 
 D) Codex darf Golden Cases nur auf Basis bereits beschlossener Specs ergaenzen, konkretisieren oder maschinenlesbarer machen und formale Konsistenz gegen beschlossene Specs pruefen.
 
-E) GitHub `main` ist der kanonische technische Projektstand. Der lokale Projektordner ist eine Arbeitskopie und nicht selbst die Wahrheit. Backend-, chat-only- oder lokale Aenderungen gelten erst als erledigt, wenn sie als Repo-Aenderung nachvollziehbar sind und bei Bedarf auf GitHub `main` gemerged wurden.
+E) GitHub `main` ist der kanonische technische Projektstand. Lokale Ordner sind Arbeitskopien, nicht Wahrheit.
 
-F) Lokale PowerShell-Dateiaenderungen muessen als ein vollstaendiger ausfuehrbarer Block geliefert werden. Wenn Dateien geschrieben werden, ist explizites `StreamWriter`-Handling mit `Write`, `Close` und `try/finally` Pflicht. Keine kommentierten Einzelfragmente. Nach dem Script folgen erwartete Ausgabe, Nicht-Eintreten-Kriterien und Auswertungsanweisung.
+F) Lokale PowerShell-Dateiaenderungen muessen als vollstaendiger ausfuehrbarer Block geliefert werden. Wenn Dateien geschrieben werden, ist explizites `StreamWriter`-Handling mit `Write`, `Close` und `try/finally` Pflicht.
 
-G) Keine Uebergabe, kein ZIP und kein neuer Chat-Handoff vor einer projektweiten Cross-Reference-Pruefung ueber Specs, Config und Golden Cases ohne KRITISCH- oder MITTEL-Befunde.
+G) Keine Uebergabe, kein ZIP und kein neuer Chat-Handoff vor einer projektweiten Cross-Reference-Pruefung ohne KRITISCH- oder MITTEL-Befunde.
 
-H) Ein neuer Chat muss zuerst read-only eine projektweite Konsistenz- und Strukturpruefung durchfuehren, Schweregrade berichten und erst danach den naechsten fachlichen Schritt vorschlagen.
+H) Ein neuer Chat muss zuerst read-only eine Konsistenz- und Strukturpruefung durchfuehren, Schweregrade berichten und erst danach den naechsten fachlichen Schritt vorschlagen.
 
 I) Lange Reports, Logs und Diffs gehoeren nach GitHub in Reports, Issues oder PRs. Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
 
-J) `weiter` bedeutet: den naechsten logischen Schritt ausfuehren, nicht mehrere Schritte buendeln, und dabei die Rollenverteilung Team/ChatGPT/Codex einhalten.
+J) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT PR-Status, zugehoeriges Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist.
 
-K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT den PR-Status, das zugehoerige Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist. Erledigte zugehoerige Issues werden mit `state_reason: completed` geschlossen. Neue Codex-PRs muessen im PR-Body `Closes #<Issue-Nummer>` enthalten. Issue-Status folgt dem aktuellen GitHub-Stand und darf nicht aus veralteten Handoff-Texten abgeleitet werden.
+K) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus.
 
-L) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus. Reine Report-Arbeiten werden als `_codex_reports/...md` per PR eingebracht. Reine lokale Ablaeufe werden als `_codex_reports/local_...md` dokumentiert oder mindestens mit eindeutigem Abschlusskommentar im Issue belegt. Das Team darf PR-Nummern oder Abschlussstatus nicht manuell suchen muessen.
+## Kurzbefehle
 
-M) Chat-beschlossene, uebergabekritische Architektur- und Arbeitsregeln, die nicht sinnvoll vollstaendig in 95/97/98/99 oder eine Fachspec gehoeren, werden kompakt in `specs/96_frozen_project_state.md` gefuehrt. Der Chat ist nicht die fachliche Source of Truth; Frozen State ist ein versionierter Schutz gegen Kontextverlust.
+A) `weiter`
 
-N) Wenn der Benutzer `frozen` schreibt, muss `specs/96_frozen_project_state.md` geprueft und bei Bedarf aktualisiert werden. Dabei muss ausdruecklich geprueft werden, ob alte Eintraege geloescht, ersetzt oder in eine echte Spec ueberfuehrt werden koennen. Neue Eintraege duerfen nicht blind angehaengt werden. ChatGPT muss auch selbst vorschlagen, Frozen State zu aktualisieren, wenn eine uebergabekritische Regel beschlossen wurde.
+Bedeutung: den naechsten logischen fachlichen Schritt ausfuehren, nicht mehrere Schritte buendeln.
 
-O) Zukuenftige Architektur-Audits starten nach `specs/94_start_audit_protocol.md`. Audits sind read-only, behandeln bestehende Artefakte als Hypothesen und klassifizieren Befunde mindestens als PASS, WARN, FAIL oder ALT.
+B) `frozen`
 
-P) Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet ChatGPT das New Chat Transition Protocol aus `specs/93_new_chat_transition_protocol.md`. Der Prozess sammelt Pflichtkontext, prueft Frozen State, prueft Struktur/Konsistenz, erstellt einen aktuellen Pre-Handoff-Gate-Report, aktualisiert 95/97/98/99 und gibt die Uebergabe nur bei KRITISCH 0 und MITTEL 0 frei.
+Bedeutung: `specs/96_frozen_project_state.md` kuratiert pruefen und bei Bedarf aktualisieren. Dabei alte Eintraege auf Loeschung, Ersetzung oder Ueberfuehrung in echte Specs pruefen. Keine blinde Ergaenzung.
 
-## Aktueller Gate-Stand
+C) `uebergabe` / `übergabe`
 
-Letztes bestandenes Pre-Handoff Gate:
+Bedeutung: das New Chat Transition Protocol aus `specs/93_new_chat_transition_protocol.md` ausfuehren.
 
-- Gate 008
-- Report: `_codex_reports/pre_handoff_gate_008_transition_execution.md`
-- KRITISCH: 0
-- MITTEL: 0
-- REDAKTIONELL: 0 blockierend
-- Handoff-Empfehlung: JA
+Der Prozess sammelt Pflichtkontext, prueft Frozen State, prueft Struktur/Konsistenz, erstellt einen aktuellen Pre-Handoff-Gate-Report, aktualisiert erforderliche Handoff-Dateien und gibt am Ende den kurzen Copy-Paste-Prompt fuer den neuen Chat aus.
 
-Gate 007 bleibt historisch bestanden. Gate 008 ist der aktuelle Uebergabestand nach Ausfuehrung des New Chat Transition Protocol.
+## Audit-Regel
+
+Zukuenftige Architektur-Audits starten nach `specs/94_start_audit_protocol.md`.
+
+Audits sind read-only, behandeln bestehende Artefakte als Hypothesen und klassifizieren Befunde mindestens als PASS, WARN, FAIL oder ALT.
