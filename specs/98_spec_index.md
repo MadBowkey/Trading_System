@@ -45,18 +45,17 @@ Lokale Ordner sind Arbeitskopien. Sie sind nur gueltig, wenn sie nachweislich mi
 - specs/99_handoff_snapshot_current.md
   Enthält den aktuellen Uebergabe-Snapshot fuer einen neuen Chat.
 
-- _codex_reports/pre_handoff_gate_005_after_frozen_state.md
-  Enthält das aktuelle Pre-Handoff-Gate 005 nach Frozen State / Start Audit Protocol.
+- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
+  Enthält das aktuelle Pre-Handoff-Gate 006 nach der SIMULATED_POST_EXECUTION-Grenzentscheidung.
 
 Aktueller Gate-Status:
 
-- Letztes bestandenes Gate: Gate 004 auf damaligem main-Stand.
-- Aktuelles Gate 005: FAILED.
+- Letztes bestandenes Gate: Gate 006 auf aktuellem main-Stand.
 - KRITISCH: 0.
-- MITTEL: 1.
+- MITTEL: 0.
 - REDAKTIONELL: 0 blockierend.
-- Handoff-Empfehlung: NEIN.
-- Offener Befund: G005-MITTEL-001 — Simulator State Boundary Inconsistency.
+- Handoff-Empfehlung: JA.
+- Gate 005 ist historisch erledigt.
 
 ## Spezifikationsdateien
 
@@ -168,7 +167,7 @@ Aktueller Gate-Status:
   Enthält Golden Cases für Audit-Log Core v1.0 inklusive audit_schema_version, Pflichtfeldprüfung, nullable rule_id / asset_id, Non-Null-Prüfung, Reason-Limit und Hash-Verifikation.
 
 - tests/golden_cases/execution_simulator_core_v1_cases.json
-  Enthält Golden Cases für SUCCESS, PARTIAL, NO_FILL, FAILED, Cash-Grenzen, Short-Autorisierung, source_order_ref-Rückverfolgbarkeit, Audit-Hash und Portfolio-Konsistenz.
+  Enthält Golden Cases für SUCCESS, PARTIAL, NO_FILL, FAILED, Cash-Grenzen, Short-Autorisierung, source_order_ref-Rückverfolgbarkeit, Audit-Hash, Portfolio-Konsistenz und den Ausschluss offizieller Portfolio-State-Erzeugung durch Simulation.
 
 - tests/golden_cases/pre_order_contract_core_v1_cases.json
   Enthält Golden Cases für CONTRACT_READY, CONTRACT_INVALID, LIMIT/MARKET-Regeln, quantity-Format, Traceability, Short-Autorisierung und Abgrenzung zu Station 8.
@@ -203,11 +202,11 @@ Start Audit Protocol ist CURRENT.
 
 Frozen Project State ist CURRENT.
 
-Pre-Handoff Gate 005 ist FAILED mit MITTEL 1.
+Pre-Handoff Gate 006 ist PASSED mit KRITISCH 0 und MITTEL 0.
 
 Nächster fachlicher Schritt:
 
-G005-MITTEL-001 entscheiden. Danach relevante Specs / Golden Cases gezielt aktualisieren und ein neues Pre-Handoff-Gate ausfuehren.
+Neuen Chat starten oder den naechsten fachlichen Arbeitspunkt festlegen. Uebergabe ist nach Gate 006 freigegeben.
 
 ## Arbeitsregel
 
