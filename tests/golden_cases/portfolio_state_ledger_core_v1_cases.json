@@ -100,8 +100,13 @@
         "valid": true,
         "ledger_action": "APPEND_ACCEPTED",
         "stored_portfolio_state_type": "SIMULATED_POST_EXECUTION",
+        "simulated_post_execution_may_be_stored": true,
+        "simulated_post_execution_may_be_reported": true,
         "must_not_create_state_type": "CURRENT_CONFIRMED",
-        "auto_confirmation_allowed": false
+        "current_confirmed_created": false,
+        "auto_confirmation_allowed": false,
+        "reconciliation_required_for_current_confirmed": true,
+        "official_portfolio_state_created": false
       }
     },
     {
@@ -268,7 +273,14 @@
         "run_id_required": true,
         "audit_ref_required": true,
         "stored_portfolio_state_type": "SIMULATED_POST_EXECUTION",
-        "confirmed": false
+        "simulated_post_execution_may_be_stored": true,
+        "simulated_post_execution_may_be_reported": true,
+        "confirmed": false,
+        "current_confirmed_created": false,
+        "must_not_create_state_type": "CURRENT_CONFIRMED",
+        "auto_confirmation_allowed": false,
+        "reconciliation_required_for_current_confirmed": true,
+        "official_portfolio_state_created": false
       }
     }
   ]
