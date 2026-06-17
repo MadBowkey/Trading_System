@@ -5,22 +5,18 @@ Project: Trading System
 Architecture: v1.6.1
 Snapshot date: 2026-06-18
 
-## Read first
+## Current gate
 
-- specs/93_new_chat_transition_protocol.md
-- specs/94_start_audit_protocol.md
-- specs/95_operational_workflow_rules.md
-- specs/96_frozen_project_state.md
-- specs/97_new_chat_handoff_prompt_v1.md
-- specs/98_spec_index.md
-- _codex_reports/pre_handoff_gate_008_transition_execution.md
-
-## Gate
-
-Gate 008 passed.
+Gate 009 passed.
 
 KRITISCH: 0
 MITTEL: 0
+REDAKTIONELL: 0 blockierend
+Handoff recommendation: YES
+
+Gate report:
+
+- _codex_reports/pre_handoff_gate_009_prompt_role_redundancy_cleanup.md
 
 ## Current state
 
@@ -32,7 +28,12 @@ Portfolio State & Ledger Core v1.0: FINAL.
 Transition Protocol: CURRENT.
 Start Audit Protocol: CURRENT.
 Frozen Project State: CURRENT.
+New Prompt: CURRENT.
+
+## Handoff prompt to paste into the new chat
+
+Bitte lies im Repository `MadBowkey/Trading_System` auf GitHub `main` die Datei `specs/97_new_chat_handoff_prompt_v1.md` und fuehre sie aus. Beginne mit der dort geforderten Read-only-Pruefung und berichte nur kurz den Projektstand, gefundene Dateien, Konsistenzbefund, Handoff verwendbar Ja/Nein und den naechsten fachlichen Vorschlag.
 
 ## Next step
 
-Start the new chat or define the next work item.
+Start the new chat with the short handoff prompt above.
