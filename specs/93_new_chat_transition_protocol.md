@@ -2,13 +2,19 @@
 
 Status: CURRENT
 Project: Trading System
-Last updated: 2026-06-17
+Last updated: 2026-06-18
 
 ## Zweck
 
 Diese Datei definiert das Protokoll fuer geplante Uebergaben in einen neuen Chat.
 
-Sie sorgt dafuer, dass der Uebergang nicht aus einem langen improvisierten Prompt besteht, sondern aus einem versionierten, kurzen New-Chat-Prompt plus Pflichtkontext im Repository.
+Ziel ist eine zweistufige Uebergabe:
+
+A) Im alten Chat wird ein sehr kurzer Copy-Paste-Prompt erzeugt.
+
+B) Dieser kurze Prompt verweist auf die Datei `specs/97_new_chat_handoff_prompt_v1.md`.
+
+Die Datei `specs/97_new_chat_handoff_prompt_v1.md` ist die eigentliche New-Prompt-Datei und enthaelt die Langform-Anweisung fuer den neuen Chat.
 
 ## Ausloeser
 
@@ -16,32 +22,41 @@ Wenn der Benutzer `uebergabe` oder `übergabe` schreibt, startet dieses Protokol
 
 Der Befehl bedeutet nicht: sofort neuen Chat starten.
 
-Der Befehl bedeutet: Uebergabeprozess vorbereiten, pruefen, dokumentieren und erst bei bestandenem Gate freigeben.
+Der Befehl bedeutet: Uebergabe vorbereiten, Pflichtkontext sammeln, Frozen State pruefen, Konsistenz pruefen, Gate dokumentieren, Handoff-Dateien aktualisieren und dann den kurzen Copy-Paste-Prompt ausgeben.
 
-## Grundprinzipien
+## Rollen der Uebergabedateien
 
-A) Der Chat ist nicht die fachliche Source of Truth.
+A) `specs/93_new_chat_transition_protocol.md`
 
-B) GitHub `main` ist der kanonische technische Projektstand.
+- definiert diesen Prozess.
 
-C) Specs, Frozen State, Handoff Snapshot, Gate Report und Golden Cases sind die Uebergabegrundlage.
+B) `specs/95_operational_workflow_rules.md`
 
-D) Der New-Chat-Prompt bleibt kurz. Detailkontext wird nicht in den Prompt kopiert, sondern ueber Pflichtdateien referenziert.
+- definiert allgemeine Arbeitsregeln und Kurzbefehle.
+- enthaelt keinen laufenden Gate-Status.
 
-E) Keine Uebergabe ohne aktuelles bestandenes Pre-Handoff-Gate mit KRITISCH 0 und MITTEL 0.
+C) `specs/96_frozen_project_state.md`
 
-## Protokollablauf
+- enthaelt kompakte, uebergabekritische Chat-Entscheidungen.
+- enthaelt keinen Gate-Snapshot.
 
-A) Uebergabe einfrieren
+D) `specs/97_new_chat_handoff_prompt_v1.md`
 
-- Keine neue fachliche Spezifikationsarbeit beginnen.
-- Keine Implementierung beginnen.
-- Keine neuen Architekturentscheidungen versteckt mitziehen.
-- Erst den aktuellen Projektstand pruefen.
+- ist die New-Prompt-Datei in Langform.
+- der neue Chat liest diese Datei und fuehrt sie aus.
 
-B) Pflichtkontext lesen
+E) `specs/98_spec_index.md`
 
-Mindestens lesen:
+- ist reiner Datei- und Strukturindex.
+- enthaelt keinen laufenden Gate-Status.
+
+F) `specs/99_handoff_snapshot_current.md`
+
+- enthaelt aktuellen Snapshot, aktuellen Gate-Status und den letzten freigegebenen Handoff-Stand.
+
+## Pflichtpruefung bei Uebergabe
+
+Bei Ausfuehrung des Protokolls liest ChatGPT mindestens:
 
 - README.md
 - specs/93_new_chat_transition_protocol.md
@@ -51,35 +66,35 @@ Mindestens lesen:
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
-- letzter Pre-Handoff-Gate-Report
+- den letzten Pre-Handoff-Gate-Report
 
-Zusätzlich lesen:
+Zusätzlich liest ChatGPT alle Specs, Golden Cases und Config-Dateien, die vom aktuellen Arbeitspunkt oder vom letzten Gate betroffen sind.
 
-- alle Specs, Golden Cases und Config-Dateien, die vom aktuellen Arbeitspunkt oder vom letzten Gate betroffen sind.
-
-C) Frozen-State-Pruefung
+## Frozen-State-Pruefung
 
 Vor jeder neuen Uebergabe muss geprueft werden:
 
-- Gibt es seit der letzten Aktualisierung neue uebergabekritische Chat-Entscheidungen?
+- Gibt es neue uebergabekritische Chat-Entscheidungen?
 - Muessen alte Frozen-State-Eintraege geloescht, ersetzt oder in echte Specs ueberfuehrt werden?
 - Muss `specs/96_frozen_project_state.md` aktualisiert werden?
 
 Keine blinde Ergaenzung.
 
-D) Struktur- und Konsistenzpruefung
+## Struktur- und Konsistenzpruefung
 
 Pruefen:
 
 - Pflichtkontext vollstaendig?
-- 97/98/99 verweisen auf aktuellen Gate-Report?
+- Dateirollen 95 bis 99 ueberschneidungsarm?
+- 97 verweist auf 99 und letzten Gate-Report?
+- 99 verweist auf den aktuellen Gate-Report?
 - Gate-Status widerspruchsfrei?
 - Specs und Golden Cases konsistent?
 - Frozen State gegen Specs widerspruchsfrei?
 - Start Audit Protocol gegen aktuelle Architekturentscheidungen widerspruchsfrei?
 - offene KRITISCH/MITTEL-Befunde vorhanden?
 
-E) Pre-Handoff-Gate erzeugen
+## Pre-Handoff-Gate
 
 Ein neuer Gate-Report wird unter `_codex_reports/` angelegt.
 
@@ -93,46 +108,28 @@ Mindestinhalt:
 - erforderliche Dateiaenderungen
 - finaler Gate-Status
 
-F) Bei Gate-Fehler
-
 Wenn KRITISCH > 0 oder MITTEL > 0:
 
-- Uebergabe ist blockiert.
-- 95/97/98/99 werden auf blockierten Gate-Status aktualisiert.
-- Kein finaler New-Chat-Start empfohlen.
-- Naechster Schritt ist die fachliche Klaerung der offenen Befunde.
-
-G) Bei bestandenem Gate
+- Uebergabe blockiert.
+- 99 und 97 werden auf blockierten Status aktualisiert.
+- 95, 96 und 98 werden nur aktualisiert, wenn sich ihre Rolleninhalte geaendert haben.
 
 Wenn KRITISCH = 0 und MITTEL = 0:
 
-- Gate-Report als bestanden dokumentieren.
-- 95/97/98/99 auf aktuellen Gate-Status aktualisieren.
-- 97 als kurze New-Prompt-Datei aktualisieren.
-- 99 als kompakten Handoff Snapshot aktualisieren.
-- Uebergabe freigeben.
+- Uebergabe freigegeben.
+- 99 wird auf den aktuellen Gate-Status aktualisiert.
+- 97 wird als New-Prompt-Datei aktualisiert.
+- 95, 96 und 98 werden nur aktualisiert, wenn sich Regeln, Frozen State oder Indexstruktur geaendert haben.
 
-## New-Prompt-Datei
+## Kurzprompt fuer den neuen Chat
 
-`specs/97_new_chat_handoff_prompt_v1.md` ist die formale New-Prompt-Datei.
+Nach bestandenem Gate gibt ChatGPT im alten Chat diesen kurzen Copy-Paste-Prompt aus:
 
-Sie muss kurz bleiben.
+```text
+Bitte lies im Repository `MadBowkey/Trading_System` auf GitHub `main` die Datei `specs/97_new_chat_handoff_prompt_v1.md` und fuehre sie aus. Beginne mit der dort geforderten Read-only-Pruefung und berichte nur kurz den Projektstand, gefundene Dateien, Konsistenzbefund, Handoff verwendbar Ja/Nein und den naechsten fachlichen Vorschlag.
+```
 
-Sie enthaelt nur:
-
-- Projektname
-- Pflichtkontext
-- aktueller Gate-Status
-- erste read-only Aufgabe des neuen Chats
-- naechster fachlicher Vorschlag
-
-Sie darf nicht:
-
-- lange Projektgeschichte enthalten
-- Specs duplizieren
-- Frozen State kopieren
-- ganze Gate-Reports kopieren
-- fachliche Spezifikationen ersetzen
+Dieser kurze Prompt ist der einzige Text, der in den neuen Chat kopiert werden soll.
 
 ## Abschlussbericht im alten Chat
 
@@ -142,7 +139,7 @@ A) Gate-Status
 B) geaenderte Dateien
 C) Handoff freigegeben: JA/NEIN
 D) offene Befunde, falls vorhanden
-E) zu verwendende New-Prompt-Datei
+E) zu verwendender Copy-Paste-Prompt
 
 ## Abgrenzung zu anderen Kurzbefehlen
 
