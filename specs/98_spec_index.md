@@ -19,9 +19,9 @@ GitHub main is the canonical technical project state.
 
 ## Last passed gate
 
-- _codex_reports/pre_handoff_gate_006_after_simulated_state_boundary.md
+- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
 
-After adding specs/93_new_chat_transition_protocol.md, run a fresh pre-handoff gate before a new chat transition.
+Gate 007 passed with KRITISCH 0 and MITTEL 0.
 
 ## Core specs
 
