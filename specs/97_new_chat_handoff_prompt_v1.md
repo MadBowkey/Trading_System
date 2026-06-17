@@ -11,16 +11,30 @@ Vor jeder fachlichen Weiterarbeit muss der neue Chat lesen und beachten:
 - `specs/96_frozen_project_state.md`
 - `specs/98_spec_index.md`
 - `specs/99_handoff_snapshot_current.md`
-- `_codex_reports/pre_handoff_gate_004_final_after_spt.md`
+- `_codex_reports/pre_handoff_gate_005_after_frozen_state.md`
+
+## Gate-Status
 
 Letztes bestandenes Pre-Handoff Gate:
 
-- Finales Pre-Handoff Gate 004 wurde auf damaligem `main`-Stand bestanden.
+- Gate 004 auf damaligem `main`-Stand
 - KRITISCH: 0
 - MITTEL: 0
 - Handoff-Empfehlung: JA
-- Nach spaeteren Repo-Aenderungen ist vor einer neuen Uebergabe erneut ein aktuelles Pre-Handoff-Gate erforderlich.
-- Seit Gate 004 wurden `specs/94_start_audit_protocol.md`, `specs/96_frozen_project_state.md` und die Handoff-Dateien aktualisiert; vor der naechsten Uebergabe ist ein neuer Gate-Lauf noetig.
+
+Aktuelles Pre-Handoff Gate:
+
+- Gate 005 auf aktuellem `main`
+- Report: `_codex_reports/pre_handoff_gate_005_after_frozen_state.md`
+- KRITISCH: 0
+- MITTEL: 1
+- Handoff-Empfehlung: NEIN
+
+Offener Befund:
+
+- G005-MITTEL-001 — Simulator State Boundary Inconsistency
+
+Bis dieser Befund fachlich entschieden ist, ist eine neue Chat-Uebergabe nicht freigegeben.
 
 ## Harte Uebergaberegel
 
@@ -95,7 +109,7 @@ Status: CURRENT. Friert uebergabekritische Chat-Entscheidungen kompakt ein, daru
 - specs/18_portfolio_state_ledger_core_v1.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
-- _codex_reports/pre_handoff_gate_004_final_after_spt.md
+- _codex_reports/pre_handoff_gate_005_after_frozen_state.md
 - tests/golden_cases/station_8_order_validator_cases.json
 - tests/golden_cases/audit_log_core_v1_cases.json
 - tests/golden_cases/execution_simulator_core_v1_cases.json
@@ -120,7 +134,7 @@ M) Keine Uebergabe ohne bestandenes aktuelles Pre-Handoff-Gate.
 N) Frozen State ist kompakt, versioniert und nicht fachliche Single Source of Truth.
 O) Bestehende Artefakte gelten im Audit zunaechst als Hypothesen.
 P) Audit mutiert nicht und repariert nicht.
-Q) Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals Portfolio-State erzeugen.
+Q) Simulator-Ergebnisse duerfen Risikologik beeinflussen, aber niemals offiziellen Portfolio-State erzeugen.
 R) Nur Reconciliation echter Broker-/Exchange-Fills darf offiziellen Portfolio-State aktualisieren.
 S) Das LLM darf Strategie vorschlagen; harte Risiko-/Guardrail-/Validator-Entscheidungen muessen deterministisch pruefbar sein.
 T) Groessere Architekturentscheidungen muessen gegen starke Gegenentwuerfe oder schlankere Alternativen geprueft werden.
@@ -143,4 +157,4 @@ Keine Dateien aendern. Keine Scripts. Keine Patches. Keine ZIPs.
 
 ## Naechster fachlicher Schritt
 
-Vor der geplanten neuen Chat-Uebergabe ein aktuelles Pre-Handoff-Gate auf GitHub `main` durchfuehren, das `specs/94_start_audit_protocol.md` und `specs/96_frozen_project_state.md` einschliesst. Danach Uebergabe nur mit Gate-Status KRITISCH 0 und MITTEL 0 starten.
+G005-MITTEL-001 fachlich entscheiden. Danach relevante Specs / Golden Cases gezielt aktualisieren und erst danach ein neues Pre-Handoff-Gate ausfuehren.
