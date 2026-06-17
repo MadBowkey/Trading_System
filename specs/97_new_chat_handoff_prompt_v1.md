@@ -2,7 +2,7 @@
 
 Project: Trading System
 
-## Read first
+Read these files first:
 
 - specs/93_new_chat_transition_protocol.md
 - specs/94_start_audit_protocol.md
@@ -10,23 +10,11 @@ Project: Trading System
 - specs/96_frozen_project_state.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
-- _codex_reports/pre_handoff_gate_007_after_transition_protocol.md
+- _codex_reports/pre_handoff_gate_008_transition_execution.md
 
-## Gate
-
-Gate 007 passed.
+Gate 008 passed.
 
 KRITISCH: 0
 MITTEL: 0
 
-## First response
-
-Read the mandatory context first. Then report briefly:
-
-A) project state read
-B) relevant files found
-C) current state understood
-D) consistency check
-E) findings by severity
-F) handoff usable yes/no
-G) next suggested work item
+Then report: state read, files found, consistency result, handoff usable yes/no, next work item.
