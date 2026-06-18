@@ -101,7 +101,7 @@
     },
     {
       "scenario": "spy_limit_buy_partial_simulated_fill",
-      "management_label": "Order reduziert und teilweise simuliert",
+      "management_label": "Order freigegeben, Ausführung teilweise simuliert",
       "trade_idea": {
         "proposed_order_ref": "demo_partial_proposed_order_001",
         "run_id": "demo_partial_run_001",
