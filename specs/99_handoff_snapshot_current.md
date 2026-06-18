@@ -39,7 +39,7 @@ Recently completed:
 
 ## Current next work item
 
-Gate 012: Projektweiter Cross-Reference-Check nach PR #44–#46
+Gate 012: Projektweiter Cross-Reference-Check nach PR #44–#48
 
 Ziel: Nach den Aenderungen an Golden Cases, Spec 16 und Index pruefen, ob Specs, Config, Golden Cases, Handoff-Dateien und Referenzketten weiterhin konsistent sind.
 
