@@ -1,0 +1,152 @@
+{
+  "demo_schema_version": "1.0",
+  "scenarios": [
+    {
+      "scenario": "spy_limit_buy_full_fill",
+      "management_label": "Order kontrolliert freigegeben",
+      "trade_idea": {
+        "proposed_order_ref": "demo_full_proposed_order_001",
+        "run_id": "demo_full_run_001",
+        "asset_id": "SPY",
+        "symbol": "SPY",
+        "side": "BUY",
+        "order_type": "LIMIT",
+        "quantity": "10",
+        "limit_price": "500.00",
+        "allow_short": false,
+        "proposed_at": "2026-06-19T08:00:00Z",
+        "market_data_snapshot_ref": "demo_full_market_001",
+        "portfolio_state_ref": "demo_full_portfolio_pre_001",
+        "decision_ref": "demo_full_decision_001"
+      },
+      "station_8_context": {
+        "station_7_approved_target": {"plan_compliance": true},
+        "broker_constraints": {"tick_size": "0.01", "lot_size_increment": "1"},
+        "liquidity": {
+          "order_size_pct_of_20d_adv": "1.00",
+          "max_order_size_pct_of_20d_adv": "5.00"
+        },
+        "costs": {
+          "projected_slippage_plus_commission_pct": "0.05",
+          "max_allowed_cost_pct": "0.20"
+        }
+      },
+      "market_data": {
+        "market_data_snapshot_ref": "demo_full_market_001",
+        "SPY": {
+          "bid_price": "499.90",
+          "ask_price": "500.00",
+          "last_price": "499.95",
+          "available_quantity": "1000"
+        }
+      },
+      "portfolio": {
+        "portfolio_state_ref": "demo_full_portfolio_pre_001",
+        "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+        "cash": "100000.00",
+        "positions": []
+      },
+      "fee_model": {"commission_per_order": "1.00"},
+      "slippage_model": {"slippage_bps": "0"},
+      "simulation_timestamp": "2026-06-19T08:00:01Z"
+    },
+    {
+      "scenario": "spy_limit_buy_blocked_liquidity",
+      "management_label": "Order wegen Risiko/Liquidität blockiert",
+      "trade_idea": {
+        "proposed_order_ref": "demo_blocked_proposed_order_001",
+        "run_id": "demo_blocked_run_001",
+        "asset_id": "SPY",
+        "symbol": "SPY",
+        "side": "BUY",
+        "order_type": "LIMIT",
+        "quantity": "1000",
+        "limit_price": "500.00",
+        "allow_short": false,
+        "proposed_at": "2026-06-19T08:05:00Z",
+        "market_data_snapshot_ref": "demo_blocked_market_001",
+        "portfolio_state_ref": "demo_blocked_portfolio_pre_001",
+        "decision_ref": "demo_blocked_decision_001"
+      },
+      "station_8_context": {
+        "station_7_approved_target": {"plan_compliance": true},
+        "broker_constraints": {"tick_size": "0.01", "lot_size_increment": "1"},
+        "liquidity": {
+          "order_size_pct_of_20d_adv": "10.00",
+          "max_order_size_pct_of_20d_adv": "5.00"
+        },
+        "costs": {
+          "projected_slippage_plus_commission_pct": "0.05",
+          "max_allowed_cost_pct": "0.20"
+        }
+      },
+      "market_data": {
+        "market_data_snapshot_ref": "demo_blocked_market_001",
+        "SPY": {
+          "bid_price": "499.90",
+          "ask_price": "500.00",
+          "last_price": "499.95",
+          "available_quantity": "1000"
+        }
+      },
+      "portfolio": {
+        "portfolio_state_ref": "demo_blocked_portfolio_pre_001",
+        "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+        "cash": "1000000.00",
+        "positions": []
+      },
+      "fee_model": {"commission_per_order": "1.00"},
+      "slippage_model": {"slippage_bps": "0"},
+      "simulation_timestamp": "2026-06-19T08:05:01Z"
+    },
+    {
+      "scenario": "spy_limit_buy_partial_simulated_fill",
+      "management_label": "Order freigegeben, Ausführung teilweise simuliert",
+      "trade_idea": {
+        "proposed_order_ref": "demo_partial_proposed_order_001",
+        "run_id": "demo_partial_run_001",
+        "asset_id": "SPY",
+        "symbol": "SPY",
+        "side": "BUY",
+        "order_type": "LIMIT",
+        "quantity": "100",
+        "limit_price": "500.00",
+        "allow_short": false,
+        "proposed_at": "2026-06-19T08:10:00Z",
+        "market_data_snapshot_ref": "demo_partial_market_001",
+        "portfolio_state_ref": "demo_partial_portfolio_pre_001",
+        "decision_ref": "demo_partial_decision_001"
+      },
+      "station_8_context": {
+        "station_7_approved_target": {"plan_compliance": true},
+        "broker_constraints": {"tick_size": "0.01", "lot_size_increment": "1"},
+        "liquidity": {
+          "order_size_pct_of_20d_adv": "4.00",
+          "max_order_size_pct_of_20d_adv": "5.00"
+        },
+        "costs": {
+          "projected_slippage_plus_commission_pct": "0.05",
+          "max_allowed_cost_pct": "0.20"
+        }
+      },
+      "market_data": {
+        "market_data_snapshot_ref": "demo_partial_market_001",
+        "SPY": {
+          "bid_price": "499.90",
+          "ask_price": "500.00",
+          "last_price": "499.95",
+          "available_quantity": "40"
+        }
+      },
+      "portfolio": {
+        "portfolio_state_ref": "demo_partial_portfolio_pre_001",
+        "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+        "cash": "100000.00",
+        "positions": []
+      },
+      "fee_model": {"commission_per_order": "1.00"},
+      "slippage_model": {"slippage_bps": "0"},
+      "simulation_timestamp": "2026-06-19T08:10:01Z"
+    }
+  ]
+}
