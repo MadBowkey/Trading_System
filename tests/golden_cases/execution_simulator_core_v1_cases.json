@@ -33,23 +33,104 @@
         "station_8_validation_ref_required_per_simulated_fill": true
       },
       "input_payload": {
+        "run_id": "run_tc_exec_001",
         "station_8_validation_ref": "station8_val_TC_EXEC_001",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
         "validated_order_list": [
           {
             "order_ref": "TC_EXEC_001_ORDER_001",
             "asset_id": "SPY",
+            "symbol": "SPY",
             "side": "BUY",
             "order_type": "LIMIT",
             "quantity": "10",
             "limit_price": "500.00"
           }
-        ]
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_001_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_001",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "100000.00",
+          "cash": "100000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_001_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_001",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
       }
     },
     {
       "test_case_id": "TC_EXEC_002",
       "title": "LIMIT-Preis nicht erreicht",
       "input_condition": "LIMIT-Order, simulierter Preis verfehlt Limit.",
+      "input_payload": {
+        "run_id": "run_tc_exec_002",
+        "station_8_validation_ref": "station8_val_TC_EXEC_002",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_002_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00"
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_002_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_002",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "100000.00",
+          "cash": "100000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_002_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_002",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "500.90",
+            "ask_price": "501.00",
+            "mid_price": "500.95",
+            "last_price": "501.00",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
+      },
       "expected_result": {
         "fill_status": "NO_FILL",
         "simulation_status": "PARTIAL",
@@ -74,6 +155,53 @@
       "test_case_id": "TC_EXEC_003",
       "title": "Begrenzte Liquidität",
       "input_condition": "Order innerhalb Station-8-Grenze, Liquiditätsmodell erlaubt nur Teilfüllung.",
+      "input_payload": {
+        "run_id": "run_tc_exec_003",
+        "station_8_validation_ref": "station8_val_TC_EXEC_003",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_003_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "1000",
+            "limit_price": "500.00"
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_003_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_003",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "1000000.00",
+          "cash": "1000000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_003_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_003",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "400"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
+      },
       "expected_result": {
         "fill_status": "PARTIAL",
         "simulation_status": "PARTIAL",
@@ -98,6 +226,54 @@
       "test_case_id": "TC_EXEC_004",
       "title": "BUY mit unzureichendem Cash",
       "input_condition": "BUY würde Cash negativ machen, keine Margin-Autorisierung.",
+      "input_payload": {
+        "run_id": "run_tc_exec_004",
+        "station_8_validation_ref": "station8_val_TC_EXEC_004",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_004_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00"
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_004_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_004",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "1000.00",
+          "cash": "1000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_004_pre",
+          "margin_authorization_ref": null
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_004",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
+      },
       "expected_result": {
         "allowed_fill_status": [
           "PARTIAL",
@@ -117,6 +293,61 @@
       "test_case_id": "TC_EXEC_005",
       "title": "SELL-Überhang ohne Short-Autorisierung",
       "input_condition": "SELL quantity größer als aktuelle Long-Menge, keine Short-Autorisierung.",
+      "input_payload": {
+        "run_id": "run_tc_exec_005",
+        "station_8_validation_ref": "station8_val_TC_EXEC_005",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_005_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "SELL",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "499.00",
+            "allow_short": false
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_005_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_005",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "12500.00",
+          "cash": "10000.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "5",
+              "market_value": "2500.00"
+            }
+          ],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_005_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_005",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
+      },
       "expected_result": {
         "allowed_fill_status": [
           "PARTIAL",
@@ -166,22 +397,113 @@
         "station_8_validation_ref_required_per_simulated_fill": true
       },
       "input_payload": {
+        "run_id": "run_tc_exec_006",
         "station_8_validation_ref": "station8_val_TC_EXEC_006",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
         "validated_order_list": [
           {
             "order_ref": "TC_EXEC_006_ORDER_001",
             "asset_id": "SPY",
+            "symbol": "SPY",
             "side": "SELL",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "499.00",
             "allow_short": true,
-            "short_authorization_ref": "short_auth_TC_EXEC_006"
+            "short_authorization_ref": "short_auth_TC_EXEC_006",
+            "max_authorized_short_quantity": "5"
           }
-        ]
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_006_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_006",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "12500.00",
+          "cash": "10000.00",
+          "positions": [
+            {
+              "asset_id": "SPY",
+              "symbol": "SPY",
+              "quantity": "5",
+              "market_value": "2500.00"
+            }
+          ],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_006_pre",
+          "short_margin_context_ref": "short_margin_TC_EXEC_006"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_006",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
       }
     },
     {
       "test_case_id": "TC_EXEC_007",
       "title": "Technischer Simulationsfehler oder fehlende Pflichtreferenz",
       "input_condition": "Fehlendes oder ungültiges slippage_model, fee_structure, Marktdaten oder fehlende station_8_validation_ref.",
+      "input_payload": {
+        "run_id": "run_tc_exec_007",
+        "station_8_validation_ref": "station8_val_TC_EXEC_007",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_007_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00"
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_007_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_007",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "100000.00",
+          "cash": "100000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_007_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_007",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": null,
+            "ask_price": null,
+            "mid_price": null,
+            "last_price": null,
+            "available_quantity": null
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": null
+      },
       "expected_result": {
         "simulation_status": "FAILED",
         "audit_event_type": "EXECUTION_SIMULATION_FAILED",
@@ -201,6 +523,53 @@
       "test_case_id": "TC_EXEC_008",
       "title": "Audit-Hash und Portfolio-Konsistenz",
       "input_condition": "Gültiges Simulationsergebnis.",
+      "input_payload": {
+        "run_id": "run_tc_exec_008",
+        "station_8_validation_ref": "station8_val_TC_EXEC_008",
+        "simulation_timestamp": "2026-05-17T02:00:00.000Z",
+        "validated_order_list": [
+          {
+            "order_ref": "TC_EXEC_008_ORDER_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00"
+          }
+        ],
+        "current_portfolio": {
+          "portfolio_state_ref": "ps_run_tc_exec_008_pre",
+          "parent_portfolio_state_ref": null,
+          "run_id": "run_tc_exec_008",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "portfolio_state_type": "PRE_RUN_SNAPSHOT",
+          "source": "PORTFOLIO_LEDGER",
+          "portfolio_value": "100000.00",
+          "cash": "100000.00",
+          "positions": [],
+          "data_quality_status": "VALID",
+          "audit_ref": "audit_ps_run_tc_exec_008_pre"
+        },
+        "market_data_snapshot": {
+          "market_data_snapshot_ref": "mds_run_tc_exec_008",
+          "timestamp_utc": "2026-05-17T02:00:00.000Z",
+          "SPY": {
+            "bid_price": "499.90",
+            "ask_price": "500.00",
+            "mid_price": "499.95",
+            "last_price": "499.95",
+            "available_quantity": "10000"
+          }
+        },
+        "fee_structure": {
+          "commission_per_order": "1.00",
+          "commission_pct": "0.0000"
+        },
+        "slippage_model": {
+          "slippage_bps": "0"
+        }
+      },
       "expected_result": {
         "audit_hash_required": true,
         "verify_audit_event_success": true,
