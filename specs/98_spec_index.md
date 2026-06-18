@@ -56,9 +56,9 @@ GitHub `main` is the canonical technical project state.
 
 ## Golden cases
 
-- tests/golden_cases/station_3_tsv_cases.json
-- tests/golden_cases/station_4_blv_cases.json
-- tests/golden_cases/station_5_mrv_cases.json
+- tests/golden_cases/station_3_technical_schema_validator_cases.json
+- tests/golden_cases/station_4_business_logic_validator_cases.json
+- tests/golden_cases/station_5_market_risk_validator_cases.json
 - tests/golden_cases/station_6_portfolio_engine_cases.json
 - tests/golden_cases/station_7_post_trade_risk_validator_cases.json
 - tests/golden_cases/station_8_order_validator_cases.json
