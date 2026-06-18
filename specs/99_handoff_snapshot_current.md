@@ -19,6 +19,8 @@ Gate report:
 
 ## Current state
 
+Current main commit: `285049c`.
+
 Station 8: FINAL.
 Audit Core v1.0: FINAL.
 Execution Simulator Core v1.0: DRAFT.
@@ -29,15 +31,27 @@ Start Audit Protocol: CURRENT.
 Frozen Project State: CURRENT.
 New Prompt: CURRENT.
 
+Recently completed:
+
+- PR #44: Golden-Case-Dateinamen TSV/BLV/MRV auf Klarnamen geaendert.
+- PR #45: Konkrete input_payloads fuer Pre-Order und Execution Simulator ergaenzt.
+- PR #46: Spec 16 um Simulation Feedback / Execution Constraint Boundary ergaenzt.
+
 ## Current next work item
 
-Spec 16 gezielt ergaenzen.
+Gate 012: Projektweiter Cross-Reference-Check nach PR #44–#46
 
-Abschnitt: Simulation Feedback / Execution Constraint Boundary.
+Ziel: Nach den Aenderungen an Golden Cases, Spec 16 und Index pruefen, ob Specs, Config, Golden Cases, Handoff-Dateien und Referenzketten weiterhin konsistent sind.
 
-Ziel: Der Execution Simulator liefert einen ExecutionConstraintReport / SimulationReport. Dieser Rueckkanal darf Replanning, Order-Reduktion, Blockierung, Pre-Execution Risk Gate oder erneute isolierte Planung beeinflussen. Er darf keine offiziellen Portfolio- oder Reconciliation-Zustaende ersetzen.
+Gate 012 prueft mindestens:
 
-Vor der Aenderung zuerst read-only Spec 16, Spec 18, 94/96 und die relevanten Golden Cases pruefen. Danach die minimal notwendige Aenderung an Spec 16 vorschlagen.
+- Golden-Case-Dateinamen und `specs/98_spec_index.md`
+- Spec-16-Boundary gegen Spec 18 / Ledger-Grenze
+- Pre-Order- und Execution-Simulator-Golden-Cases gegen Specs 16/17/18
+- Status-/Enum-Konsistenz
+- Referenzketten
+- Handoff-/Index-Metadaten
+- keine offenen Widersprueche zwischen Simulation, Ledger, Reconciliation und `CURRENT_CONFIRMED`
 
 ## Handoff prompt to paste into the new chat
 
