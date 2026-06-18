@@ -3,23 +3,19 @@
 Status: CURRENT
 Project: Trading System
 Architecture: v1.6.1
-Snapshot date: 2026-06-18
+Snapshot date: 2026-06-19
 
 ## Current gate
 
-Gate 011 passed.
+Gate 012 passed.
 
 KRITISCH: 0
 MITTEL: 0
 Handoff recommendation: YES
 
-Gate report:
-
-- _codex_reports/pre_handoff_gate_011_mandatory_next_work_item.md
-
 ## Current state
 
-Last validated main before Gate 012 remediation: `b79a6a5`.
+Current validated main after PR #50: `b70b5aa`.
 
 Station 8: FINAL.
 Audit Core v1.0: FINAL.
@@ -36,22 +32,40 @@ Recently completed:
 - PR #44: Golden-Case-Dateinamen TSV/BLV/MRV auf Klarnamen geaendert.
 - PR #45: Konkrete input_payloads fuer Pre-Order und Execution Simulator ergaenzt.
 - PR #46: Spec 16 um Simulation Feedback / Execution Constraint Boundary ergaenzt.
+- PR #50 (`b70b5aa`): `Add pre-trade control dry-run demo`.
+
+PR #50 result:
+
+- minimaler Pre-Trade-Control-Dry-Run technisch lauffaehig
+- drei deterministische SPY-LIMIT-BUY-Szenarien
+- deterministischer Text- und JSON-Bericht
+- `pytest`: 7 bestanden
+- keine Specs, Golden Cases oder Config geaendert
+- kein `CURRENT_CONFIRMED`
+- kein persistenter Ledger
+- keine Reconciliation
+- keine verbotenen Runtime-Statuswerte
+
+Readiness distinction:
+
+- technisch ausfuehrbar: ja
+- praesentationsfertig sichtbar gemacht: noch nein
 
 ## Current next work item
 
-Gate 012: Projektweiter Cross-Reference-Check nach PR #44–#48
+Demo sichtbar machen / Praesentationspaket fuer Pre-Trade-Control-Dry-Run
 
-Ziel: Nach den Aenderungen an Golden Cases, Spec 16 und Index pruefen, ob Specs, Config, Golden Cases, Handoff-Dateien und Referenzketten weiterhin konsistent sind.
+Ziel: Den technisch lauffaehigen Dry-Run als kurze, reproduzierbare und managementtaugliche Vorfuehrung sichtbar machen.
 
-Gate 012 prueft mindestens:
+Naechster Scope:
 
-- Golden-Case-Dateinamen und `specs/98_spec_index.md`
-- Spec-16-Boundary gegen Spec 18 / Ledger-Grenze
-- Pre-Order- und Execution-Simulator-Golden-Cases gegen Specs 16/17/18
-- Status-/Enum-Konsistenz
-- Referenzketten
-- Handoff-/Index-Metadaten
-- keine offenen Widersprueche zwischen Simulation, Ledger, Reconciliation und `CURRENT_CONFIRMED`
+- kurze Demo-Anleitung
+- Startbefehl
+- erwartete drei Szenarien
+- Beispiel-Textreport
+- optional gespeicherter JSON-Beispielreport
+- Management-Erklaerung: Freigabe / Blockade / teilweise simulierte Ausfuehrung
+- Grenzen: keine echte Order, kein `CURRENT_CONFIRMED`
 
 ## Handoff prompt to paste into the new chat
 
