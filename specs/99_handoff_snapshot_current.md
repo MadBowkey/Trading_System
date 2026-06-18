@@ -19,7 +19,7 @@ Gate report:
 
 ## Current state
 
-Current main commit: `285049c`.
+Last validated main before Gate 012 remediation: `b79a6a5`.
 
 Station 8: FINAL.
 Audit Core v1.0: FINAL.

@@ -20,6 +20,7 @@ GitHub `main` is the canonical technical project state.
 - specs/94_start_audit_protocol.md
 - specs/95_operational_workflow_rules.md
 - specs/96_frozen_project_state.md
+- specs/96_practical_new_chat_handoff_steps.md
 - specs/97_new_chat_handoff_prompt_v1.md
 - specs/98_spec_index.md
 - specs/99_handoff_snapshot_current.md
