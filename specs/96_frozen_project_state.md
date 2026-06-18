@@ -75,3 +75,8 @@ FS-013 — Uebergabe-Kurzbefehl
 Status: ACTIVE
 Regel: `uebergabe` / `übergabe` startet das New Chat Transition Protocol aus `specs/93_new_chat_transition_protocol.md`.
 Wirkung: Das Protokoll erzeugt am Ende einen kurzen Copy-Paste-Prompt fuer den neuen Chat. Dieser verweist auf `specs/97_new_chat_handoff_prompt_v1.md`, die Langform-New-Prompt-Datei.
+
+FS-014 — Uebergabe braucht naechsten fachlichen Arbeitspunkt
+Status: ACTIVE
+Regel: Bei jeder Uebergabe muss `specs/99_handoff_snapshot_current.md` einen konkreten naechsten fachlichen Arbeitspunkt enthalten.
+Wirkung: Fehlt dieser Arbeitspunkt, ist die Uebergabe blockiert und der neue Chat darf keinen eigenen breiten Audit als Ersatz ableiten.
