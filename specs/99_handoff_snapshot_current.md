@@ -7,7 +7,7 @@ Snapshot date: 2026-06-18
 
 ## Current gate
 
-Gate 010 passed.
+Gate 011 passed.
 
 KRITISCH: 0
 MITTEL: 0
@@ -15,7 +15,7 @@ Handoff recommendation: YES
 
 Gate report:
 
-- _codex_reports/pre_handoff_gate_010_next_work_item_spec16.md
+- _codex_reports/pre_handoff_gate_011_mandatory_next_work_item.md
 
 ## Current state
 
