@@ -51,9 +51,9 @@ D) consistency result by severity
 E) handoff usable yes/no
 F) next suggested work item
 
-The next suggested work item must come from `specs/99_handoff_snapshot_current.md` if it is explicitly stated there.
+The next suggested work item must come from `specs/99_handoff_snapshot_current.md`.
 
-If `99` does not name a concrete next work item, report that no concrete next work item is set. Do not infer a broad audit unless `99`, the current gate report or the user explicitly asks for it.
+If `99` does not name a concrete next work item, report handoff usable: no. Do not infer a broad audit or substitute another work item.
 
 ## Short commands
 
