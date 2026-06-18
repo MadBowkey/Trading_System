@@ -79,6 +79,22 @@ F) Audit-Referenzen: Große Detailobjekte werden nicht vollständig ins Audit-Su
 execution_report_ref und andere Detailreferenzen müssen stabil und später auflösbar sein, z. B. über run_id + Suffix oder UUID.
 
 Persistenz: Decimal-Werte dürfen zur Laufzeit numerisch berechnet werden, werden aber persistiert als String. Timestamps werden als UTC-ISO-String persistiert. Große Listen bleiben im Detailreport, nicht im Audit-Summary.
+
+### C.1) Simulation Feedback / Execution Constraint Boundary
+
+Der Execution Simulator darf seine Ergebnisse als `ExecutionConstraintReport` oder `SimulationReport` bereitstellen. Ein solcher Report ist eine Entscheidungshilfe vor einer echten Orderausführung und darf für Replanning, Order-Reduktion, Order-Blocking, ein Pre-Execution Risk Gate oder eine isolierte Re-Planung vor echter Orderausführung verwendet werden. Der Simulator selbst erzeugt, verändert oder blockiert dabei keine Orders; jede daraus abgeleitete Orderänderung bleibt Aufgabe der vorgelagerten Planung und muss vor einer Ausführung erneut die dafür vorgesehenen Prüfungen durchlaufen.
+
+Ein `ExecutionConstraintReport` oder `SimulationReport` darf niemals:
+
+- einen Portfolio State ersetzen
+- den Ledger Current State ersetzen
+- Reconciliation ersetzen
+- `CURRENT_CONFIRMED` erzeugen oder überschreiben
+- `SIMULATED_POST_EXECUTION` automatisch in einen bestätigten Portfolio-Zustand umwandeln
+- als Beweis für eine echte Ausführung gelten
+
+Simulationsergebnisse bleiben hypothetisches Feedback für Entscheidungen vor Execution. Sie sind keine offizielle Portfolio-Fortschreibung und ändern weder den bestätigten Portfolio-Zustand noch die Autorität des Portfolio Ledgers.
+
 ## D) Simulationsannahmen
 
 Der Simulator lädt keine Live-Daten nach. Alle Berechnungen erfolgen sofortig zum simulation_timestamp auf Basis des market_data_snapshot.
