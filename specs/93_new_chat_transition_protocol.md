@@ -52,7 +52,7 @@ E) `specs/98_spec_index.md`
 
 F) `specs/99_handoff_snapshot_current.md`
 
-- enthaelt aktuellen Snapshot, aktuellen Gate-Status, aktuellen Gate-Report, aktuellen naechsten fachlichen Arbeitspunkt und den kurzen Copy-Paste-Prompt.
+- enthaelt aktuellen Snapshot, aktuellen Gate-Status, aktuellen Gate-Report, zwingend einen konkreten naechsten fachlichen Arbeitspunkt und den kurzen Copy-Paste-Prompt.
 
 ## Pflichtpruefung bei Uebergabe
 
@@ -88,12 +88,20 @@ Pruefen:
 - Dateirollen 95 bis 99 ueberschneidungsarm?
 - 97 verweist auf 99 und letzten Gate-Report?
 - 99 verweist auf den aktuellen Gate-Report?
-- 99 enthaelt einen konkreten naechsten fachlichen Arbeitspunkt oder sagt ausdruecklich, dass keiner gesetzt ist?
+- 99 enthaelt einen konkreten naechsten fachlichen Arbeitspunkt?
 - Gate-Status widerspruchsfrei?
 - Specs und Golden Cases konsistent?
 - Frozen State gegen Specs widerspruchsfrei?
 - Start Audit Protocol gegen aktuelle Architekturentscheidungen widerspruchsfrei?
 - offene KRITISCH/MITTEL-Befunde vorhanden?
+
+## Harte Uebergabesperre
+
+Wenn `specs/99_handoff_snapshot_current.md` keinen konkreten naechsten fachlichen Arbeitspunkt enthaelt, ist die Uebergabe blockiert.
+
+In diesem Fall darf kein neuer Chat-Handoff freigegeben werden.
+
+Der fehlende naechste fachliche Arbeitspunkt ist mindestens ein MITTEL-Befund im Pre-Handoff-Gate.
 
 ## Pre-Handoff-Gate
 
