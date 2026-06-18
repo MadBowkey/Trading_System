@@ -7,6 +7,25 @@
       "test_case_id": "TC_PRE_001",
       "title": "Gültige LIMIT-BUY Order",
       "input_condition": "Vollständige ProposedOrder mit side BUY, order_type LIMIT, limit_price gesetzt und allen Pflichtfeldern.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_001_PROPOSED_ORDER_001",
+            "run_id": "run_pre_001",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_001",
+            "portfolio_state_ref": "ps_run_pre_001",
+            "decision_ref": "decision_run_pre_001"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_READY",
         "forward_to_station_8": true,
@@ -17,6 +36,25 @@
       "test_case_id": "TC_PRE_002",
       "title": "MARKET mit limit_price",
       "input_condition": "order_type MARKET, limit_price gesetzt.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_002_PROPOSED_ORDER_001",
+            "run_id": "run_pre_002",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "MARKET",
+            "quantity": "10",
+            "limit_price": "500.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_002",
+            "portfolio_state_ref": "ps_run_pre_002",
+            "decision_ref": "decision_run_pre_002"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID",
         "invalid_fields_contains": ["limit_price"]
@@ -26,6 +64,25 @@
       "test_case_id": "TC_PRE_003",
       "title": "LIMIT ohne limit_price",
       "input_condition": "order_type LIMIT, limit_price null.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_003_PROPOSED_ORDER_001",
+            "run_id": "run_pre_003",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": null,
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_003",
+            "portfolio_state_ref": "ps_run_pre_003",
+            "decision_ref": "decision_run_pre_003"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID",
         "invalid_or_missing_fields_contains": ["limit_price"]
@@ -35,6 +92,25 @@
       "test_case_id": "TC_PRE_004",
       "title": "Ungültige quantity",
       "input_condition": "quantity kleiner gleich 0, Float statt Decimal-String oder ungültiges Format.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_004_PROPOSED_ORDER_001",
+            "run_id": "run_pre_004",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "0",
+            "limit_price": "500.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_004",
+            "portfolio_state_ref": "ps_run_pre_004",
+            "decision_ref": "decision_run_pre_004"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID",
         "invalid_fields_contains": ["quantity"]
@@ -44,6 +120,24 @@
       "test_case_id": "TC_PRE_005",
       "title": "Fehlende Herkunftsreferenz",
       "input_condition": "Weder decision_ref noch position_change_plan_ref vorhanden.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_005_PROPOSED_ORDER_001",
+            "run_id": "run_pre_005",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_005",
+            "portfolio_state_ref": "ps_run_pre_005"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID",
         "reason_contains": "Traceability"
@@ -53,6 +147,26 @@
       "test_case_id": "TC_PRE_006",
       "title": "Unvollständige Short-Autorisierung",
       "input_condition": "allow_short true, aber short_authorization_ref oder max_authorized_short_quantity fehlt.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_006_PROPOSED_ORDER_001",
+            "run_id": "run_pre_006",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "SELL",
+            "order_type": "LIMIT",
+            "quantity": "15",
+            "limit_price": "500.00",
+            "allow_short": true,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_006",
+            "portfolio_state_ref": "ps_run_pre_006",
+            "decision_ref": "decision_run_pre_006",
+            "short_authorization_ref": "short_auth_TC_PRE_006"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID"
       }
@@ -61,6 +175,25 @@
       "test_case_id": "TC_PRE_007",
       "title": "Nicht erlaubter Order-Typ",
       "input_condition": "order_type STOP, STOP_LIMIT oder ähnlich.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_007_PROPOSED_ORDER_001",
+            "run_id": "run_pre_007",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "STOP",
+            "quantity": "10",
+            "limit_price": "490.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_007",
+            "portfolio_state_ref": "ps_run_pre_007",
+            "decision_ref": "decision_run_pre_007"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_INVALID",
         "invalid_fields_contains": ["order_type"]
@@ -70,6 +203,40 @@
       "test_case_id": "TC_PRE_008",
       "title": "Traceability-Erhalt",
       "input_condition": "Gültige Liste mit korrekten proposed_order_ref.",
+      "input_payload": {
+        "proposed_order_list": [
+          {
+            "proposed_order_ref": "TC_PRE_008_PROPOSED_ORDER_001",
+            "run_id": "run_pre_008",
+            "asset_id": "SPY",
+            "symbol": "SPY",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "10",
+            "limit_price": "500.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_008",
+            "portfolio_state_ref": "ps_run_pre_008",
+            "decision_ref": "decision_run_pre_008"
+          },
+          {
+            "proposed_order_ref": "TC_PRE_008_PROPOSED_ORDER_002",
+            "run_id": "run_pre_008",
+            "asset_id": "QQQ",
+            "symbol": "QQQ",
+            "side": "BUY",
+            "order_type": "LIMIT",
+            "quantity": "5",
+            "limit_price": "420.00",
+            "allow_short": false,
+            "proposed_at": "2026-05-18T08:30:00.000Z",
+            "market_data_snapshot_ref": "mds_run_pre_008",
+            "portfolio_state_ref": "ps_run_pre_008",
+            "decision_ref": "decision_run_pre_008"
+          }
+        ]
+      },
       "expected_result": {
         "contract_status": "CONTRACT_READY",
         "proposed_order_ref_unchanged": true,
