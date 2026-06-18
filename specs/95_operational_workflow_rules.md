@@ -26,13 +26,15 @@ F) Lokale PowerShell-Dateiaenderungen muessen als vollstaendiger ausfuehrbarer B
 
 G) Keine Uebergabe, kein ZIP und kein neuer Chat-Handoff vor einer projektweiten Cross-Reference-Pruefung ohne KRITISCH- oder MITTEL-Befunde.
 
-H) Ein neuer Chat muss zuerst read-only eine Konsistenz- und Strukturpruefung durchfuehren, Schweregrade berichten und erst danach den naechsten fachlichen Schritt vorschlagen.
+H) Jede Uebergabe braucht in `specs/99_handoff_snapshot_current.md` einen konkreten naechsten fachlichen Arbeitspunkt. Fehlt dieser, ist die Uebergabe blockiert.
 
-I) Lange Reports, Logs und Diffs gehoeren nach GitHub in Reports, Issues oder PRs. Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
+I) Ein neuer Chat muss zuerst read-only eine Konsistenz- und Strukturpruefung durchfuehren, Schweregrade berichten und erst danach den in 99 gesetzten naechsten fachlichen Schritt vorschlagen.
 
-J) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT PR-Status, zugehoeriges Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist.
+J) Lange Reports, Logs und Diffs gehoeren nach GitHub in Reports, Issues oder PRs. Chat-Antworten bleiben kurz: Fazit plus naechste Aktion.
 
-K) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus.
+K) Nach jedem Codex-PR, Merge oder Abschluss prueft ChatGPT PR-Status, zugehoeriges Issue, offene Codex-Issues und ob ein Folge-Cleanup noetig ist.
+
+L) Nach Abschluss eines Codex- oder lokalen Arbeitsablaufs muss entweder ein PR erstellt oder im zugehoerigen Issue kommentiert werden. Der Rueckkanal nennt PR-Nummer, PR-Link, Branch, geaenderte Dateien und Kurzstatus.
 
 ## Kurzbefehle
 
